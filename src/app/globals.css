@@ -4,8 +4,10 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  /*--background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;*/
+  --background-start-rgb: 10, 10, 10;
+  --background-end-rgb: 10, 10, 10;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,6 +26,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
 @layer utilities {
