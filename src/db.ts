@@ -12,6 +12,20 @@ export interface DataRowType1 {
     domingo?: boolean;
 }
 
+interface DataVicaria {
+    name: string,
+    id: number,
+}
+
+interface DataDecanato {
+    name: string,
+    id: number
+}
+interface DataParroquia {
+    name: string,
+    id: number
+}
+
 
 export const parroquias: DataRowType1[] = [
     { name: 'Juan', lastName: 'Perez', dni: '12345678', decanato: 'Decanato 1', vicaria: 'Vicaria 2', church: 'San Juan', sabado: true, domingo: false },
@@ -52,3 +66,24 @@ export const univerdidad: DataRowType1[] = [
     { name: 'Sofia', lastName: 'Martinez', dni: '22334455', university: 'Universidad Ricardo Palma', sabado: true, domingo: false },
     { name: 'Daniel', lastName: 'Gomez', dni: '77889900', university: 'Universidad Tecnológica del Perú', sabado: false, domingo: true }
 ];
+
+export const vicarias: DataVicaria[] = [
+    { name: 'Vicaria 1', id: 1 },
+    { name: 'Vicaria 2', id: 2 },
+    { name: 'Vicaria 3', id: 3 },
+    { name: 'Vicaria 4', id: 4 },
+    { name: 'Vicaria 5', id: 5 },
+]
+
+export const decanatos: DataDecanato[] = [
+    { name: 'Decanato 1', id: 1 },
+    { name: 'Decanato 2', id: 2 },
+    { name: 'Decanato 3', id: 3 },
+    { name: 'Decanato 4', id: 4 },
+    { name: 'Decanato 5', id: 5 },
+]
+
+export const listParroquias: DataParroquia[] = [
+    { name: 'Parroquia Jesus Nazareno', id: 1 },
+    { name: 'Parroquia San Pablo', id: 2 },
+]

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { parroquias, colegios, univerdidad, DataRowType1 } from '../../db';
+import { parroquias, colegios, univerdidad, DataRowType1, vicarias, decanatos, listParroquias } from '../../db';
 
 
 export const ContAsist: React.FC = () => {
@@ -60,27 +60,38 @@ export const ContAsist: React.FC = () => {
                         <div className='flex flex-col items-center py-40 gap-8 w-1/4 text-gray-500'>
                             <select
                                 className="block w-3/4 py-2 border text-center border-gray-300 rounded-md shadow-sm"
-                            >
-                                <option value="opcion1">VICARIA</option>
-                                <option value="opcion2">Opción 2</option>
-                                <option value="opcion3">Opción 3</option>
-                                <option value="opcion3">Opción 4</option>
+                            >   <option value="option-default">VICARIA</option>
+                                {
+                                    vicarias.map((vicaria) => {
+                                        return (
+                                            <option key={vicaria.id} value={vicaria.id}>{vicaria.name}</option>
+                                        )
+                                    })
+                                }
                             </select>
                             <select
                                 className="text-center block w-3/4 py-2 border border-gray-300 rounded-md shadow-sm"
                             >
                                 <option value="opcion1">DECANATO</option>
-                                <option value="opcion2">Opción 2</option>
-                                <option value="opcion3">Opción 3</option>
-                                <option value="opcion3">Opción 4</option>
+                                {
+                                    decanatos.map((decanato) => {
+                                        return (
+                                            <option key={decanato.id} value={decanato.id}>{decanato.name}</option>
+                                        )
+                                    })
+                                }
                             </select>
                             <select
                                 className="text-center block w-3/4 py-2 border border-gray-300 rounded-md shadow-sm"
                             >
                                 <option value="opcion1">PARROQUIA</option>
-                                <option value="opcion2">Opción 2</option>
-                                <option value="opcion3">Opción 3</option>
-                                <option value="opcion3">Opción 4</option>
+                                {
+                                    listParroquias.map((vicaria) => {
+                                        return (
+                                            <option key={vicaria.id} value={vicaria.id}>{vicaria.name}</option>
+                                        )
+                                    })
+                                }
                             </select>
                         </div>
                     ) : null
@@ -106,10 +117,10 @@ export const ContAsist: React.FC = () => {
                             </div>
                         </div>
                         {/* Controladores de visibilidad de columnas */}
-                        <div className="w-[5rem] h-20 text-gray-600 flex flex-col gap-2">
+                        <div className="text-gray-600 flex flex-col gap-2">
 
                             {
-                                selectedOption === 1 ? (
+                                selectedOption === 1 && (
                                     <label className="flex gap-2 text-md  items-center">
                                         <input
                                             type="checkbox"
@@ -120,15 +131,15 @@ export const ContAsist: React.FC = () => {
                                         Parroquia
                                     </label>
 
-                                ) : null
+                                )
 
                             }
-                            <label className="flex gap-2 text-sm items-center">
+                            <label className="flex gap-2 text-md items-center">
                                 <input
                                     type="checkbox"
                                     checked={showDni}
                                     onChange={() => setShowDni(!showDni)}
-                                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out items-center"
                                 />
                                 DNI
                             </label>
