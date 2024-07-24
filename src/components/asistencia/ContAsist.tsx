@@ -53,7 +53,7 @@ export const ContAsist: React.FC = () => {
                     UNIVERSIDADES
                 </button>
             </div>
-            <div className='flex items-center justify-center bg-amber-200/90 flex w-full pb-20'>
+            <div className='items-center justify-center bg-amber-200/90 flex w-full pb-20'>
                 {/* Select */}
                 {
                     selectedOption === 1 ? (
@@ -90,7 +90,7 @@ export const ContAsist: React.FC = () => {
                 <div className='flex flex-col w-3/4 h-full items-center'>
                     {/* SearchBar */}
                     <div className='flex justify-center items-center py-2 gap-8 w-full'>
-                        <div className="bg-white flex block w-4/6 h-2/3 border-gray-400 rounded-xl">
+                        <div className="bg-white flex w-4/6 h-2/3 border-gray-400 rounded-xl">
                             <input
                                 className="font-normal text-lg bg-white text-gray-500 block w-full py-2 px-2 border-gray-400 rounded-xl focus:outline-none"
                                 type="text"
@@ -158,13 +158,13 @@ export const ContAsist: React.FC = () => {
                                     }
                                     {
                                         selectedOption === 1 ? (
-                                            <>
+                                            showParroquia && (
+                                                <>
                                                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Decanato</th>
                                                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vicaria</th>
-                                                {showParroquia && (
-                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Parroquia</th>
-                                                )}
-                                            </>
+                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Parroquia</th>
+                                                </>
+                                            )
                                         ) : null
 
                                     }
@@ -195,13 +195,13 @@ export const ContAsist: React.FC = () => {
                                         }
                                         {
                                             selectedOption === 1 ? (
-                                                <>
+                                                showParroquia && (
+                                                    <>
                                                     <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.decanato}</td>
                                                     <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.vicaria}</td>
-                                                    {showParroquia && (
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.church}</td>
-                                                    )}
-                                                </>
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.church}</td>
+                                                    </>
+                                                )
                                             )
                                                 : null
 
