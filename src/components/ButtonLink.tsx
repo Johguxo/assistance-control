@@ -1,5 +1,5 @@
 import Link from "next/link"
-
+ 
 interface Props {
   title: string
   href: string
@@ -13,4 +13,5 @@ export const ButtonLink = ({title, href}: Props) => {
       </Link>
     </>
   )
+  
 }

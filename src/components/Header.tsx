@@ -1,12 +1,12 @@
 import Link from "next/link"
 import { ButtonLink } from "./ButtonLink"
-
+ 
 
 export const Header = () => {
   return (
-    <header className="text-white flex flex-row justify-around py-6">
+    <header className="bg-black text-white flex flex-row justify-around py-6">
       <h1>Sistema de asistencia para JAJ 2024</h1>
-      <nav>
+      <nav >
         <ul className="flex flex-row gap-2">
           <li>
             <ButtonLink href="/" title="Asistencia" />
