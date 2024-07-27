@@ -1,278 +1,326 @@
 {
-  "users": [
+  "Users": [
     {
-      "id": "1",
-      "name": "Juan",
-      "lastName": "Perez",
-      "dni": "12345678",
-      "institution": {
-        "name": "Unmsm",
-        "description": "Universidad Nacional Mayor de San Marcos",
-        "type": "university",
-        "decanatoID": null,
-        "address": "Av. Venezuela, Lima"
-      },
-      "have_permission": true,
-      "sabado": true,
-      "domingo": false
+      "ID": "1",
+      "First_name": "Juan",
+      "Last_name": "Perez",
+      "DNI": "12345678",
+      "Age": "30",
+      "Institution_ID": "1a",
+      "Have_Permission": true,
+      "Sabado": false,
+      "Domingo": false
     },
     {
-      "id": "2",
-      "name": "Maria",
-      "lastName": "Gonzalez",
-      "dni": "87654321",
-      "institution": {
-        "name": "PUCP",
-        "description": "Pontificia Universidad Catolica del Peru",
-        "type": "university",
-        "decanatoID": null,
-        "address": "Av. Universitaria, Lima"
-      },
-      "have_permission": false,
-      "sabado": false,
-      "domingo": true
+      "ID": "2",
+      "First_name": "Maria",
+      "Last_name": "Gonzalez",
+      "DNI": "87654321",
+      "Age": "30",
+      "Institution_ID": "2b",
+      "Have_Permission": true,
+      "Sabado": false,
+      "Domingo": false
     },
     {
-      "id": "3",
-      "name": "Pedro",
-      "lastName": "Garcia",
-      "dni": "23456789",
-      "institution": {
-        "name": "USMP",
-        "description": "Universidad de San Martin de Porres",
-        "type": "university",
-        "decanatoID": null,
-        "address": "Av. Javier Prado, Lima"
-      },
-      "have_permission": true,
-      "sabado": false,
-      "domingo": true
+      "ID": "3",
+      "First_name": "Pedro",
+      "Last_name": "Garcia",
+      "DNI": "23456789",
+      "Age": "30",
+      "institution_ID": "3c",
+      "Have_Permission": true,
+      "Sabado": false,
+      "Domingo": false
     },
     {
-      "id": "4",
-      "name": "Sofia",
-      "lastName": "Castro",
-      "dni": "34567890",
-      "institution": {
-        "name": "UTP",
-        "description": "Universidad Tecnologica del Peru",
-        "type": "university",
-        "decanatoID": null,
-        "address": "Av. Salaverry, Lima"
-      },
-      "have_permission": false,
-      "sabado": true,
-      "domingo": false
+      "ID": "4",
+      "First_name": "Sofia",
+      "Last_name": "Castro",
+      "DNI": "34567890",
+      "Age": "30",
+      "Institution_ID": "4d",
+      "Have_Permission": true,
+      "Sabado": false,
+      "Domingo": false
     },
     {
-      "id": "5",
-      "name": "Luis",
-      "lastName": "Fernandez",
-      "dni": "45678901",
-      "institution": {
-        "name": "PUCP",
-        "description": "Pontificia Universidad Catolica del Peru",
-        "type": "university",
-        "decanatoID": null,
-        "address": "Av. Universitaria, Lima"
-      },
-      "have_permission": true,
-      "sabado": true,
-      "domingo": true
+      "ID": "5",
+      "First_name": "Luis",
+      "Last_name": "Fernandez",
+      "DNI": "45678901",
+      "Age": "30",
+      "Institution_ID": "2b",
+      "Have_Permission": true,
+      "Sabado": false,
+      "Domingo": false
     },
     {
-      "id": "6",
-      "name": "Lucia",
-      "lastName": "Mendoza",
-      "dni": "56789012",
-      "institution": {
-        "name": "UNALM",
-        "description": "Universidad Nacional Agraria La Molina",
-        "type": "university",
-        "decanatoID": null,
-        "address": "Av. La Molina, Lima"
-      },
-      "have_permission": true,
-      "sabado": false,
-      "domingo": true
+      "ID": "6",
+      "First_name": "Lucia",
+      "Last_name": "Mendoza",
+      "DNI": "56789012",
+      "Age": "30",
+      "Institution_ID": "5e",
+      "Have_Permission": true,
+      "Sabado": false,
+      "Domingo": false
     },
     {
-      "id": "7",
-      "name": "Jorge",
-      "lastName": "Paredes",
-      "dni": "67890123",
-      "institution": {
-        "name": "UDEP",
-        "description": "Universidad de Piura",
-        "type": "university",
-        "decanatoID": null,
-        "address": "Av. Ramon Mugica, Piura"
-      },
-      "have_permission": false,
-      "sabado": true,
-      "domingo": false
-    },
-    {
-      "id": "7d4f"
+      "ID": "7",
+      "First_name": "Jorge",
+      "Last_name": "Paredes",
+      "DNI": "67890123",
+      "Age": "30",
+      "Institution_ID": "6f",
+      "Have_Permission": true,
+      "Sabado": false,
+      "Domingo": false
     }
   ],
-  "decanatos": [
+  "Institutions": [
     {
-      "decanatoID": "D1",
-      "name": "Decanato de Ciencias",
-      "description": "Decanato especializado en ciencias",
-      "vicariaID": "V1",
-      "id": "3c38"
+      "Institution_ID": "1a",
+      "Name": "Unmsm",
+      "Description": "Universidad Nacional Mayor de San Marcos",
+      "Type": "University",
+      "Decanato_ID": null,
+      "Address": "Av. Venezuela, Lima"
     },
     {
-      "decanatoID": "D2",
-      "name": "Decanato de Ingenieria",
-      "description": "Decanato de la Facultad de Ingenieria",
-      "vicariaID": "V1",
-      "id": "fab6"
+      "Institution_ID": "2b",
+      "Name": "PUCP",
+      "Description": "Pontificia Universidad Catolica del Peru",
+      "Type": "University",
+      "Decanato_ID": null,
+      "Address": "Av. Universitaria, Lima"
     },
     {
-      "decanatoID": "D3",
-      "name": "Decanato de Matematicas",
-      "description": "Decanato dedicado a matematicas",
-      "vicariaID": "V1",
-      "id": "54ac"
+      "Institution_ID": "3c",
+      "Name": "USMP",
+      "Description": "Universidad de San Martin de Porres",
+      "Type": "University",
+      "Decanato_ID": null,
+      "Address": "Av. Javier Prado, Lima"
     },
     {
-      "decanatoID": "D4",
-      "name": "Decanato de Humanidades",
-      "description": "Decanato de estudios en humanidades",
-      "vicariaID": "V2",
-      "id": "5772"
+      "Institution_ID": "4d",
+      "Name": "UTP",
+      "Description": "Universidad Tecnologica del Peru",
+      "Type": "University",
+      "Decanato_ID": null,
+      "Address": "Av. Salaverry, Lima"
     },
     {
-      "decanatoID": "D5",
-      "name": "Decanato de Filosofia",
-      "description": "Decanato de Filosofia y Letras",
-      "vicariaID": "V2",
-      "id": "a474"
+      "Institution_ID": "5e",
+      "Name": "UNALM",
+      "Description": "Universidad Nacional Agraria La Molina",
+      "Type": "University",
+      "Decanato_ID": null,
+      "Address": "Av. La Molina, Lima"
     },
     {
-      "decanatoID": "D6",
-      "name": "Decanato de Historia",
-      "description": "Decanato con enfoque en historia",
-      "vicariaID": "V2",
-      "id": "6c49"
+      "Institution_ID": "6f",
+      "Name": "UDEP",
+      "Description": "Universidad de Piura",
+      "Type": "University",
+      "Decanato_ID": null,
+      "Address": "Av. Ramon Mugica, Piura"
     },
     {
-      "decanatoID": "D7",
-      "name": "Decanato de Medicina",
-      "description": "Decanato de la Facultad de Medicina",
-      "vicariaID": "V3",
-      "id": "5caa"
+      "Institution_ID": "7g",
+      "Name": "San Judas Tadeo",
+      "Description": "Parroquia San Judas Tadeo",
+      "Type": "Parroquia",
+      "Decanato_ID": "D1",
+      "Address": "Calle Falsa 123, Lima"
     },
     {
-      "decanatoID": "D8",
-      "name": "Decanato de Biologia",
-      "description": "Decanato de estudios biologicos",
-      "vicariaID": "V3",
-      "id": "d1b1"
+      "Institution_ID": "8h",
+      "Name": "San Pedro",
+      "Description": "Parroquia San Pedro",
+      "Type": "Parroquia",
+      "Decanato_ID": "D1",
+      "Address": "Av. Principal 456, Lima"
     },
     {
-      "decanatoID": "D9",
-      "name": "Decanato de Quimica",
-      "description": "Decanato para el estudio de quimica",
-      "vicariaID": "V3",
-      "id": "95a4"
+      "Institution_ID": "9i",
+      "Name": "Santa Maria",
+      "Description": "Parroquia Santa Maria",
+      "Type": "Parroquia",
+      "Decanato_ID": "D1",
+      "Address": "Jr. Secundaria 789, Lima"
     },
     {
-      "decanatoID": "D10",
-      "name": "Decanato de Arquitectura",
-      "description": "Decanato especializado en arquitectura",
-      "vicariaID": "V4",
-      "id": "5b1f"
+      "Institution_ID": "10j",
+      "Name": "San Juan",
+      "Description": "Parroquia San Juan",
+      "Type": "Parroquia",
+      "Decanato_ID": "D1",
+      "Address": "Av. Tercera 101, Lima"
     },
     {
-      "decanatoID": "D11",
-      "name": "Decanato de Urbanismo",
-      "description": "Decanato de urbanismo y planificacion",
-      "vicariaID": "V4",
-      "id": "5029"
+      "Institution_ID": "11k",
+      "Name": "San Marcos",
+      "Description": "Parroquia San Marcos",
+      "Type": "Parroquia",
+      "Decanato_ID": "D1",
+      "Address": "Calle Cuarta 202, Lima"
     },
     {
-      "decanatoID": "D12",
-      "name": "Decanato de Diseno",
-      "description": "Decanato dedicado al diseno",
-      "vicariaID": "V4",
-      "id": "56ea"
+      "Institution_ID": "12l",
+      "Name": "Colegio Nacional",
+      "Description": "Colegio Nacional de Lima",
+      "Type": "School",
+      "Decanato_ID": null,
+      "Address": "Av. Escuela 303, Lima"
     },
     {
-      "decanatoID": "D13",
-      "name": "Decanato de Derecho",
-      "description": "Decanato de la Facultad de Derecho",
-      "vicariaID": "V5",
-      "id": "a1d9"
-    },
-    {
-      "decanatoID": "D14",
-      "name": "Decanato de Ciencias Politicas",
-      "description": "Decanato para estudios politicos",
-      "vicariaID": "V5",
-      "id": "3242"
-    },
-    {
-      "decanatoID": "D15",
-      "name": "Decanato de Relaciones Internacionales",
-      "description": "Decanato enfocado en relaciones internacionales",
-      "vicariaID": "V5",
-      "id": "fdf5"
+      "Institution_ID": "13m",
+      "Name": "Colegio Particular",
+      "Description": "Colegio Particular de Lima",
+      "Type": "School",
+      "Decanato_ID": null,
+      "Address": "Av. Privada 404, Lima"
     }
   ],
-  "vicarias": [
+  "Decanatos": [
     {
-      "vicariaID": "V1",
-      "name": "Vicaria de Ciencias y Tecnologia",
+      "Decanato_ID": "D1",
+      "Name": "Decanato de Ciencias",
+      "Description": "Decanato especializado en ciencias",
+      "Vicaria_ID": "V1"
+    },
+    {
+      "Decanato_ID": "D2",
+      "Name": "Decanato de Ingenieria",
+      "Description": "Decanato de la Facultad de Ingenieria",
+      "Vicaria_ID": "V1"
+    },
+    {
+      "Decanato_ID": "D3",
+      "Name": "Decanato de Matematicas",
+      "Description": "Decanato dedicado a matematicas",
+      "Vicaria_ID": "V1"
+    },
+    {
+      "Decanato_ID": "D4",
+      "Name": "Decanato de Humanidades",
+      "Description": "Decanato de estudios en humanidades",
+      "Vicaria_ID": "V2"
+    },
+    {
+      "Decanato_ID": "D5",
+      "Name": "Decanato de Filosofia",
+      "Description": "Decanato de Filosofia y Letras",
+      "Vicaria_ID": "V2"
+    },
+    {
+      "Decanato_ID": "D6",
+      "Name": "Decanato de Historia",
+      "Description": "Decanato con enfoque en historia",
+      "Vicaria_ID": "V2"
+    },
+    {
+      "Decanato_ID": "D7",
+      "Name": "Decanato de Medicina",
+      "Description": "Decanato de la Facultad de Medicina",
+      "Vicaria_ID": "V3"
+    },
+    {
+      "Decanato_ID": "D8",
+      "Name": "Decanato de Biologia",
+      "Description": "Decanato de estudios biologicos",
+      "Vicaria_ID": "V3"
+    },
+    {
+      "Decanato_ID": "D9",
+      "Name": "Decanato de Quimica",
+      "Description": "Decanato para el estudio de quimica",
+      "Vicaria_ID": "V3"
+    },
+    {
+      "Decanato_ID": "D10",
+      "Name": "Decanato de Arquitectura",
+      "Description": "Decanato especializado en arquitectura",
+      "Vicaria_ID": "V4"
+    },
+    {
+      "Decanato_ID": "D11",
+      "Name": "Decanato de Urbanismo",
+      "Description": "Decanato de urbanismo y planificacion",
+      "Vicaria_ID": "V4"
+    },
+    {
+      "Decanato_ID": "D12",
+      "Name": "Decanato de Diseno",
+      "Description": "Decanato dedicado al diseno",
+      "Vicaria_ID": "V4"
+    },
+    {
+      "Decanato_ID": "D13",
+      "Name": "Decanato de Derecho",
+      "Description": "Decanato de la Facultad de Derecho",
+      "Vicaria_ID": "V5"
+    },
+    {
+      "Decanato_ID": "D14",
+      "Name": "Decanato de Ciencias Politicas",
+      "Description": "Decanato para estudios politicos",
+      "Vicaria_ID": "V5"
+    },
+    {
+      "Decanato_ID": "D15",
+      "Name": "Decanato de Relaciones Internacionales",
+      "Description": "Decanato enfocado en relaciones internacionales",
+      "Vicaria_ID": "V5"
+    }
+  ],
+  "Vicarias": [
+    {
+      "vicaria_ID": "V1",
+      "Name": "Vicaria de Ciencias y Tecnologia",
       "Decanatos": [
         "D1",
         "D2",
         "D3"
-      ],
-      "id": "d4b3"
+      ]
     },
     {
-      "vicariaID": "V2",
-      "name": "Vicaria de Humanidades",
+      "Vicaria_ID": "V2",
+      "Name": "Vicaria de Humanidades",
       "Decanatos": [
         "D4",
         "D5",
         "D6"
-      ],
-      "id": "085d"
+      ]
     },
     {
-      "vicariaID": "V3",
-      "name": "Vicaria de Ciencias de la Salud",
+      "Vicaria_ID": "V3",
+      "Name": "Vicaria de Ciencias de la Salud",
       "Decanatos": [
         "D7",
         "D8",
         "D9"
-      ],
-      "id": "b684"
+      ]
     },
     {
-      "vicariaID": "V4",
-      "name": "Vicaria de Arquitectura y Diseno",
+      "vicaria_ID": "V4",
+      "Name": "Vicaria de Arquitectura y Diseno",
       "Decanatos": [
         "D10",
         "D11",
         "D12"
-      ],
-      "id": "b2e3"
+      ]
     },
     {
-      "vicariaID": "V5",
-      "name": "Vicaria de Derecho y Ciencias Politicas",
+      "Vicaria_ID": "V5",
+      "Name": "Vicaria de Derecho y Ciencias Politicas",
       "Decanatos": [
         "D13",
         "D14",
         "D15"
-      ],
-      "id": "f7b1"
+      ]
     }
   ]
 }

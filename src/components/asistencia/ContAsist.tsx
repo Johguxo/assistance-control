@@ -1,14 +1,63 @@
 'use client';
-import React, { useState } from 'react';
-import { parroquias, colegios, univerdidad, DataRowType1, vicarias, decanatos, listParroquias } from '../../db';
+import React, { useEffect, useState } from 'react';
+import { parroquias, colegios, univerdidad, DataRowType1, listParroquias } from '../../db';
+import { fetchUsers } from '@/pages/api/users';
+import { fetchDecanates } from '@/controller/fetchDecanates';
+// import { fetchInstitutions } from '@/pages/api/institutions';
+import { fetchVicars } from '@/controller/fetchVicars';
+import { User, Institution, Decanato, Vicaria } from '@/models/interfaces';
 
 
 export const ContAsist: React.FC = () => {
 
     const [showDni, setShowDni] = useState(true); // Estado para mostrar columna dni
-    const [showParroquia, setShowParroquia] = useState(true); // Estado para mostrar columna parroquia
-    const [currentData, setCurrentData] = useState<DataRowType1[]>(parroquias); // Estado para cambiar data
+    const [showParroquia, setShowParroquia] = useState(true); // Estado para mostrar columna parroquia / dato fake
+    const [currentData, setCurrentData] = useState<DataRowType1[]>(parroquias); // Estado para cambiar data // dato fake
     const [selectedOption, setSelectedOption] = useState<number | null>(1); // Estado para elegir pestaña
+
+    // conexion de data-back 
+    const [users, setUsers] = useState<User[]>([]); // dato fake
+    // const [institutions, setInstitutions] = useState<Institution[]>([]);
+    const [decanate, setDecanate] = useState<Decanato[]>([]);  // datos de la db
+    const [vicars, setVicars] = useState<Vicaria[]>([]);  // datos de la db
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [
+                    userData, 
+                    // institutionData, 
+                    decanatoData, 
+                    vicarsData,
+                ] = await Promise.all([   
+                    fetchUsers(), 
+                    // fetchInstitutions(), 
+                    fetchDecanates(), 
+                    fetchVicars()
+                ]);
+                // console.log("institu -->", institutionData)
+                console.log("decanato -->", decanatoData)
+                console.log("vicaria-->", vicarsData)
+                // console.log("usuarios -->", userData)
+                setUsers(userData);
+                // setInstitutions(institutionData);
+                setDecanate(decanatoData);
+                setVicars(vicarsData);
+            } catch (error) {
+                console.log("error")
+            } 
+        };
+
+        fetchData();
+    }, []);
+
+// console.log("como")
+// console.log("del back -->", users)
+// console.log("para cambiar -->", colegios)
+// console.log("esta es la funciona -->", fetchUsers());
+// console.log("institu -->", institutions)
+// console.log("decanato -->", decanate)
+// console.log("fuera de la funcion vicaria-->", vicars)
 
     const handleOptionChange = (option: number) => {
         setSelectedOption(option);
@@ -27,7 +76,6 @@ export const ContAsist: React.FC = () => {
                 break;
         }
     };
-
 
     return (
         <div className=' w-11/12 flex flex-col items-center'>
@@ -62,9 +110,9 @@ export const ContAsist: React.FC = () => {
                                 className="block w-3/4 py-2 border text-center border-gray-300 rounded-md shadow-sm"
                             >   <option value="option-default">VICARIA</option>
                                 {
-                                    vicarias.map((vicaria) => {
+                                    vicars.map((vicars) => {
                                         return (
-                                            <option key={vicaria.id} value={vicaria.id}>{vicaria.name}</option>
+                                            <option key={vicars._id} value={vicars._id}>{vicars.name}</option>
                                         )
                                     })
                                 }
@@ -74,9 +122,9 @@ export const ContAsist: React.FC = () => {
                             >
                                 <option value="opcion1">DECANATO</option>
                                 {
-                                    decanatos.map((decanato) => {
+                                    decanate.map((decanate) => {
                                         return (
-                                            <option key={decanato.id} value={decanato.id}>{decanato.name}</option>
+                                            <option key={decanate._id} value={decanate._id}>{decanate.name}</option>
                                         )
                                     })
                                 }
@@ -171,9 +219,9 @@ export const ContAsist: React.FC = () => {
                                         selectedOption === 1 ? (
                                             showParroquia && (
                                                 <>
-                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Decanato</th>
-                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vicaria</th>
-                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Parroquia</th>
+                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Decanato</th>
+                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vicaria</th>
+                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Parroquia</th>
                                                 </>
                                             )
                                         ) : null
@@ -186,47 +234,40 @@ export const ContAsist: React.FC = () => {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {/* Cuerpo de Tabla */}
-                                {currentData.map((row, index) => (
+                                {users.map((row, index) => (
                                     <tr key={index}>
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.name}</td>
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.lastName}</td>
+                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.First_name}</td>
+                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.Last_name}</td>
                                         {showDni && (
-                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.dni}</td>
+                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.DNI}</td>
                                         )}
-                                        {
-                                            selectedOption === 2 ? (
-                                                <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.school}</td>
-                                            ) : null
-                                        }
-                                        {
-                                            selectedOption === 3 ? (
-                                                <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.university}</td>
-                                            ) : null
-
-                                        }
-                                        {
+                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.Institution_ID}</td>
+                                        
+                                        {/* {
                                             selectedOption === 1 ? (
                                                 showParroquia && (
                                                     <>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.decanato}</td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.vicaria}</td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.church}</td>
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.decanato}</td>
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.vicaria}</td>
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.church}</td>
                                                     </>
                                                 )
                                             )
                                                 : null
 
-                                        }
+                                        } */}
 
                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
                                             <input
                                                 type="checkbox"
+                                                defaultChecked={row.sabado} // Solo para visualización
                                                 className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                                             />
                                         </td>
                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
                                             <input
                                                 type="checkbox"
+                                                defaultChecked={row.domingo} // Solo para visualización
                                                 className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                                             />
                                         </td>
