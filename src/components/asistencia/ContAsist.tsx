@@ -1,12 +1,12 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { parroquias, colegios, univerdidad, DataRowType1, listParroquias } from '../../db';
-import { fetchUsers } from '@/pages/api/users';
+import { fetchUsers } from '@/controller/fetchUsers';
 import { fetchDecanates } from '@/controller/fetchDecanates';
 // import { fetchInstitutions } from '@/pages/api/institutions';
 import { fetchVicars } from '@/controller/fetchVicars';
 import { User, Institution, Decanato, Vicaria } from '@/models/interfaces';
-
+import { updateUserDay } from '@/controller/updateDayStatus';
 
 export const ContAsist: React.FC = () => {
 
@@ -20,19 +20,21 @@ export const ContAsist: React.FC = () => {
     // const [institutions, setInstitutions] = useState<Institution[]>([]);
     const [decanate, setDecanate] = useState<Decanato[]>([]);  // datos de la db
     const [vicars, setVicars] = useState<Vicaria[]>([]);  // datos de la db
+    // const [saturday, setSaturday] = useState(users.saturday);
+    // const [sunday, setSunday] = useState(users.sunday);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [
-                    userData, 
+                    userData,
                     // institutionData, 
-                    decanatoData, 
+                    decanatoData,
                     vicarsData,
-                ] = await Promise.all([   
-                    fetchUsers(), 
+                ] = await Promise.all([
+                    fetchUsers(),
                     // fetchInstitutions(), 
-                    fetchDecanates(), 
+                    fetchDecanates(),
                     fetchVicars()
                 ]);
                 // console.log("institu -->", institutionData)
@@ -45,19 +47,19 @@ export const ContAsist: React.FC = () => {
                 setVicars(vicarsData);
             } catch (error) {
                 console.log("error")
-            } 
+            }
         };
 
         fetchData();
     }, []);
 
-// console.log("como")
-// console.log("del back -->", users)
-// console.log("para cambiar -->", colegios)
-// console.log("esta es la funciona -->", fetchUsers());
-// console.log("institu -->", institutions)
-// console.log("decanato -->", decanate)
-// console.log("fuera de la funcion vicaria-->", vicars)
+    // console.log("como")
+    console.log("del back -->", users)
+    // console.log("para cambiar -->", colegios)
+    // console.log("esta es la funciona -->", fetchUsers());
+    // console.log("institu -->", institutions)
+    // console.log("decanato -->", decanate)
+    // console.log("fuera de la funcion vicaria-->", vicars)
 
     const handleOptionChange = (option: number) => {
         setSelectedOption(option);
@@ -71,40 +73,64 @@ export const ContAsist: React.FC = () => {
             case 3:
                 setCurrentData(univerdidad);
                 break;
+            case 4:
+                setCurrentData(univerdidad);
+                break;
+            case 5:
+                setCurrentData(univerdidad);
+                break;
             default:
                 setCurrentData(parroquias);
                 break;
         }
     };
 
+    const handleCheckboxChange = async (userId: string, day: 'saturday' | 'sunday', checked: boolean) => {
+        console.log('valor del booleano que entrea', checked);
+        await updateUserDay(userId, day, !checked);
+        setUsers(users.map(user => user._id === userId ? { ...user, [day]: !checked } : user));
+    };
+
     return (
-        <div className=' w-11/12 flex flex-col items-center'>
+        <div className=' w-11/12 h-4/5 flex flex-col items-center'>
             <div className="flex w-full gap-4 felx justify-between font-bold text-sm">
                 <button
                     className={`w-1/3 py-2 px-4  ${selectedOption === 1 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
                     onClick={() => handleOptionChange(1)}
                 >
+                    GENERAL
+                </button>
+                <button
+                    className={`w-1/3 py-2 px-4  ${selectedOption === 2 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
+                    onClick={() => handleOptionChange(2)}
+                >
                     PARROQUIAS
                 </button>
 
                 <button
-                    className={`w-1/3 px-4 ${selectedOption === 2 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
-                    onClick={() => handleOptionChange(2)}
+                    className={`w-1/3 px-4 ${selectedOption === 3 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
+                    onClick={() => handleOptionChange(3)}
                 >
                     COLEGIOS
                 </button>
 
                 <button
-                    className={`w-1/3 py-2 px-4 ${selectedOption === 3 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
-                    onClick={() => handleOptionChange(3)}
+                    className={`w-1/3 py-2 px-4 ${selectedOption === 4 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
+                    onClick={() => handleOptionChange(4)}
                 >
                     UNIVERSIDADES
+                </button>
+                <button
+                    className={`w-1/3 py-2 px-4 ${selectedOption === 5 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
+                    onClick={() => handleOptionChange(5)}
+                >
+                    SOLOS
                 </button>
             </div>
             <div className='items-center justify-center bg-amber-200/90 flex w-full pb-20'>
                 {/* Select */}
                 {
-                    selectedOption === 1 ? (
+                    selectedOption === 2 ? (
                         <div className='flex flex-col items-center py-40 gap-8 w-1/4 text-gray-500'>
                             <select
                                 className="block w-3/4 py-2 border text-center border-gray-300 rounded-md shadow-sm"
@@ -146,7 +172,7 @@ export const ContAsist: React.FC = () => {
 
                 }
                 {/* SearchBar - Tabla */}
-                <div className='flex flex-col w-3/4 h-full items-center'>
+                <div className='flex flex-col w-11/12 h-full items-center'>
                     {/* SearchBar */}
                     <div className='flex justify-center items-center py-2 gap-8 w-full'>
                         <div className="bg-white flex w-4/6 h-2/3 border-gray-400 rounded-xl">
@@ -205,18 +231,18 @@ export const ContAsist: React.FC = () => {
                                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
                                     )}
                                     {
-                                        selectedOption === 2 ? (
+                                        selectedOption === 1 || selectedOption === 3 ? (
                                             <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Colegio</th>
                                         ) : null
                                     }
                                     {
-                                        selectedOption === 3 ? (
+                                        selectedOption === 1 || selectedOption === 4 ? (
                                             <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Universidad</th>
                                         ) : null
 
                                     }
                                     {
-                                        selectedOption === 1 ? (
+                                        selectedOption === 1 || selectedOption === 2 ? (
                                             showParroquia && (
                                                 <>
                                                     <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Decanato</th>
@@ -234,15 +260,20 @@ export const ContAsist: React.FC = () => {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {/* Cuerpo de Tabla */}
-                                {users.map((row, index) => (
-                                    <tr key={index}>
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.First_name}</td>
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.Last_name}</td>
+                                {users.map((row) => (
+                                    <tr key={row._id}>
+                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.first_name}</td>
+                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.last_name}</td>
                                         {showDni && (
-                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.DNI}</td>
+                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.dni}</td>
                                         )}
-                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.Institution_ID}</td>
-                                        
+                                        {
+                                            selectedOption === 1 || selectedOption === 4 ?
+                                                <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.Institution_ID}</td>
+                                                : null
+
+                                        }
+
                                         {/* {
                                             selectedOption === 1 ? (
                                                 showParroquia && (
@@ -260,15 +291,18 @@ export const ContAsist: React.FC = () => {
                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
                                             <input
                                                 type="checkbox"
-                                                defaultChecked={row.sabado} // Solo para visualización
-                                                className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                                                defaultChecked={row.saturday}
+                                                onChange={() => handleCheckboxChange(row._id, 'saturday', row.saturday)}
+                                                className="ml-2 cursor-pointer"
                                             />
+
                                         </td>
                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
                                             <input
                                                 type="checkbox"
-                                                defaultChecked={row.domingo} // Solo para visualización
-                                                className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                                                defaultChecked={row.sunday}
+                                                onChange={() => handleCheckboxChange(row._id, 'sunday', row.sunday)}
+                                                className="ml-2 cursor-pointer"
                                             />
                                         </td>
                                     </tr>

@@ -1,15 +1,15 @@
 
 
 export interface User {
-    ID: string;
-    First_name: string;
-    Last_name: string;
-    DNI: string;
-    Age: string;
+    _id: string;
+    first_name: string;
+    last_name: string;
+    dni: string;
+    age: string;
     Institution_ID: string;
-    Have_Permission: boolean;
-    sabado: boolean;
-    domingo: boolean;
+    have_Permission: boolean;
+    saturday: boolean;
+    sunday: boolean;
 }
 
 export interface Institution {
