@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
             const client = await clientService();
             const database = client.db("database-jaj");
-            const collection = database.collection("decanates");
+            const collection = database.collection("deanery");
             const allData = await collection.find({}).toArray();
             
             res.status(200).json(allData);

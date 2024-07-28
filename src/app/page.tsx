@@ -10,7 +10,6 @@ export default function InitialPage() {
         </h1>
         <ContAsist />
       </div>
-
     </main>
   );
 }

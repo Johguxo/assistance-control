@@ -7,6 +7,7 @@ import { fetchDecanates } from '@/controller/fetchDecanates';
 import { fetchVicars } from '@/controller/fetchVicars';
 import { User, Institution, Decanato, Vicaria } from '@/models/interfaces';
 import { updateUserDay } from '@/controller/updateDayStatus';
+import { fetchInstitutions } from '@/controller/fetchInstitutions';
 
 export const ContAsist: React.FC = () => {
 
@@ -17,7 +18,7 @@ export const ContAsist: React.FC = () => {
 
     // conexion de data-back 
     const [users, setUsers] = useState<User[]>([]); // dato fake
-    // const [institutions, setInstitutions] = useState<Institution[]>([]);
+    const [institutions, setInstitutions] = useState<Institution[]>([]);
     const [decanate, setDecanate] = useState<Decanato[]>([]);  // datos de la db
     const [vicars, setVicars] = useState<Vicaria[]>([]);  // datos de la db
     // const [saturday, setSaturday] = useState(users.saturday);
@@ -28,12 +29,12 @@ export const ContAsist: React.FC = () => {
             try {
                 const [
                     userData,
-                    // institutionData, 
+                    institutionData, 
                     decanatoData,
                     vicarsData,
                 ] = await Promise.all([
                     fetchUsers(),
-                    // fetchInstitutions(), 
+                    fetchInstitutions(), 
                     fetchDecanates(),
                     fetchVicars()
                 ]);
@@ -42,7 +43,7 @@ export const ContAsist: React.FC = () => {
                 console.log("vicaria-->", vicarsData)
                 // console.log("usuarios -->", userData)
                 setUsers(userData);
-                // setInstitutions(institutionData);
+                setInstitutions(institutionData);
                 setDecanate(decanatoData);
                 setVicars(vicarsData);
             } catch (error) {
