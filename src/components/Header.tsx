@@ -11,9 +11,12 @@ export const Header = () => {
           <li>
             <ButtonLink href="/" title="Asistencia" />
           </li>
-          {/*<li>
+          <li>
             <ButtonLink href="/report" title="Reportes" />
-          </li>*/}
+          </li>
+          <li>
+            <ButtonLink href="/inscription" title="Inscripciones" />
+          </li>
         </ul>
       </nav>
     </header>
