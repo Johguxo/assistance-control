@@ -19,15 +19,15 @@ export interface Institution {
     deanery?: Deanery;
 }
 
+export interface Vicaria {
+    _id: string;
+    name: string;
+    address: string;
+    deaneries: Deanery[];
+}
 export interface Deanery {
     _id: string;
     name: string;
     address: string;
     vicar: Vicaria;
-}
-
-export interface Vicaria {
-    _id: string;
-    name: string;
-    address: string;
 }

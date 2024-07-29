@@ -25,46 +25,46 @@ export default async function handler(
       let users = [];
       if (findAllUsers) {
         users = await collection
-        .aggregate([
-          {
-            $lookup: {
-              from: "institutions",
-              localField: "institution_id",
-              foreignField: "_id",
-              as: "institution",
-            },
-          },
-          {
-            $unwind: {
-              path: "$institution",
-              preserveNullAndEmptyArrays: true, // This allows users without institutions to be included
-            },
-          },
-          {
-            $group: {
-              _id: "$_id",
-              first_name: { $first: "$first_name" },
-              last_name: { $first: "$last_name" },
-              date_birth: { $first: "$date_birth" },
-              institution: {
-                $first: {
-                  name: "$institution.name",
-                  _id: "$institution._id",
-                  type: "$institution.type",
-                  address: "$institution.address",
-                },
+          .aggregate([
+            {
+              $lookup: {
+                from: "institutions",
+                localField: "institution_id",
+                foreignField: "_id",
+                as: "institution",
               },
-              DNI: { $first: "$DNI" },
-              email: { $first: "$email" },
-              key: { $first: "$key" },
-              phone: { $first: "$phone" },
-              have_auth: { $first: "$have_auth" },
-              saturday: { $first: "$saturday" },
-              sunday: { $first: "$sunday" },
             },
-          },
-        ])
-        .toArray();
+            {
+              $unwind: {
+                path: "$institution",
+                preserveNullAndEmptyArrays: true, // This allows users without institutions to be included
+              },
+            },
+            {
+              $group: {
+                _id: "$_id",
+                first_name: { $first: "$first_name" },
+                last_name: { $first: "$last_name" },
+                date_birth: { $first: "$date_birth" },
+                institution: {
+                  $first: {
+                    name: "$institution.name",
+                    _id: "$institution._id",
+                    type: "$institution.type",
+                    address: "$institution.address",
+                  },
+                },
+                DNI: { $first: "$DNI" },
+                email: { $first: "$email" },
+                key: { $first: "$key" },
+                phone: { $first: "$phone" },
+                have_auth: { $first: "$have_auth" },
+                saturday: { $first: "$saturday" },
+                sunday: { $first: "$sunday" },
+              },
+            },
+          ])
+          .toArray();
       } else {
         if (queryFilterUsers) {
           users = await collection
@@ -141,7 +141,7 @@ export default async function handler(
             .toArray();
         }
       }
-      
+
       res.status(200).json(users);
     } catch (error) {
       console.error("Error connecting to the database:", error);
