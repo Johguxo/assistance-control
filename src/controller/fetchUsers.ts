@@ -1,10 +1,13 @@
-export const fetchUsers = async () => {
+import axios from 'axios';
+
+export const fetchUsers = async (query: Object) => {
     try {
-        const response = await fetch('/api/users');
-        if (!response.ok) {
+        console.log("axios", query)
+        const response = await axios.get('/api/users', { params: query });
+        if (!response.status) {
             throw new Error('Network response was not ok');
         }
-        return await response.json();
+        return await response.data;
     } catch (error) {
         console.error('Error fetching dataaaa:', error);
         throw error;

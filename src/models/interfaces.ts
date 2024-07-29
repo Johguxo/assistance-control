@@ -4,27 +4,26 @@ export interface User {
     _id: string;
     first_name: string;
     last_name: string;
-    dni: string;
+    DNI: string;
     age: string;
-    Institution_ID: string;
+    institution: Institution;
     have_Permission: boolean;
     saturday: boolean;
     sunday: boolean;
 }
 
 export interface Institution {
-    ID: string;
-    Name: string;
-    Description: string;
-    Type: string;
-    Decanato_ID: string | null;
-    Address: string;
+    _id: string;
+    name: string;
+    type: number;
+    deanery?: Deanery;
 }
 
-export interface Decanato {
+export interface Deanery {
     _id: string;
     name: string;
     address: string;
+    vicar: Vicaria;
 }
 
 export interface Vicaria {

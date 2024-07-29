@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { parroquias, colegios, univerdidad, DataRowType1, listParroquias } from '../../db';
 import { fetchUsers } from '@/controller/fetchUsers';
-import { fetchDecanates } from '@/controller/fetchDecanates';
+import { fetchDeaneries } from '@/controller/fetchDeaneries';
 // import { fetchInstitutions } from '@/pages/api/institutions';
 import { fetchVicars } from '@/controller/fetchVicars';
-import { User, Institution, Decanato, Vicaria } from '@/models/interfaces';
+import { User, Institution, Deanery, Vicaria } from '@/models/interfaces';
 import { updateUserDay } from '@/controller/updateDayStatus';
 import { fetchInstitutions } from '@/controller/fetchInstitutions';
 
@@ -19,7 +19,7 @@ export const ContAsist: React.FC = () => {
     // conexion de data-back 
     const [users, setUsers] = useState<User[]>([]); // dato fake
     const [institutions, setInstitutions] = useState<Institution[]>([]);
-    const [decanate, setDecanate] = useState<Decanato[]>([]);  // datos de la db
+    const [deaneries, setDeaneries] = useState<Deanery[]>([]);  // datos de la db
     const [vicars, setVicars] = useState<Vicaria[]>([]);  // datos de la db
     // const [saturday, setSaturday] = useState(users.saturday);
     // const [sunday, setSunday] = useState(users.sunday);
@@ -33,9 +33,9 @@ export const ContAsist: React.FC = () => {
                     decanatoData,
                     vicarsData,
                 ] = await Promise.all([
-                    fetchUsers(),
+                    fetchUsers({ type: 0 }),
                     fetchInstitutions(), 
-                    fetchDecanates(),
+                    fetchDeaneries(),
                     fetchVicars()
                 ]);
                 // console.log("institu -->", institutionData)
@@ -44,7 +44,7 @@ export const ContAsist: React.FC = () => {
                 // console.log("usuarios -->", userData)
                 setUsers(userData);
                 setInstitutions(institutionData);
-                setDecanate(decanatoData);
+                setDeaneries(decanatoData);
                 setVicars(vicarsData);
             } catch (error) {
                 console.log("error")
@@ -59,29 +59,40 @@ export const ContAsist: React.FC = () => {
     // console.log("para cambiar -->", colegios)
     // console.log("esta es la funciona -->", fetchUsers());
     // console.log("institu -->", institutions)
-    // console.log("decanato -->", decanate)
+    // console.log("decanato -->", deaneries)
     // console.log("fuera de la funcion vicaria-->", vicars)
+
+    const findUsers = async (type_institution: number | undefined = undefined) => {
+        if (type_institution != undefined) {
+            try {
+                const userData = await fetchUsers({ type: type_institution });
+                setUsers(userData);
+            } catch (error) {
+                console.log("error")
+            }
+        } else fetchUsers({})
+    }
 
     const handleOptionChange = (option: number) => {
         setSelectedOption(option);
         switch (option) {
             case 1:
-                setCurrentData(parroquias);
+                findUsers(0)
                 break;
             case 2:
-                setCurrentData(colegios);
+                findUsers(1)
                 break;
             case 3:
-                setCurrentData(univerdidad);
+                findUsers(2)
                 break;
             case 4:
-                setCurrentData(univerdidad);
+                findUsers(3)
                 break;
             case 5:
-                setCurrentData(univerdidad);
+                findUsers()
                 break;
             default:
-                setCurrentData(parroquias);
+                findUsers()
                 break;
         }
     };
@@ -125,17 +136,17 @@ export const ContAsist: React.FC = () => {
                     className={`w-1/3 py-2 px-4 ${selectedOption === 5 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
                     onClick={() => handleOptionChange(5)}
                 >
-                    SOLOS
+                    LIBRES
                 </button>
             </div>
             <div className='items-center justify-center bg-amber-200/90 flex w-full pb-20'>
                 {/* Select */}
                 {
-                    selectedOption === 2 ? (
+                    selectedOption === 2 && (
                         <div className='flex flex-col items-center py-40 gap-8 w-1/4 text-gray-500'>
                             <select
                                 className="block w-3/4 py-2 border text-center border-gray-300 rounded-md shadow-sm"
-                            >   <option value="option-default">VICARIA</option>
+                            >   <option value="option-default">SELECCIONNE VICARIA</option>
                                 {
                                     vicars.map((vicars) => {
                                         return (
@@ -147,11 +158,11 @@ export const ContAsist: React.FC = () => {
                             <select
                                 className="text-center block w-3/4 py-2 border border-gray-300 rounded-md shadow-sm"
                             >
-                                <option value="opcion1">DECANATO</option>
+                                <option value="option-default">SELECCIONNE DECANATO</option>
                                 {
-                                    decanate.map((decanate) => {
+                                    deaneries.map((deanery) => {
                                         return (
-                                            <option key={decanate._id} value={decanate._id}>{decanate.name}</option>
+                                            <option key={deanery._id} value={deanery._id}>{deanery.name}</option>
                                         )
                                     })
                                 }
@@ -159,18 +170,17 @@ export const ContAsist: React.FC = () => {
                             <select
                                 className="text-center block w-3/4 py-2 border border-gray-300 rounded-md shadow-sm"
                             >
-                                <option value="opcion1">PARROQUIA</option>
+                                <option value="option-default">SELECCIONNE PARROQUIA</option>
                                 {
-                                    listParroquias.map((vicaria) => {
+                                    institutions.map((institution) => {
                                         return (
-                                            <option key={vicaria.id} value={vicaria.id}>{vicaria.name}</option>
+                                            <option key={institution._id} value={institution._id}>{institution.name}</option>
                                         )
                                     })
                                 }
                             </select>
                         </div>
-                    ) : null
-
+                    )
                 }
                 {/* SearchBar - Tabla */}
                 <div className='flex flex-col w-11/12 h-full items-center'>
@@ -193,9 +203,8 @@ export const ContAsist: React.FC = () => {
                         </div>
                         {/* Controladores de visibilidad de columnas */}
                         <div className="text-gray-600 flex flex-col gap-2">
-
                             {
-                                selectedOption === 1 && (
+                                selectedOption === 2 && (
                                     <label className="flex gap-2 text-md  items-center">
                                         <input
                                             type="checkbox"
@@ -232,18 +241,12 @@ export const ContAsist: React.FC = () => {
                                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
                                     )}
                                     {
-                                        selectedOption === 1 || selectedOption === 3 ? (
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Colegio</th>
-                                        ) : null
+                                        selectedOption === 1 && (
+                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Institucion</th>
+                                        )
                                     }
                                     {
-                                        selectedOption === 1 || selectedOption === 4 ? (
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Universidad</th>
-                                        ) : null
-
-                                    }
-                                    {
-                                        selectedOption === 1 || selectedOption === 2 ? (
+                                        selectedOption === 2 && (
                                             showParroquia && (
                                                 <>
                                                     <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Decanato</th>
@@ -251,10 +254,20 @@ export const ContAsist: React.FC = () => {
                                                     <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Parroquia</th>
                                                 </>
                                             )
-                                        ) : null
+                                        )
 
                                     }
+                                    {
+                                        selectedOption === 3 && (
+                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Colegio</th>
+                                        )
+                                    }
+                                    {
+                                        selectedOption === 4 && (
+                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Universidad</th>
+                                        )
 
+                                    }
                                     <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Sábado</th>
                                     <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Domingo</th>
                                 </tr>
@@ -266,28 +279,24 @@ export const ContAsist: React.FC = () => {
                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.first_name}</td>
                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.last_name}</td>
                                         {showDni && (
-                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.dni}</td>
+                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.DNI}</td>
                                         )}
                                         {
-                                            selectedOption === 1 || selectedOption === 4 ?
-                                                <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.Institution_ID}</td>
-                                                : null
+                                            selectedOption !== 2 && selectedOption !== 5 && (
+                                                <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution?.name}</td>
+                                        )}
 
-                                        }
-
-                                        {/* {
-                                            selectedOption === 1 ? (
+                                        {
+                                            selectedOption === 2 && (
                                                 showParroquia && (
                                                     <>
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.decanato}</td>
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.vicaria}</td>
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.church}</td>
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.vicar.name}</td>
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.name}</td>
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.name}</td>
                                                     </>
                                                 )
                                             )
-                                                : null
-
-                                        } */}
+                                        }
 
                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
                                             <input

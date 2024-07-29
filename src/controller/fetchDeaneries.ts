@@ -1,6 +1,6 @@
-export const fetchDecanates = async () => {
+export const fetchDeaneries = async () => {
     try {
-        const response = await fetch('/api/decanatos');
+        const response = await fetch('/api/deaneries');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
