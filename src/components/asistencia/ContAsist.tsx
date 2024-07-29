@@ -8,6 +8,7 @@ import { fetchVicars } from '@/controller/fetchVicars';
 import { User, Institution, Deanery, Vicaria } from '@/models/interfaces';
 import { updateUserDay } from '@/controller/updateDayStatus';
 import { fetchInstitutions } from '@/controller/fetchInstitutions';
+import Loader from './Loader';
 
 export const ContAsist: React.FC = () => {
 
@@ -15,6 +16,7 @@ export const ContAsist: React.FC = () => {
     const [showParroquia, setShowParroquia] = useState(true); // Estado para mostrar columna parroquia / dato fake
     const [currentData, setCurrentData] = useState<DataRowType1[]>(parroquias); // Estado para cambiar data // dato fake
     const [selectedOption, setSelectedOption] = useState<number | null>(1); // Estado para elegir pestaña
+    const [loading, setLoading] = useState<boolean>(true); // estado del loader
 
     // conexion de data-back 
     const [users, setUsers] = useState<User[]>([]); // dato fake
@@ -29,18 +31,18 @@ export const ContAsist: React.FC = () => {
             try {
                 const [
                     userData,
-                    institutionData, 
+                    institutionData,
                     decanatoData,
                     vicarsData,
                 ] = await Promise.all([
                     fetchUsers({ type: 0 }),
-                    fetchInstitutions(), 
+                    fetchInstitutions(),
                     fetchDeaneries(),
                     fetchVicars()
                 ]);
                 // console.log("institu -->", institutionData)
-                console.log("decanato -->", decanatoData)
-                console.log("vicaria-->", vicarsData)
+                // console.log("decanato -->", decanatoData)
+                // console.log("vicaria-->", vicarsData)
                 // console.log("usuarios -->", userData)
                 setUsers(userData);
                 setInstitutions(institutionData);
@@ -48,6 +50,8 @@ export const ContAsist: React.FC = () => {
                 setVicars(vicarsData);
             } catch (error) {
                 console.log("error")
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -103,8 +107,10 @@ export const ContAsist: React.FC = () => {
         setUsers(users.map(user => user._id === userId ? { ...user, [day]: !checked } : user));
     };
 
+
     return (
         <div className=' w-11/12 h-4/5 flex flex-col items-center'>
+
             <div className="flex w-full gap-4 felx justify-between font-bold text-sm">
                 <button
                     className={`w-1/3 py-2 px-4  ${selectedOption === 1 ? 'bg-amber-200/90 text-green-700 rounded-t-md py-2' : 'mb-2 rounded-md bg-green-700/90 text-amber-200'}`}
@@ -139,6 +145,7 @@ export const ContAsist: React.FC = () => {
                     LIBRES
                 </button>
             </div>
+
             <div className='items-center justify-center bg-amber-200/90 flex w-full pb-20'>
                 {/* Select */}
                 {
@@ -230,96 +237,105 @@ export const ContAsist: React.FC = () => {
                         </div>
                     </div>
                     {/* Tabla de asistencia */}
-                    <div className='w-11/12 overflow-x-auto shadow-md shadow-slate-600/50'>
-                        <table className="w-full divide-y divide-gray-200">
-                            {/* Cabecera */}
-                            <thead className="bg-gray-300">
-                                <tr>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
-                                    {showDni && (
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
-                                    )}
-                                    {
-                                        selectedOption === 1 && (
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Institucion</th>
-                                        )
-                                    }
-                                    {
-                                        selectedOption === 2 && (
-                                            showParroquia && (
-                                                <>
-                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Decanato</th>
-                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vicaria</th>
-                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Parroquia</th>
-                                                </>
-                                            )
-                                        )
+                    {
+                        loading ?
+                            <Loader />
+                            :
+                            <>
 
-                                    }
-                                    {
-                                        selectedOption === 3 && (
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Colegio</th>
-                                        )
-                                    }
-                                    {
-                                        selectedOption === 4 && (
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Universidad</th>
-                                        )
+                                <div className='w-11/12 overflow-x-auto shadow-md shadow-slate-600/50'>
 
-                                    }
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Sábado</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {/* Cuerpo de Tabla */}
-                                {users.map((row) => (
-                                    <tr key={row._id}>
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.first_name}</td>
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.last_name}</td>
-                                        {showDni && (
-                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.DNI}</td>
-                                        )}
-                                        {
-                                            selectedOption !== 2 && selectedOption !== 5 && (
-                                                <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution?.name}</td>
-                                        )}
+                                    <table className="w-full divide-y divide-gray-200">
+                                        {/* Cabecera */}
+                                        <thead className="bg-gray-300">
+                                            <tr>
+                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
+                                                {showDni && (
+                                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
+                                                )}
+                                                {
+                                                    selectedOption === 1 && (
+                                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Institucion</th>
+                                                    )
+                                                }
+                                                {
+                                                    selectedOption === 2 && (
+                                                        showParroquia && (
+                                                            <>
+                                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Decanato</th>
+                                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Vicaria</th>
+                                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Parroquia</th>
+                                                            </>
+                                                        )
+                                                    )
 
-                                        {
-                                            selectedOption === 2 && (
-                                                showParroquia && (
-                                                    <>
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.vicar.name}</td>
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.name}</td>
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.name}</td>
-                                                    </>
-                                                )
-                                            )
-                                        }
+                                                }
+                                                {
+                                                    selectedOption === 3 && (
+                                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Colegio</th>
+                                                    )
+                                                }
+                                                {
+                                                    selectedOption === 4 && (
+                                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Universidad</th>
+                                                    )
 
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
-                                            <input
-                                                type="checkbox"
-                                                defaultChecked={row.saturday}
-                                                onChange={() => handleCheckboxChange(row._id, 'saturday', row.saturday)}
-                                                className="ml-2 cursor-pointer"
-                                            />
+                                                }
+                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Sábado</th>
+                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Domingo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {/* Cuerpo de Tabla */}
+                                            {users.map((row) => (
+                                                <tr key={row._id}>
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.first_name}</td>
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.last_name}</td>
+                                                    {showDni && (
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.DNI}</td>
+                                                    )}
+                                                    {
+                                                        selectedOption !== 2 && selectedOption !== 5 && (
+                                                            <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution?.name}</td>
+                                                        )}
 
-                                        </td>
-                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
-                                            <input
-                                                type="checkbox"
-                                                defaultChecked={row.sunday}
-                                                onChange={() => handleCheckboxChange(row._id, 'sunday', row.sunday)}
-                                                className="ml-2 cursor-pointer"
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                                    {
+                                                        selectedOption === 2 && (
+                                                            showParroquia && (
+                                                                <>
+                                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.vicar.name}</td>
+                                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.name}</td>
+                                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.name}</td>
+                                                                </>
+                                                            )
+                                                        )
+                                                    }
+
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
+                                                        <input
+                                                            type="checkbox"
+                                                            defaultChecked={row.saturday}
+                                                            onChange={() => handleCheckboxChange(row._id, 'saturday', row.saturday)}
+                                                            className="ml-2 cursor-pointer"
+                                                        />
+
+                                                    </td>
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
+                                                        <input
+                                                            type="checkbox"
+                                                            defaultChecked={row.sunday}
+                                                            onChange={() => handleCheckboxChange(row._id, 'sunday', row.sunday)}
+                                                            className="ml-2 cursor-pointer"
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </>
+                    }
                 </div>
             </div>
         </div>
