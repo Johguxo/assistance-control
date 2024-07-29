@@ -52,7 +52,7 @@ export default function PieChart() {
             chartRef.current.Chart=newChart
         }
     }, []);
-    return <div className='flex items-center justify-center' style={{ width: "100%" } }>
+    return <div className='flex items-center justify-center' style={{ height: "100%" } }>
         <canvas ref={chartRef}/>
     </div>
 }

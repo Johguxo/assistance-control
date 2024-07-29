@@ -6,7 +6,7 @@ export interface User {
     last_name: string;
     DNI: string;
     age: string;
-    institution: Institution;
+    institution?: Institution;
     have_Permission: boolean;
     saturday: boolean;
     sunday: boolean;
@@ -16,7 +16,7 @@ export interface Institution {
     _id: string;
     name: string;
     type: number;
-    deanery?: Deanery;
+    deanery: Deanery[];
 }
 
 export interface Vicaria {
@@ -29,5 +29,5 @@ export interface Deanery {
     _id: string;
     name: string;
     address: string;
-    vicar: Vicaria;
+    vicar: Vicaria[];
 }

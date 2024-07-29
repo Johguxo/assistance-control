@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { parroquias, colegios, univerdidad, DataRowType1, listParroquias } from '../../db';
+// import { parroquias, colegios, univerdidad, DataRowType1, listParroquias } from '../../db';
 import { fetchUsers } from '@/controller/fetchUsers';
 import { fetchDeaneries } from '@/controller/fetchDeaneries';
 // import { fetchInstitutions } from '@/pages/api/institutions';
@@ -9,38 +9,41 @@ import { User, Institution, Deanery, Vicaria } from '@/models/interfaces';
 import { updateUserDay } from '@/controller/updateDayStatus';
 import { fetchInstitutions } from '@/controller/fetchInstitutions';
 import Loader from './Loader';
+import { all } from 'axios';
 
 export const ContAsist: React.FC = () => {
 
+    const [users, setUsers] = useState<User[]>([]); // dato fake
     const [showDni, setShowDni] = useState(true); // Estado para mostrar columna dni
     const [showParroquia, setShowParroquia] = useState(true); // Estado para mostrar columna parroquia / dato fake
-    const [currentData, setCurrentData] = useState<DataRowType1[]>(parroquias); // Estado para cambiar data // dato fake
+    const [currentData, setCurrentData] = useState<User[]>(users); // Estado para cambiar data // dato fake
     const [selectedOption, setSelectedOption] = useState<number | null>(1); // Estado para elegir pestaña
     const [loading, setLoading] = useState<boolean>(true); // estado del loader
-
     // conexion de data-back 
-    const [users, setUsers] = useState<User[]>([]); // dato fake
     const [institutions, setInstitutions] = useState<Institution[]>([]);
     const [deaneries, setDeaneries] = useState<Deanery[]>([]);  // datos de la db
     const [vicars, setVicars] = useState<Vicaria[]>([]);  // datos de la db
     const [selectedVicaria, setSelectedVicaria] = useState<string | null>(); // estado select
     // const [saturday, setSaturday] = useState(users.saturday);
     // const [sunday, setSunday] = useState(users.sunday);
+    
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                
                 const [
                     userData,
                     institutionData,
                     decanatoData,
                     vicarsData,
                 ] = await Promise.all([
-                    fetchUsers({ type: 0 }),
+                    fetchUsers({ type: 0}),
                     fetchInstitutions(),
                     fetchDeaneries(),
                     fetchVicars()
                 ]);
+                console.log("SE LLAMA A LA API")
                 // console.log("institu -->", institutionData)
                 // console.log("decanato -->", decanatoData)
                 // console.log("extraccion de la DB-->", vicarsData)
@@ -59,48 +62,78 @@ export const ContAsist: React.FC = () => {
 
     }, []);
 
+// 1 parroquias
+// 2 unis
+// 3 colegios
+// 4 congregaciones
+
+    // const filterUniversity = users.filter(user => user.institution?.type === 2);
+    // const filterSchool = users.filter(user => user.institution?.type === 3);
+    // const filterChurch = users.filter(user => user.institution?.type === 1);
+
+    const filterInsUni = institutions.filter(institution => institution.type === 2);
+    const filterInsSchool = institutions.filter(institution => institution.type === 3);
+    const filterInsChurch = institutions.filter(institution => institution.type === 1);
+
+    const filterUniversity = users.filter(user => user.institution?.type === 2);
+    const filterSchool = users.filter(user => user.institution?.type === 3);
+    // const filterChurch = users.filter(user => user.institution?.type === 1);
     // console.log("como")
-    // console.log("del back -->", users)
+    // console.log("filteredUsers --->", filterUniversity)
+    
+
+    // console.log("filteredUsers --->", filterInsSchool)
+    // console.log("filteredUsers --->", filterInsUni)
+
+    console.log("Estado de los users -->", currentData)
     // console.log("para cambiar -->", colegios)
     // console.log("esta es la funciona -->", fetchUsers());
     // console.log("institu -->", institutions)
     // console.log("decanato -->", deaneries)
     // console.log("fuera de la funcion vicaria-->", vicars)
 
-    const findUsers = async (type_institution: number | undefined = undefined) => {
-        if (type_institution != undefined) {
-            try {
-                const userData = await fetchUsers({ type: type_institution });
-                setUsers(userData);
-            } catch (error) {
-                console.log("error")
-            }
-        } else fetchUsers({})
-    }
+    // const findUsers = async (type_institution: number | undefined = undefined) => {
+    //     if (type_institution != undefined) {
+    //         try {
+    //             const userData = await fetchUsers({ type: type_institution });
+    //             console.log("user dataaaaaaaa", userData);
+    //             setUsers(userData);
+    //         } catch (error) {
+    //             console.log("error")
+    //         }
+    //     } else fetchUsers({})
+    // }
+    // findUsers()
+
 
     const handleOptionChange = (option: number) => {
+    
         setSelectedOption(option);
         switch (option) {
             case 1:
-                findUsers(0)
+                setCurrentData(users)
                 break;
             case 2:
-                findUsers(1)
+                const filterChurch = users.filter(users => users.institution?.type === 1);
+                setCurrentData(filterChurch)
+                console.log("estado en parroquias", currentData);
                 break;
             case 3:
-                findUsers(2)
+                setCurrentData(users)
                 break;
             case 4:
-                findUsers(3)
+                setCurrentData(filterSchool)
                 break;
             case 5:
-                findUsers()
+                setCurrentData(filterUniversity)
                 break;
             default:
-                findUsers()
+                setCurrentData(users)
                 break;
         }
+        
     };
+    
 
     const handleCheckboxChange = async (userId: string, day: 'saturday' | 'sunday', checked: boolean) => {
         // console.log('valor del booleano que entrea', checked);
@@ -213,8 +246,83 @@ export const ContAsist: React.FC = () => {
 
                 </div>
 
-                {/* Select */}
                 <div className='flex w-11/12 h-full'>
+                {/* Select */}
+                    {
+                        selectedOption === 5 && (
+                            <div className='flex flex-col items-center py-20 gap-8 w-96 text-gray-500'>
+                            <select
+                                className="block w-64 py-2 border text-center border-gray-300 rounded-md shadow-sm"
+                                onChange={handleVicariaChange}
+                                value={selectedVicaria || "option-default"}
+                            >
+
+                                <option value="option-default">SELECCIONE VICARIA</option>
+                                {
+                                    vicars.map((vicars, i) => {
+                                        return (
+                                            <option
+                                                key={i}
+                                                value={vicars._id}
+                                            >{vicars.name}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        )
+                    }
+                    {
+                        selectedOption === 4 && (
+                            <div className='flex flex-col items-center py-20 gap-8 w-96 text-gray-500'>
+                            <select
+                                className="block w-64 py-2 border text-center border-gray-300 rounded-md shadow-sm"
+                                onChange={handleVicariaChange}
+                                value={selectedVicaria || "option-default"}
+                            >
+
+                                <option value="option-default">SELECCIONE UNIVERSIDAD</option>
+                                {
+                                    filterInsUni.map((inst, i) => {
+                                        return (
+                                            <option
+                                                key={i}
+                                                value={inst._id}
+                                            >{inst.name}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        )
+                    }
+                    {
+                        selectedOption === 3 && (
+                            <div className='flex flex-col items-center py-20 gap-8 w-96 text-gray-500'>
+                            <select
+                                className="block w-64 py-2 border text-center border-gray-300 rounded-md shadow-sm"
+                                onChange={handleVicariaChange}
+                                value={selectedVicaria || "option-default"}
+                            >
+
+                                <option value="option-default">SELECCIONE COLEGIO</option>
+                                {
+                                    filterInsSchool.map((inst, i) => {
+                                        return (
+                                            <option
+                                                key={i}
+                                                value={inst._id}
+                                            >{inst.name}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        )
+                    }
                     {
                         selectedOption === 2 && (
                             <div className='flex flex-col items-center py-20 gap-8 w-96 text-gray-500'>
@@ -325,7 +433,7 @@ export const ContAsist: React.FC = () => {
                                             </thead>
                                             <tbody className="bg-white divide-y divide-gray-200">
                                                 {/* Cuerpo de Tabla */}
-                                                {users.map((row) => (
+                                                {currentData.map((row) => (
                                                     <tr key={row._id} >
                                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">{row.first_name}</td>
                                                         <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.last_name}</td>
@@ -341,9 +449,9 @@ export const ContAsist: React.FC = () => {
                                                             selectedOption === 2 && (
                                                                 showParroquia && (
                                                                     <>
-                                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.vicar.name}</td>
-                                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.deanery?.name}</td>
-                                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution.name}</td>
+                                                                        {/* <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution?.deanery.vicar.name}</td> */}
+                                                                        {/* <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution?.deanery.name}</td>
+                                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">{row.institution?.name}</td> */}
                                                                     </>
                                                                 )
                                                             )

@@ -52,7 +52,7 @@ export default function DoughnutChart() {
             chartRef.current.Chart=newChart
         }
     }, []);
-    return <div className='flex items-center justify-center' style={{ width: "100%" } }>
+    return <div className='flex items-center justify-center' style={{ height: "95%" } }>
         <canvas ref={chartRef}/>
     </div>
 }

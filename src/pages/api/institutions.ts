@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Institution } from '@/models/interfaces';
+// import { Institution } from '@/models/interfaces';
 import clientService from "@/lib/dbConnect";
 
 
@@ -10,8 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const client = await clientService();
             const database = client.db("database-jaj");
             const collection = database.collection("institutions");
-            const allData = await collection.find({ type: 2 }).toArray();
-            
+            const allData = await collection.find({ type: 1 }).toArray();
             res.status(200).json(allData);
         } catch (error) {
             console.error("Error connecting to the database:", error);

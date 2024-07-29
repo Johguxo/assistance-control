@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      let findAllUsers = false;
+      let findAllUsers = true;  // se cambio el dato a true
       let findByType = false;
       let queryFilterUsers = 0
       if ("type" in req.query) {
