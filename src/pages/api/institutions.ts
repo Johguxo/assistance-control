@@ -1,36 +1,23 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from '../../models/interfaces';
+import { Institution } from '@/models/interfaces';
+import clientService from "@/lib/dbConnect";
 
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
         try {
-            const response = await fetch(
-                "http://localhost:3001/Institutions", 
-                {
-                headers: {
-                    'type': "json",
-                },
-            });
-            const institutions = await response.json();
-            return res.status(200).json(institutions);
-        } 
-        catch (error) {
-            return res.status(500);
+            console.log(req.query)
+            const client = await clientService();
+            const database = client.db("database-jaj");
+            const collection = database.collection("institutions");
+            const allData = await collection.find({ type: 2 }).toArray();
+            
+            res.status(200).json(allData);
+        } catch (error) {
+            console.error("Error connecting to the database:", error);
+            res.status(500).json({ message: "Something went wrong!" });
         }
     }
     return res.status(405).json({ error: 'Method not allowed' });
 };
 
-
-// con esto traemos la informacion para usar
-
-export const fetchInstitutions = async () => {
-    const response = await fetch("/api/institutions");
-    if (response.ok) {
-        const data = response.json();
-        return data;
-    } else {
-        throw new Error("Error fetching users");
-    }
-};
