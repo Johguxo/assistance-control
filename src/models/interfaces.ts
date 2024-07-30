@@ -5,9 +5,11 @@ export interface User {
     first_name: string;
     last_name: string;
     DNI: string;
+    date_birth: string;
+    key: string;
     age: string;
+    have_auth: boolean | null;
     institution?: Institution;
-    have_Permission: boolean;
     saturday: boolean;
     sunday: boolean;
 }

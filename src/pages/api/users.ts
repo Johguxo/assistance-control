@@ -51,6 +51,11 @@ export default async function handler(
               sunday: { $first: "$sunday" },
             },
           },
+          {
+            $sort: {
+              first_name: 1,
+            },
+          },
         ])
         .toArray();
       res.status(200).json(users);
