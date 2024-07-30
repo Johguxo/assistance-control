@@ -52,7 +52,7 @@ export default function PolarAreaChart() {
             chartRef.current.Chart=newChart
         }
     }, []);
-    return <div style={{position:"relative",width:"50vw",height:"50vh"}}>
+    return <div className='flex items-center justify-center' style={{ height: "98%" } }>
         <canvas ref={chartRef}/>
     </div>
 }

@@ -5,7 +5,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 const uri: string = process.env.MONGODB_URI;
-console.log(uri)
+console.log("Conecting to DB: ", uri)
 let client: MongoClient | null = null;
 let clientPromise: Promise<MongoClient> | null = null;
 
@@ -13,7 +13,6 @@ const clientService = (): Promise<MongoClient> => {
     if (clientPromise) {
         return clientPromise;
     }
-    console.log("hee")
 
     client = new MongoClient(uri);
     clientPromise = client.connect();
