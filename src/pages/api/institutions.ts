@@ -6,11 +6,10 @@ import clientService from "@/lib/dbConnect";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
         try {
-            console.log(req.query)
             const client = await clientService();
             const database = client.db("database-jaj");
             const collection = database.collection("institutions");
-            const allData = await collection.find({ type: 1 }).toArray();
+            const allData = await collection.find({}).toArray();
             res.status(200).json(allData);
         } catch (error) {
             console.error("Error connecting to the database:", error);

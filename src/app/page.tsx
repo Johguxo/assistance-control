@@ -2,6 +2,7 @@ import { ContAsist } from "@/components/asistencia/ContAsist";
 // import Image from "next/image";
 
 export default function InitialPage() {
+  console.log("here")
   return (
     <main className="flex h-screen flex-col items-center justify-center pt-40">
       <div className="w-11/12 h-full flex flex-col justify-center items-center">
