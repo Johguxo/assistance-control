@@ -10,6 +10,33 @@
   margin: 0;
 }
 
+.Container2 div{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  min-height: 5vh;
+  background-color: rgb(155, 221, 80);
+
+}
+
+.Form{
+  align-items: center;
+  padding: 5px;
+  margin-top: 80px;
+  margin-left: 30px;
+  
+}
+
+.Form1{
+  justify-content: center;
+  
+  padding: 5px;
+  margin-top: 10px;
+  margin-left: 30px;
+  
+  
+}
+
 
 :root {
   --foreground-rgb: 0, 0, 0;

@@ -10,10 +10,10 @@ import { updateUserDay } from '@/controller/updateDayStatus';
 import { fetchInstitutions } from '@/controller/fetchInstitutions';
 import Loader from './Loader';
 import { all } from 'axios';
-import { Esperanza } from './Esperanza';
-import { Alegria } from './Alegria';
-import { Mision } from './Mision';
-import { Unidad } from './Unidad';
+import { Esperanza } from './icons/Esperanza';
+import { Alegria } from './icons/Alegria';
+import { Mision } from './icons/Mision';
+import { Unidad } from './icons/Unidad';
 
 export const ContAsist: React.FC = () => {
 
