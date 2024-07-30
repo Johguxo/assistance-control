@@ -372,7 +372,11 @@ export const ContAsist: React.FC = () => {
                                 >
                                     <option value="option-default">SELECCIONE PARROQUIA</option>
                                     {
-                                        institutions.filter(institution => institution.type === 1).map((institution) => {
+                                        institutions.filter(institution => {
+                                            if (selectedDeanery) {
+                                                return institution.type === 1 && institution.deanery?._id == selectedDeanery
+                                            } else return institution.type === 1
+                                        }).map((institution) => {
                                             return (
                                                 <option key={institution._id} value={institution._id}>{institution.name}</option>
                                             )

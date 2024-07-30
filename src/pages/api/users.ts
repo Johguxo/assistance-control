@@ -39,6 +39,7 @@ export default async function handler(
                   _id: "$institution._id",
                   type: "$institution.type",
                   address: "$institution.address",
+                  deanery_id: "$institution.deanery_id"
                 },
               },
               DNI: { $first: "$DNI" },

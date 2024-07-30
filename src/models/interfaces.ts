@@ -16,7 +16,7 @@ export interface Institution {
     _id: string;
     name: string;
     type: number;
-    deanery: Deanery[];
+    deanery?: Deanery;
 }
 
 export interface Vicaria {
@@ -29,5 +29,5 @@ export interface Deanery {
     _id: string;
     name: string;
     address: string;
-    vicar: Vicaria[];
+    vicar: Vicaria;
 }
