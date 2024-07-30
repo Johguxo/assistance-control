@@ -72,7 +72,7 @@ export const ContAsist: React.FC = () => {
   // findUsers()
 
   // 0 general
-  // 1 parroquias
+  // 1 parroquias 
   // 2 unis
   // 3 colegios
   // 4 congregaciones
