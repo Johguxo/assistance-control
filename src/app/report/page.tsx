@@ -14,7 +14,7 @@ export default function Report() {
           <h3>Bar Chart</h3>
           <BarChart />
         </div>
-        <div className="flex w-4/5 h-1/2 gap-8">
+        <div className="flex w-3/2 h-2/3 gap-8">
           <div className="flex flex-col bg-white w-1/3 p-4 items-center shadow-2xl rounded-3xl">
             <h3>Pie Chart</h3>
             <PieChart />
