@@ -15,7 +15,7 @@ export default async function handler(
         .aggregate([
           {
             $lookup: {
-              from: "deanery",
+              from: "deaneries",
               localField: "deanery_id",
               foreignField: "_id",
               as: "deanery",
@@ -48,6 +48,7 @@ export default async function handler(
       console.error("Error connecting to the database:", error);
       res.status(500).json({ message: "Something went wrong!" });
     }
+  } else {
+    res.status(405).json({ error: "Method not allowed" });
   }
-  return res.status(405).json({ error: "Method not allowed" });
 }

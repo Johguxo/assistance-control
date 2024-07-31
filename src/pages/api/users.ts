@@ -27,6 +27,27 @@ export default async function handler(
               preserveNullAndEmptyArrays: true, // This allows users without institutions to be included
             },
           },
+          // nuevo 2
+          {
+            $lookup: {
+              from: "deaneries",
+              localField: "institution.deanery_id",
+              foreignField: "_id",
+              as: "deanery",
+            },
+          },
+          {
+            $unwind: {
+              path: "$deanery",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+
+          {
+            $sort: {
+              first_name: 1,
+            },
+          },
           {
             $group: {
               _id: "$_id",
@@ -39,7 +60,10 @@ export default async function handler(
                   _id: "$institution._id",
                   type: "$institution.type",
                   address: "$institution.address",
-                  deanery_id: "$institution.deanery_id"
+                  deanery: {
+                    name: "$deanery.name",
+                    _id: "$deanery._id",
+                  }
                 },
               },
               DNI: { $first: "$DNI" },
@@ -56,6 +80,81 @@ export default async function handler(
               first_name: 1,
             },
           },
+          // nuevo
+          // {
+          //   $lookup: {
+          //     from: "deanery",
+          //     localField: "institution.deanery_id",
+          //     foreignField: "_id",
+          //     as: "deanery",
+          //   },
+          // },
+          // {
+          //   $unwind: {
+          //     path: "$deanery",
+          //     preserveNullAndEmptyArrays: true,
+          //   },
+          // },
+          // {
+          //   $project: {
+          //     _id: 1,
+          //     first_name: 1,
+          //     last_name: 1,
+          //     date_birth: 1,
+          //     institution: {
+          //       name: "$institution.name",
+          //       _id: "$institution._id",
+          //       type: "$institution.type",
+          //       address: "$institution.address",
+          //       deanery: {
+          //         name: "$deanery.name",
+          //         _id: "$deanery._id",
+          //       },
+          //     },
+          //     DNI: 1,
+          //     email: 1,
+          //     key: 1,
+          //     phone: 1,
+          //     have_auth: 1,
+          //     saturday: 1,
+          //     sunday: 1,
+          //   },
+          // },
+          // {
+          //   $sort: {
+          //     first_name: 1,
+          //   },
+          // },
+          //************ */
+          // {
+          //   $group: {
+          //     _id: "$_id",
+          //     first_name: { $first: "$first_name" },
+          //     last_name: { $first: "$last_name" },
+          //     date_birth: { $first: "$date_birth" },
+          //     institution: {
+          //       $first: {
+          //         name: "$institution.name",
+          //         _id: "$institution._id",
+          //         type: "$institution.type",
+          //         address: "$institution.address",
+          //         deanery_id: "$institution.deanary.name"
+          //       },
+          //     },
+          //     DNI: { $first: "$DNI" },
+          //     email: { $first: "$email" },
+          //     key: { $first: "$key" },
+          //     phone: { $first: "$phone" },
+          //     have_auth: { $first: "$have_auth" },
+          //     saturday: { $first: "$saturday" },
+          //     sunday: { $first: "$sunday" },
+          //   },
+          // },
+          // {
+          //   $sort: {
+          //     first_name: 1,
+          //   },
+          // },
         ])
         .toArray();
       res.status(200).json(users);

@@ -9,7 +9,7 @@ export interface User {
     key: string;
     age: string;
     have_auth: boolean | null;
-    institution?: Institution;
+    institution: Institution | null;
     saturday: boolean;
     sunday: boolean;
 }
