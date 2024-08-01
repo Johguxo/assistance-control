@@ -11,12 +11,13 @@ export default async function handler(
       const client = await clientService();
       const database = client.db("database-jaj");
       const collection = database.collection("users");
+      // let users = await collection
       let users = await collection
         .aggregate([
           {
             $lookup: {
               from: "institutions",
-              localField: "institution_id",
+              localField: "institution_id", // lo cambie de institution_id a institutions
               foreignField: "_id",
               as: "institution",
             },
@@ -28,64 +29,11 @@ export default async function handler(
             },
           },
           // nuevo 2
-          {
-            $lookup: {
-              from: "deaneries",
-              localField: "institution.deanery_id",
-              foreignField: "_id",
-              as: "deanery",
-            },
-          },
-          {
-            $unwind: {
-              path: "$deanery",
-              preserveNullAndEmptyArrays: true,
-            },
-          },
-
-          {
-            $sort: {
-              first_name: 1,
-            },
-          },
-          {
-            $group: {
-              _id: "$_id",
-              first_name: { $first: "$first_name" },
-              last_name: { $first: "$last_name" },
-              date_birth: { $first: "$date_birth" },
-              institution: {
-                $first: {
-                  name: "$institution.name",
-                  _id: "$institution._id",
-                  type: "$institution.type",
-                  address: "$institution.address",
-                  deanery: {
-                    name: "$deanery.name",
-                    _id: "$deanery._id",
-                  }
-                },
-              },
-              DNI: { $first: "$DNI" },
-              email: { $first: "$email" },
-              key: { $first: "$key" },
-              phone: { $first: "$phone" },
-              have_auth: { $first: "$have_auth" },
-              saturday: { $first: "$saturday" },
-              sunday: { $first: "$sunday" },
-            },
-          },
-          {
-            $sort: {
-              first_name: 1,
-            },
-          },
-          // nuevo
           // {
           //   $lookup: {
           //     from: "deanery",
-          //     localField: "institution.deanery_id",
-          //     foreignField: "_id",
+          //     localField: "deanery_id", // Campo en la colección institution
+          //     foreignField: "id",
           //     as: "deanery",
           //   },
           // },
@@ -101,60 +49,52 @@ export default async function handler(
           //     first_name: 1,
           //     last_name: 1,
           //     date_birth: 1,
-          //     institution: {
-          //       name: "$institution.name",
-          //       _id: "$institution._id",
-          //       type: "$institution.type",
-          //       address: "$institution.address",
-          //       deanery: {
-          //         name: "$deanery.name",
-          //         _id: "$deanery._id",
-          //       },
-          //     },
           //     DNI: 1,
-          //     email: 1,
           //     key: 1,
-          //     phone: 1,
           //     have_auth: 1,
           //     saturday: 1,
           //     sunday: 1,
-          //   },
-          // },
-          // {
-          //   $sort: {
-          //     first_name: 1,
-          //   },
-          // },
-          //************ */
-          // {
-          //   $group: {
-          //     _id: "$_id",
-          //     first_name: { $first: "$first_name" },
-          //     last_name: { $first: "$last_name" },
-          //     date_birth: { $first: "$date_birth" },
           //     institution: {
-          //       $first: {
-          //         name: "$institution.name",
-          //         _id: "$institution._id",
-          //         type: "$institution.type",
-          //         address: "$institution.address",
-          //         deanery_id: "$institution.deanary.name"
+          //       _id: "$institution._id",
+          //       name: "$institution.name",
+          //       type: "$institution.type",
+          //       address: "$institution.address",
+          //       deanery: {
+          //         _id: "$institution.deanery_id",
           //       },
           //     },
-          //     DNI: { $first: "$DNI" },
-          //     email: { $first: "$email" },
-          //     key: { $first: "$key" },
-          //     phone: { $first: "$phone" },
-          //     have_auth: { $first: "$have_auth" },
-          //     saturday: { $first: "$saturday" },
-          //     sunday: { $first: "$sunday" },
           //   },
           // },
-          // {
-          //   $sort: {
-          //     first_name: 1,
-          //   },
-          // },
+         
+            {
+              $group: {
+                _id: "$_id",
+                first_name: { $first: "$first_name" },
+                last_name: { $first: "$last_name" },
+                date_birth: { $first: "$date_birth" },
+                institution: {
+                  $first: {
+                    name: "$institution.name",
+                    _id: "$institution._id",
+                    type: "$institution.type",
+                    address: "$institution.address",
+                    insitdeanery_id: "$institution.deanary._id"
+                  },
+                },
+                DNI: { $first: "$DNI" },
+                email: { $first: "$email" },
+                key: { $first: "$key" },
+                phone: { $first: "$phone" },
+                have_auth: { $first: "$have_auth" },
+                saturday: { $first: "$saturday" },
+                sunday: { $first: "$sunday" },
+              },
+            },
+          {
+            $sort: {
+              first_name: 1,
+            },
+          },
         ])
         .toArray();
       res.status(200).json(users);

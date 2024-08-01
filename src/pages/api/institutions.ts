@@ -12,10 +12,40 @@ export default async function handler(
       const database = client.db("database-jaj");
       const collection = database.collection("institutions");
       const allData = await collection
+      // desde aqui
+      // .aggregate([
+      //   {
+      //     $lookup: {
+      //       from: "deaneries",
+      //       localField: "deanery_id", // Este es el campo en la colección institutions
+      //       foreignField: "_id", // Este es el campo en la colección deaneries
+      //       as: "deaneryD", // Nombre del array en el resultado
+      //     },
+      //   },
+      //   {
+      //     $unwind: {
+      //       path: "$deaneryD",
+      //       preserveNullAndEmptyArrays: true,
+      //     },
+      //   },
+      //   {
+      //     $project: {
+      //       _id: 1,
+      //       name: 1,
+      //       type: 1,
+      //       address: 1,
+      //       deanery: {
+      //         _id: "$_id", // Referencia al campo de decanato
+      //         name: "$name", // Referencia al nombre del decanato
+      //       },
+      //     },
+      //   },
+      // ])
+      // ***********original****************
         .aggregate([
           {
             $lookup: {
-              from: "deaneries",
+              from: "deanery",
               localField: "deanery_id",
               foreignField: "_id",
               as: "deanery",
@@ -48,7 +78,6 @@ export default async function handler(
       console.error("Error connecting to the database:", error);
       res.status(500).json({ message: "Something went wrong!" });
     }
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
   }
+  return res.status(405).json({ error: "Method not allowed" });
 }
