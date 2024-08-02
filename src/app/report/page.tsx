@@ -1,9 +1,11 @@
 
+"use client";
+import React, { useEffect, useState, ChangeEvent } from "react";
+
 import BarChart from "@/components/BarChart"
 import PieChart from "@/components/pieChart"
 import PolarAreaCharts from "@/components/PolarAreaCharts"
 import DoughnutCharts from "@/components/DoughnutChart"
-import { useEffect, useState } from "react"
 import { fetchDataGraphs } from "@/controller/fetchDataGraphs"
 
 
