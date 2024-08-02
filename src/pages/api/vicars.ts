@@ -9,7 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
             const database = client.db("database-jaj");
             const collection = database.collection('vicars');
-
+            const data = {}
+            await collection.insertOne({
+              writeConcern: data
+            })
             const vicars = await collection.aggregate([
                 {
                   $lookup: {

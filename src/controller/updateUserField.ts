@@ -1,14 +1,27 @@
+import { urlBase } from "@/app/lib/config";
+import axios from "axios";
+
 export const updateUserField = async (
     userId: string,
     field: "saturday" | "sunday" | "have_auth",
     value: boolean
 ) => {
-    const response = await fetch(`/api/users/${userId}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ [field]: value }),
-    });
-    return response.json();
+    try {
+        const response = await axios.patch(`${urlBase}/users/${userId}`, 
+            { 
+                [field]: value 
+            }
+        , {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        if (!response.status) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.data;
+    } catch (error) {
+        console.error('Error fetching dataaaa:', error);
+        throw error;
+    }
 };
