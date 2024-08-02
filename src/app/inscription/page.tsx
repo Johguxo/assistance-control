@@ -1,14 +1,14 @@
 "use client"
 
-import React, { ReactNode, useEffect, useState } from "react";
-import { Box, Button, Container, Grid, Paper, Select, MenuItem, TextField, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Container, Grid, Paper, Select, MenuItem, TextField, Typography, FormControlLabel, Switch } from "@mui/material";
 import { SelectChangeEvent } from '@mui/material/Select';
 import { createUser } from "@/controller/createUser";
 import { Institution } from "@/models/interfaces";
 import { fetchInstitutions } from "@/controller/fetchInstitutions";
 
 export default function Inscription() {
-  const [loading, setLoading] = useState<boolean>(true); 
+  const [loading, setLoading] = useState<boolean>(true);
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [formData, setFormData] = useState({
     first_name: '',
@@ -19,23 +19,24 @@ export default function Inscription() {
     date_birth: '',
     belongsToInstitution: 'Yes',
     typeInstitution: '1',
-    institution: ''
+    institution: 'default',
+    isLeader: false,
+    comision: 'default'  
   });
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const institutionData = await fetchInstitutions();
-          setInstitutions(institutionData);
+        const institutionData = await fetchInstitutions();
+        setInstitutions(institutionData);
       } catch (error) {
-          console.log("error");
+        console.log("error");
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     };
     fetchData();
-}, []);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,21 +54,30 @@ export default function Inscription() {
     }));
   };
 
-  const handleSelectTypeInstitutionChange = (e: SelectChangeEvent<string>) => {
-    const { name, value } = e.target;
-    const institution = institutions.find((institution) => institution.type === parseInt(value))
+  const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      typeInstitution: value,
-      institution: institution ? institution._id : '' 
+      [name]: checked,
+      typeInstitution: checked ? '1' : formData.typeInstitution 
     }));
   };
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectTypeInstitutionChange = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    const institution = institutions.find((institution) => institution.type === parseInt(value));
+    setFormData((prevState) => ({
+      ...prevState,
+      typeInstitution: value,
+      institution: institution ? institution._id : ''
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
-    const newUser = await createUser(formData)
-    console.log("Usuario creado!", newUser)
+    const newUser = await createUser(formData);
+    console.log("Usuario creado!", newUser);
   };
 
   return (
@@ -82,7 +92,20 @@ export default function Inscription() {
         <Grid item>
           <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
             <Typography sx={{ mt: 10, mb: 1 }} variant="h4">Registro del Participante</Typography>
+            
             <Box component="form" onSubmit={handleSubmit}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    name="isLeader"
+                    checked={formData.isLeader}
+                    onChange={handleSwitchChange}
+                    color="primary"
+                  />
+                }
+                label={formData.isLeader ? "Facilitador" : "Participante"}
+                sx={{ mt: 2, mb: 2 }}
+              />
               <TextField
                 type="text"
                 name="first_name"
@@ -144,20 +167,24 @@ export default function Inscription() {
                 sx={{ mt: 1.5, mb: 1.5 }}
                 InputLabelProps={{ shrink: true }}
               />
-              <Typography sx={{ mt: 1, mb: 1 }} variant="h5">¿Perteneces a alguna institución?</Typography>
-              <Select
-                name="belongsToInstitution"
-                value={formData.belongsToInstitution}
-                onChange={handleSelectChange}
-                fullWidth
-                sx={{ mt: 1, mb: 2 }}
-              >
-                <MenuItem value="Yes">Sí</MenuItem>
-                <MenuItem value="No">No</MenuItem>
-              </Select>
-              {formData.belongsToInstitution === "Yes" && (
+              {!formData.isLeader && (
                 <>
-                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">A que tipo de institucion perteneces:</Typography>
+                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">¿Perteneces a alguna institución?</Typography>
+                  <Select
+                    name="belongsToInstitution"
+                    value={formData.belongsToInstitution}
+                    onChange={handleSelectChange}
+                    fullWidth
+                    sx={{ mt: 1, mb: 2 }}
+                  >
+                    <MenuItem value="Yes">Sí</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                  </Select>
+                </>
+              )}
+              {(!formData.isLeader && formData.belongsToInstitution === "Yes") && (
+                <>
+                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">A qué tipo de institución perteneces:</Typography>
                   <Select
                     name="typeInstitution"
                     value={formData.typeInstitution}
@@ -170,7 +197,13 @@ export default function Inscription() {
                     <MenuItem value="3">Universidad</MenuItem>
                     <MenuItem value="4">Congregación</MenuItem>
                   </Select>
-                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">Indica la institución a la que perteneces:</Typography>
+                </>
+              )}
+              {(formData.isLeader || (!formData.isLeader && formData.belongsToInstitution === "Yes")) && (
+                <>
+                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">
+                    {formData.isLeader ? "Indica la parroquia a la que perteneces:" : "Indica la institución a la que perteneces:"}
+                  </Typography>
                   <Select
                     name="institution"
                     value={formData.institution}
@@ -178,15 +211,38 @@ export default function Inscription() {
                     fullWidth
                     sx={{ mt: 1, mb: 2 }}
                   >
-                    {
-                      institutions
-                      .filter((institution) => institution.type === parseInt(formData.typeInstitution))
-                      .map((inst, i) => {
-                          return (
-                              <MenuItem key={i} value={inst._id}>{inst.name}</MenuItem>
-                          );
-                      })
-                    }
+                    <MenuItem value="default" disabled>
+                    {formData.isLeader ? "Selecciona una parroquia" : "Selecciona una institución"}
+                    </MenuItem>
+                    {institutions
+                      .filter((institution) => formData.isLeader ? institution.type === 1 : institution.type === parseInt(formData.typeInstitution))
+                      .map((inst, i) => (
+                        <MenuItem key={i} value={inst._id}>
+                          {inst.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </>
+              )}
+              {formData.isLeader && (
+                <>
+                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">Área que perteneces:</Typography>
+                  <Select
+                    name="comision"
+                    value={formData.comision}
+                    onChange={handleSelectChange}
+                    fullWidth
+                    sx={{ mt: 1, mb: 2 }}
+                  >
+                    <MenuItem value="default" disabled>
+                    Seleccione una comisión
+                    </MenuItem>
+
+                    <MenuItem value="1">Comunicaciones</MenuItem>
+                    <MenuItem value="2">Coro Juvenil Arquidiocesano</MenuItem>
+                    <MenuItem value="3">Animación y adoración</MenuItem>
+                    <MenuItem value="4">Danza</MenuItem>
+                    <MenuItem value="5">Registro y Estadística</MenuItem>
                   </Select>
                 </>
               )}
