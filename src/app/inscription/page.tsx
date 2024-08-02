@@ -1,20 +1,41 @@
 "use client"
 
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Box, Button, Container, Grid, Paper, Select, MenuItem, TextField, Typography } from "@mui/material";
 import { SelectChangeEvent } from '@mui/material/Select';
+import { createUser } from "@/controller/createUser";
+import { Institution } from "@/models/interfaces";
+import { fetchInstitutions } from "@/controller/fetchInstitutions";
 
 export default function Inscription() {
+  const [loading, setLoading] = useState<boolean>(true); 
+  const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [formData, setFormData] = useState({
-    nombres: '',
-    apellidos: '',
-    edad: '',
+    first_name: '',
+    last_name: '',
+    age: '',
     dni: '',
-    celular: '',
-    fechaNacimiento: '',
-    belongsToInstitution: '',
+    phone: '',
+    date_birth: '',
+    belongsToInstitution: 'Yes',
+    typeInstitution: '1',
     institution: ''
   });
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+          const institutionData = await fetchInstitutions();
+          setInstitutions(institutionData);
+      } catch (error) {
+          console.log("error");
+      } finally {
+          setLoading(false);
+      }
+    };
+    fetchData();
+}, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -32,12 +53,21 @@ export default function Inscription() {
     }));
   };
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectTypeInstitutionChange = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    const institution = institutions.find((institution) => institution.type === parseInt(value))
+    setFormData((prevState) => ({
+      ...prevState,
+      typeInstitution: value,
+      institution: institution ? institution._id : '' 
+    }));
+  };
+
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    console.log({
-      ...formData,
-      institution: formData.belongsToInstitution === "Yes" ? formData.belongsToInstitution : 'N/A'
-    });
+    console.log(formData);
+    const newUser = await createUser(formData)
+    console.log("Usuario creado!", newUser)
   };
 
   return (
@@ -55,31 +85,31 @@ export default function Inscription() {
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
                 type="text"
-                name="nombres"
+                name="first_name"
                 margin="normal"
                 fullWidth
                 label="Nombres"
-                value={formData.nombres}
+                value={formData.first_name}
                 onChange={handleInputChange}
                 sx={{ mt: 2, mb: 1.5 }}
               />
               <TextField
                 type="text"
-                name="apellidos"
+                name="last_name"
                 margin="normal"
                 fullWidth
                 label="Apellidos"
-                value={formData.apellidos}
+                value={formData.last_name}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
               />
               <TextField
                 type="text"
-                name="edad"
+                name="age"
                 margin="normal"
                 fullWidth
                 label="Edad"
-                value={formData.edad}
+                value={formData.age}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
               />
@@ -95,21 +125,21 @@ export default function Inscription() {
               />
               <TextField
                 type="text"
-                name="celular"
+                name="phone"
                 margin="normal"
                 fullWidth
                 label="Nº de Celular (WhatsApp)"
-                value={formData.celular}
+                value={formData.phone}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
               />
               <TextField
                 type="date"
-                name="fechaNacimiento"
+                name="date_birth"
                 margin="normal"
                 fullWidth
                 label="Fecha de nacimiento"
-                value={formData.fechaNacimiento}
+                value={formData.date_birth}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
                 InputLabelProps={{ shrink: true }}
@@ -127,6 +157,19 @@ export default function Inscription() {
               </Select>
               {formData.belongsToInstitution === "Yes" && (
                 <>
+                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">A que tipo de institucion perteneces:</Typography>
+                  <Select
+                    name="typeInstitution"
+                    value={formData.typeInstitution}
+                    onChange={handleSelectTypeInstitutionChange}
+                    fullWidth
+                    sx={{ mt: 1, mb: 2 }}
+                  >
+                    <MenuItem value="1">Parroquia</MenuItem>
+                    <MenuItem value="2">Colegio</MenuItem>
+                    <MenuItem value="3">Universidad</MenuItem>
+                    <MenuItem value="4">Congregación</MenuItem>
+                  </Select>
                   <Typography sx={{ mt: 1, mb: 1 }} variant="h5">Indica la institución a la que perteneces:</Typography>
                   <Select
                     name="institution"
@@ -135,9 +178,15 @@ export default function Inscription() {
                     fullWidth
                     sx={{ mt: 1, mb: 2 }}
                   >
-                    <MenuItem value="Colegio">Colegio</MenuItem>
-                    <MenuItem value="Parroquia">Parroquia</MenuItem>
-                    <MenuItem value="Congregación">Congregación</MenuItem>
+                    {
+                      institutions
+                      .filter((institution) => institution.type === parseInt(formData.typeInstitution))
+                      .map((inst, i) => {
+                          return (
+                              <MenuItem key={i} value={inst._id}>{inst.name}</MenuItem>
+                          );
+                      })
+                    }
                   </Select>
                 </>
               )}
