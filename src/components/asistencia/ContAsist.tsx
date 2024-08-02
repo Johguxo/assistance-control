@@ -14,6 +14,10 @@ import { Esperanza } from "./icons/Esperanza";
 import { Alegria } from "./icons/Alegria";
 import { Mision } from "./icons/Mision";
 import { Unidad } from "./icons/Unidad";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 export const ContAsist: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]); // dato fake
@@ -58,8 +62,6 @@ export const ContAsist: React.FC = () => {
         };
         fetchData();
     }, []);
-
-    console.log("usuarios --->", users)
     //   console.log("Decanatoooos -->", deaneries)
     // console.log("insititus -->", institutions)
     // const findUsers = async (type_institution: number | undefined = undefined) => {
@@ -105,7 +107,7 @@ export const ContAsist: React.FC = () => {
         checked: boolean | null,
         firstName: string
     ) => {
-        const confirm = window.confirm(`¿Seguro que deseas modificar la información de ${firstName}?`);
+        /*const confirm = window.confirm(`¿Seguro que deseas modificar la información de ${firstName}?`);
 
         if (confirm) {
             try {
@@ -119,13 +121,48 @@ export const ContAsist: React.FC = () => {
                 console.error("Error updating user field:", error);
             }
             window.alert('Actualice la pagina apara ver los cambios');
+        }*/
+        let  title = `<p>Desea actualizar la asistencia de ${firstName}</p>`
+        if (field == "have_auth") {
+            title = `<p>Desea actualizar el registro de autorizacion de ${firstName}</p>`
         }
+        MySwal.fire({
+            title,
+            showConfirmButton: true,
+            showLoaderOnConfirm: true,
+            preConfirm: async (updateUser) => {
+                try {
+                    await updateUserField(userId, field, !checked);
+                    setUsers(
+                        users.map((user) =>
+                            user._id === userId ? { ...user, [field]: !checked } : user
+                        )
+                    );
+                    return true
+                } catch(error) {
+                    MySwal.showValidationMessage(`
+                        Request failed: ${error}
+                    `);
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setUsers(
+                    users.map((user) =>
+                        user._id === userId ? { ...user, [field]: !checked } : user
+                    )
+                );
+                return MySwal.fire(<p>Dato actualizado</p>)
+            }
+        })
+        
     };
 
 
     const handleVicariaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const vicarIdSelected = event.target.value;
         setSelectedVicaria(vicarIdSelected);
+        setSelectedDeanery(null);
     };
 
     const handleDeaneryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -139,7 +176,13 @@ export const ContAsist: React.FC = () => {
         const institutionIdSelected = event.target.value;
         setSelectedInstitution(institutionIdSelected);
         setCurrentData(
-            users.filter((user) => user.institution?._id == institutionIdSelected)
+          users.filter((user) => {
+            if (institutionIdSelected && institutionIdSelected !== 'option-default') {
+              return user.institution?._id == institutionIdSelected
+            } else {
+              return user.institution?.type == 1
+            }
+          })
         );
     };
 
@@ -150,7 +193,6 @@ export const ContAsist: React.FC = () => {
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         let filterUsers = users;
-        console.log(selectedOption)
         if (selectedOption == 0) filterUsers = users;
         else {
             if (selectedOption != 0 && selectedOption == 5) {
@@ -164,15 +206,10 @@ export const ContAsist: React.FC = () => {
             }
         }
 
-        console.log(handleSearch)
-
         if (value) {
-            console.log(filterUsers)
             filterUsers = filterUsers.filter((user) => {
                 return findSimilarity(user.first_name, user.last_name, value)
             })
-
-            console.log(value);
         }
         setCurrentData(filterUsers)
     };
@@ -192,9 +229,8 @@ export const ContAsist: React.FC = () => {
         ? vicars.find((vicar) => {
             //console.log('busqueda del id:', vicar._id, selectedVicaria);
             return vicar._id === selectedVicaria;
-        })?.deaneries || []
-        : [];
-
+        })?.deaneries || deaneries
+        : deaneries;
     return (
         <div className=" w-11/12 h-full flex flex-col items-center mt-2">
             <div className="flex w-full gap-4 felx justify-between font-bold text-sm">
@@ -403,11 +439,13 @@ export const ContAsist: React.FC = () => {
                                         value={selectedDeanery || "option-default"}
                                     >
                                         <option value="option-default">SELECCIONE DECANATO</option>
-                                        {filteredDeaneries.map((deanery, i) => (
+                                        {filteredDeaneries.map((deanery, i) => {
+                                          return (
                                             <option key={i} value={deanery._id}>
                                                 {deanery.name}
                                             </option>
-                                        ))}
+                                          );
+                                        })}
                                     </select>
                                     <select
                                         className="text-center block w-64 py-2 border border-gray-300 rounded-md shadow-sm"
@@ -417,7 +455,7 @@ export const ContAsist: React.FC = () => {
                                         <option value="option-default">SELECCIONE PARROQUIA</option>
                                         {institutions
                                             .filter((institution) => {
-                                                if (selectedDeanery) {
+                                                if (selectedDeanery && selectedDeanery != "option-default") {
                                                     return (
                                                         institution.type === 1 &&
                                                         institution.deanery?._id == selectedDeanery
@@ -538,25 +576,21 @@ export const ContAsist: React.FC = () => {
                                                             <div className="flex justify-between items-center">
                                                                 <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
                                                                 &nbsp;Alegría&nbsp;
-                                                                <Alegria />
                                                             </div>
                                                         ) : row.key === "misión" ? (
                                                             <div className="flex justify-between items-center">
                                                                 <div className="w-6 h-6 bg-lime-500 rounded-full"></div>
-                                                                &nbsp;mision&nbsp;
-                                                                <Mision />
+                                                                &nbsp;Mision&nbsp;
                                                             </div>
                                                         ) : row.key === "esperanza" ? (
                                                             <div className="flex justify-between items-center">
                                                                 <div className="w-6 h-6 bg-lime-200 rounded-full"></div>
                                                                 &nbsp;&nbsp;&nbsp;Esperanza&nbsp;
-                                                                <Esperanza />
                                                             </div>
                                                         ) : (
                                                             <div className="flex justify-between items-center">
                                                                 <div className="w-6 h-6 bg-green-900 rounded-full"></div>
                                                                 &nbsp;Unidad&nbsp;
-                                                                <Unidad />
                                                             </div>
                                                         )}
                                                     </td>
@@ -573,13 +607,19 @@ export const ContAsist: React.FC = () => {
                                                     {selectedOption === 1 && showParroquia && (
                                                         <>
                                                             <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                                {row.institution?.name}
+                                                                {
+                                                                  deaneries.find((deanery) => deanery._id == row.institution?.deanery_id)?.name
+                                                                }
                                                             </td>
                                                             <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                                {row.institution?.name}
+                                                              { vicars.find((vicar) => {
+                                                                    const deaneries = vicar.deaneries
+                                                                    return deaneries?.findIndex((deanery) => deanery._id == row.institution?.deanery_id) !== -1
+                                                                  })?.name
+                                                                }
                                                             </td>
                                                             <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                                {row.institution?.name}
+                                                                { row.institution?.name }
                                                             </td>
                                                         </>
                                                     )}

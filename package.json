@@ -17,10 +17,13 @@
     "chart.js": "^4.4.3",
     "dotenv": "^16.4.5",
     "mongodb": "^6.8.0",
+    "mongoose": "^8.5.2",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-router-dom": "^6.25.1"
+    "react-router-dom": "^6.25.1",
+    "sweetalert2": "^11.12.4",
+    "sweetalert2-react-content": "^5.0.7"
   },
   "devDependencies": {
     "@types/node": "20.14.12",

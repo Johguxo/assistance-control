@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientService from "@/lib/dbConnect";
+import clientService from "@/app/lib/dbConnect";
 import { ObjectId } from "mongodb";
+//import { dbConnect } from "@/app/lib/db";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
+    const client = await clientService();
     try {
-      const client = await clientService();
       const database = client.db("database-jaj");
       const collection = database.collection("users");
       // let users = await collection
@@ -78,7 +79,7 @@ export default async function handler(
                     _id: "$institution._id",
                     type: "$institution.type",
                     address: "$institution.address",
-                    insitdeanery_id: "$institution.deanary._id"
+                    deanery_id: "$institution.deanery_id"
                   },
                 },
                 DNI: { $first: "$DNI" },
@@ -101,12 +102,14 @@ export default async function handler(
     } catch (error) {
       console.error("Error connecting to the database:", error);
       res.status(500).json({ message: "Something went wrong!" });
+    } finally {
+      //client.close()
     }
   } else if (req.method === "PATCH") {
     const { id, ...updateFields } = req.body;
-
+    const client = await clientService();
     try {
-      const client = await clientService();
+      
       const database = client.db("database-jaj");
       const collection = database.collection("users");
 
@@ -123,8 +126,10 @@ export default async function handler(
     } catch (error) {
       console.error("Error updating the user:", error);
       res.status(500).json({ message: "Something went wrong!" });
+    } finally {
+      //client.close()
     }
   } else {
     res.status(405).json({ message: "Method not allowed!" });
-  }
+  } 
 }

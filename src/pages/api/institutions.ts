@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 // import { Institution } from '@/models/interfaces';
-import clientService from "@/lib/dbConnect";
+import clientService from "@/app/lib/dbConnect";
+//import { dbConnect } from "@/app/lib/db";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
+    const client = await clientService();
     try {
-      const client = await clientService();
       const database = client.db("database-jaj");
       const collection = database.collection("institutions");
       const allData = await collection
@@ -77,6 +78,8 @@ export default async function handler(
     } catch (error) {
       console.error("Error connecting to the database:", error);
       res.status(500).json({ message: "Something went wrong!" });
+    } finally {
+      //client.close()
     }
   }
   return res.status(405).json({ error: "Method not allowed" });

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientService from "@/lib/dbConnect";
+import clientService from "@/app/lib/dbConnect";
 import { ObjectId } from "mongodb";
 
 export default async function handler(

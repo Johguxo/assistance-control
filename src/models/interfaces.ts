@@ -19,11 +19,13 @@ export interface Institution {
     name: string;
     type: number;
     deanery?: Deanery;
+    deanery_id?: string;
 }
 export interface Deanery {
     _id: string;
     name: string;
     address: string;
+    vicariate_id: string;
     vicar?: Vicaria;
 }
 
