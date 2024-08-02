@@ -1,11 +1,10 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Box, Button, Container, Grid, Paper, Select, MenuItem, TextField, Typography } from "@mui/material";
+import { SelectChangeEvent } from '@mui/material/Select';
 
 export default function Inscription() {
-  const [institution, setInstitution] = useState('');
-  const [belongsToInstitution, setBelongsToInstitution] = useState('');
   const [formData, setFormData] = useState({
     nombres: '',
     apellidos: '',
@@ -13,19 +12,31 @@ export default function Inscription() {
     dni: '',
     celular: '',
     fechaNacimiento: '',
+    belongsToInstitution: '',
+    institution: ''
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSelectChange = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     console.log({
       ...formData,
-      belongsToInstitution,
-      institution: belongsToInstitution === "Yes" ? institution : 'N/A'
+      institution: formData.belongsToInstitution === "Yes" ? formData.belongsToInstitution : 'N/A'
     });
   };
 
@@ -40,7 +51,7 @@ export default function Inscription() {
       >
         <Grid item>
           <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
-            <Typography sx={{ mt: 1, mb: 1 }} variant="h4">Registro del Participante</Typography>
+            <Typography sx={{ mt: 10, mb: 1 }} variant="h4">Registro del Participante</Typography>
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
                 type="text"
@@ -101,24 +112,26 @@ export default function Inscription() {
                 value={formData.fechaNacimiento}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
-                InputLabelProps={{shrink:true}}
+                InputLabelProps={{ shrink: true }}
               />
               <Typography sx={{ mt: 1, mb: 1 }} variant="h5">¿Perteneces a alguna institución?</Typography>
               <Select
-                value={belongsToInstitution}
-                onChange={(e) => setBelongsToInstitution(e.target.value)}
+                name="belongsToInstitution"
+                value={formData.belongsToInstitution}
+                onChange={handleSelectChange}
                 fullWidth
                 sx={{ mt: 1, mb: 2 }}
               >
                 <MenuItem value="Yes">Sí</MenuItem>
                 <MenuItem value="No">No</MenuItem>
               </Select>
-              {belongsToInstitution === "Yes" && (
+              {formData.belongsToInstitution === "Yes" && (
                 <>
                   <Typography sx={{ mt: 1, mb: 1 }} variant="h5">Indica la institución a la que perteneces:</Typography>
                   <Select
-                    value={institution}
-                    onChange={(e) => setInstitution(e.target.value)}
+                    name="institution"
+                    value={formData.institution}
+                    onChange={handleSelectChange}
                     fullWidth
                     sx={{ mt: 1, mb: 2 }}
                   >
