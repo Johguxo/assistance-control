@@ -347,7 +347,7 @@ export const ContAsistLeaders: React.FC = () => {
                                         .map((institution) => {
                                             return (
                                                 <option key={institution._id} value={institution._id}>
-                                                    {institution.name}
+                                                    {institution.name} - {institution.address}
                                                 </option>
                                             );
                                         })}

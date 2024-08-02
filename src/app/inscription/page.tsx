@@ -5,24 +5,30 @@ import { Box, Button, Container, Grid, Paper, Autocomplete, TextField, Typograph
 import { createUser } from "@/controller/createUser";
 import { Institution } from "@/models/interfaces";
 import { fetchInstitutions } from "@/controller/fetchInstitutions";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const baseData = {
+  first_name: '',
+  last_name: '',
+  dni: '',
+  email:'',
+  phone: '',
+  date_birth: '',
+  belongsToInstitution: 'Yes',
+  typeInstitution: '1',
+  institution: 'default',
+  isLeader: false,
+  area: 'default',
+  have_auth: 'No'
+}
+
+const MySwal = withReactContent(Swal)
 
 export default function Inscription() {
   const [loading, setLoading] = useState<boolean>(true);
   const [institutions, setInstitutions] = useState<Institution[]>([]);
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    dni: '',
-    email:'',
-    phone: '',
-    date_birth: '',
-    belongsToInstitution: 'Yes',
-    typeInstitution: '1',
-    institution: 'default',
-    isLeader: false,
-    area: 'default',
-    have_auth: 'No'
-  });
+  const [formData, setFormData] = useState(baseData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,9 +86,27 @@ export default function Inscription() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-    const newUser = await createUser(formData);
-    console.log("Usuario creado!", newUser);
+    let  title = `<p>Desea crear un nuevo usuario y marcar su asistencia</p>`
+    MySwal.fire({
+      title,
+      showConfirmButton: true,
+      showLoaderOnConfirm: true,
+      preConfirm: async (updateUser) => {
+          try {
+            await createUser(formData);
+            return true
+          } catch(error) {
+            MySwal.showValidationMessage(`
+                Request failed: ${error}
+            `);
+          }
+      }
+    }).then((result) => {
+        if (result.isConfirmed) {
+          setFormData(baseData)
+          return MySwal.fire(<p>Usuario creado satisfactoriamente</p>)
+        }
+    })
   };
 
   return (
@@ -213,7 +237,7 @@ export default function Inscription() {
                   </Typography>
                   <Autocomplete
                     options={institutions.filter(institution => formData.isLeader ? institution.type === 1 : institution.type === parseInt(formData.typeInstitution))}
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) => {return `${option.name} - ${option.address}`}}
                     onChange={handleAutoCompleteChange}
                     renderInput={(params) => <TextField {...params} label="Selecciona una institución" fullWidth />}
                     sx={{ mt: 1, mb: 2 }}

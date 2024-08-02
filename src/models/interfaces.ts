@@ -20,6 +20,7 @@ export interface Institution {
     _id: string;
     name: string;
     type: number;
+    address?: string;
     deanery?: Deanery;
     deanery_id?: string;
 }
