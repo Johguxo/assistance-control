@@ -1,1 +1,1 @@
-export const urlBase = 'https://https://assistance-backend.vercel.app/'
+export const urlBase = 'https://assistance-backend.vercel.app'
