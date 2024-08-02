@@ -1,8 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { Box, Button, Container, Grid, Paper, Select, MenuItem, TextField, Typography, FormControlLabel, Switch } from "@mui/material";
-import { SelectChangeEvent } from '@mui/material/Select';
+import { Box, Button, Container, Grid, Paper, Autocomplete, TextField, Typography, FormControlLabel, Switch, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { createUser } from "@/controller/createUser";
 import { Institution } from "@/models/interfaces";
 import { fetchInstitutions } from "@/controller/fetchInstitutions";
@@ -13,15 +12,16 @@ export default function Inscription() {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
-    age: '',
     dni: '',
+    email:'',
     phone: '',
     date_birth: '',
     belongsToInstitution: 'Yes',
     typeInstitution: '1',
     institution: 'default',
     isLeader: false,
-    comision: 'default'  
+    area: 'default',
+    have_auth: 'No'
   });
 
   useEffect(() => {
@@ -38,6 +38,14 @@ export default function Inscription() {
     fetchData();
   }, []);
 
+  const handleAuthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -46,11 +54,18 @@ export default function Inscription() {
     }));
   };
 
-  const handleSelectChange = (e: SelectChangeEvent<string>) => {
-    const { name, value } = e.target;
+  const handleSelectChange = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
+    const { name, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value
+    }));
+  };
+
+  const handleAutoCompleteChange = (event: React.SyntheticEvent, value: Institution | null) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      institution: value ? value._id : ''
     }));
   };
 
@@ -59,17 +74,7 @@ export default function Inscription() {
     setFormData((prevState) => ({
       ...prevState,
       [name]: checked,
-      typeInstitution: checked ? '1' : formData.typeInstitution 
-    }));
-  };
-
-  const handleSelectTypeInstitutionChange = (e: SelectChangeEvent<string>) => {
-    const { name, value } = e.target;
-    const institution = institutions.find((institution) => institution.type === parseInt(value));
-    setFormData((prevState) => ({
-      ...prevState,
-      typeInstitution: value,
-      institution: institution ? institution._id : ''
+      typeInstitution: checked ? '1' : prevState.typeInstitution
     }));
   };
 
@@ -92,7 +97,7 @@ export default function Inscription() {
         <Grid item>
           <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
             <Typography sx={{ mt: 10, mb: 1 }} variant="h4">Registro del Participante</Typography>
-            
+
             <Box component="form" onSubmit={handleSubmit}>
               <FormControlLabel
                 control={
@@ -128,16 +133,6 @@ export default function Inscription() {
               />
               <TextField
                 type="text"
-                name="age"
-                margin="normal"
-                fullWidth
-                label="Edad"
-                value={formData.age}
-                onChange={handleInputChange}
-                sx={{ mt: 1.5, mb: 1.5 }}
-              />
-              <TextField
-                type="text"
                 name="dni"
                 margin="normal"
                 fullWidth
@@ -156,6 +151,18 @@ export default function Inscription() {
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
               />
+              {!formData.isLeader && (
+              <TextField
+                type="email"
+                name="email"
+                margin="normal"
+                fullWidth
+                label="Correo electronico"
+                value={formData.email}
+                onChange={handleInputChange}
+                sx={{ mt: 1.5, mb: 1.5 }}
+              />
+            )}
               <TextField
                 type="date"
                 name="date_birth"
@@ -188,7 +195,7 @@ export default function Inscription() {
                   <Select
                     name="typeInstitution"
                     value={formData.typeInstitution}
-                    onChange={handleSelectTypeInstitutionChange}
+                    onChange={handleSelectChange}
                     fullWidth
                     sx={{ mt: 1, mb: 2 }}
                   >
@@ -204,50 +211,64 @@ export default function Inscription() {
                   <Typography sx={{ mt: 1, mb: 1 }} variant="h5">
                     {formData.isLeader ? "Indica la parroquia a la que perteneces:" : "Indica la institución a la que perteneces:"}
                   </Typography>
-                  <Select
-                    name="institution"
-                    value={formData.institution}
-                    onChange={handleSelectChange}
-                    fullWidth
+                  <Autocomplete
+                    options={institutions.filter(institution => formData.isLeader ? institution.type === 1 : institution.type === parseInt(formData.typeInstitution))}
+                    getOptionLabel={(option) => option.name}
+                    onChange={handleAutoCompleteChange}
+                    renderInput={(params) => <TextField {...params} label="Selecciona una institución" fullWidth />}
                     sx={{ mt: 1, mb: 2 }}
-                  >
-                    <MenuItem value="default" disabled>
-                    {formData.isLeader ? "Selecciona una parroquia" : "Selecciona una institución"}
-                    </MenuItem>
-                    {institutions
-                      .filter((institution) => formData.isLeader ? institution.type === 1 : institution.type === parseInt(formData.typeInstitution))
-                      .map((inst, i) => (
-                        <MenuItem key={i} value={inst._id}>
-                          {inst.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
+                  />
                 </>
               )}
+              {formData.typeInstitution === "2" && (
+              <>
+                <Typography sx={{ mt: 1, mb: 1 }} variant="h5">¿Tienes autorización?</Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="have_auth"
+                      checked={formData.have_auth === 'Yes'}
+                      onChange={(e) => setFormData((prevState) => ({
+                        ...prevState,
+                        have_auth: e.target.checked ? 'Yes' : 'No'
+                      }))}
+                      color="primary"
+                    />
+                  }
+                  label={formData.have_auth === 'Yes' ? "Sí" : "No"}
+                  sx={{ mt: 2, mb: 2 }}
+                />
+              </>
+            )}
               {formData.isLeader && (
                 <>
                   <Typography sx={{ mt: 1, mb: 1 }} variant="h5">Área que perteneces:</Typography>
                   <Select
-                    name="comision"
-                    value={formData.comision}
+                    name="area"
+                    value={formData.area}
                     onChange={handleSelectChange}
                     fullWidth
                     sx={{ mt: 1, mb: 2 }}
                   >
                     <MenuItem value="default" disabled>
-                    Seleccione una comisión
+                      Seleccione una area
                     </MenuItem>
 
-                    <MenuItem value="1">Comunicaciones</MenuItem>
-                    <MenuItem value="2">Coro Juvenil Arquidiocesano</MenuItem>
-                    <MenuItem value="3">Animación y adoración</MenuItem>
-                    <MenuItem value="4">Danza</MenuItem>
-                    <MenuItem value="5">Registro y Estadística</MenuItem>
+                    <MenuItem value="Comunicaciones">Comunicaciones</MenuItem>
+                    <MenuItem value="Coro Juvenil Arquidiocesano">Coro Juvenil Arquidiocesano</MenuItem>
+                    <MenuItem value="Animación y adoración">Animación y adoración</MenuItem>
+                    <MenuItem value="Danza">Danza</MenuItem>
+                    <MenuItem value="Registro y Estadística">Registro y Estadística</MenuItem>
                   </Select>
                 </>
               )}
-              <Button fullWidth type="submit" variant="contained" sx={{ mt: 1.5, mb: 3 }}>
-                Registrar Datos
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Registrar
               </Button>
             </Box>
           </Paper>
