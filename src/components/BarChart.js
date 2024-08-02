@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react"
 import { Chart } from "chart.js/auto"
 
-export default function BarChart() {
+export default function BarChart({ labels, data }) {
     const chartRef = useRef(null)
 
     useEffect(() => {
@@ -17,12 +17,12 @@ export default function BarChart() {
             const newChart = new Chart(context, {
                 type: "bar",
                 data: {
-                    labels: ["John", "Jane", "Doe", "Emily", "Jack", "David", "Julio"],
+                    labels,
                     datasets: [
                         {
                             label: "Info",
-                            data: [34, 64, 23, 45, 67, 24, 64],
-                            backgroundColor: [
+                            data,
+                            /*backgroundColor: [
                                 "rgb(255,99,132,0.6)",
                                 "rgb(255,159,64,0.6)",
                                 "rgb(255,205,86,0.6)",
@@ -39,7 +39,7 @@ export default function BarChart() {
                                 "rgb(54,162,235)",
                                 "rgb(153,162,235)",
                                 "rgb(201,203,207)",
-                            ],
+                            ],*/
                             borderWidth: 1,
                         },
                     ],

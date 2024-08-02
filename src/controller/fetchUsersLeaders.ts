@@ -1,9 +1,9 @@
 import { urlBase } from '@/app/lib/config';
 import axios from 'axios';
 
-export const fetchUsers = async (query: Object) => {
+export const fetchUsersLeaders = async (query: Object) => {
     try {
-        const response = await axios.get(`${urlBase}/users`, { params: query });
+        const response = await axios.get(`${urlBase}/users/leaders`, { params: query });
         if (!response.status) {
             throw new Error('Network response was not ok');
         }
