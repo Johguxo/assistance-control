@@ -120,7 +120,7 @@ export default function Inscription() {
       >
         <Grid item>
           <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
-            <Typography sx={{ mt: 10, mb: 1 }} variant="h4">Registro del Participante</Typography>
+            <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mb: 1 }} variant="h4">Registro del Participante</Typography>
 
             <Box component="form" onSubmit={handleSubmit}>
               <FormControlLabel
@@ -142,6 +142,7 @@ export default function Inscription() {
                 fullWidth
                 label="Nombres"
                 value={formData.first_name}
+                size={'small'}
                 onChange={handleInputChange}
                 sx={{ mt: 2, mb: 1.5 }}
               />
@@ -152,6 +153,7 @@ export default function Inscription() {
                 fullWidth
                 label="Apellidos"
                 value={formData.last_name}
+                size={'small'}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
               />
@@ -161,6 +163,7 @@ export default function Inscription() {
                 margin="normal"
                 fullWidth
                 label="Nº DNI"
+                size={'small'}
                 value={formData.dni}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
@@ -172,6 +175,7 @@ export default function Inscription() {
                 fullWidth
                 label="Nº de Celular (WhatsApp)"
                 value={formData.phone}
+                size={'small'}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
               />
@@ -183,6 +187,7 @@ export default function Inscription() {
                 fullWidth
                 label="Correo electronico"
                 value={formData.email}
+                size={'small'}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
               />
@@ -194,14 +199,16 @@ export default function Inscription() {
                 fullWidth
                 label="Fecha de nacimiento"
                 value={formData.date_birth}
+                size={'small'}
                 onChange={handleInputChange}
                 sx={{ mt: 1.5, mb: 1.5 }}
                 InputLabelProps={{ shrink: true }}
               />
               {!formData.isLeader && (
                 <>
-                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">¿Perteneces a alguna institución?</Typography>
+                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">¿Perteneces a alguna institución?</Typography>
                   <Select
+                    size='small'
                     name="belongsToInstitution"
                     value={formData.belongsToInstitution}
                     onChange={handleSelectChange}
@@ -215,8 +222,9 @@ export default function Inscription() {
               )}
               {(!formData.isLeader && formData.belongsToInstitution === "Yes") && (
                 <>
-                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">A qué tipo de institución perteneces:</Typography>
+                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">A qué tipo de institución perteneces:</Typography>
                   <Select
+                    size='small'
                     name="typeInstitution"
                     value={formData.typeInstitution}
                     onChange={handleSelectChange}
@@ -232,10 +240,11 @@ export default function Inscription() {
               )}
               {(formData.isLeader || (!formData.isLeader && formData.belongsToInstitution === "Yes")) && (
                 <>
-                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">
+                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">
                     {formData.isLeader ? "Indica la parroquia a la que perteneces:" : "Indica la institución a la que perteneces:"}
                   </Typography>
                   <Autocomplete
+                    size='small'
                     options={institutions.filter(institution => formData.isLeader ? institution.type === 1 : institution.type === parseInt(formData.typeInstitution))}
                     getOptionLabel={(option) => {return `${option.name} - ${option.address}`}}
                     onChange={handleAutoCompleteChange}
@@ -246,7 +255,7 @@ export default function Inscription() {
               )}
               {formData.typeInstitution === "2" && (
               <>
-                <Typography sx={{ mt: 1, mb: 1 }} variant="h5">¿Tienes autorización?</Typography>
+                <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">¿Tienes autorización?</Typography>
                 <FormControlLabel
                   control={
                     <Switch
@@ -266,9 +275,10 @@ export default function Inscription() {
             )}
               {formData.isLeader && (
                 <>
-                  <Typography sx={{ mt: 1, mb: 1 }} variant="h5">Área que perteneces:</Typography>
+                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">Área que perteneces:</Typography>
                   <Select
                     name="area"
+                    size='small'
                     value={formData.area}
                     onChange={handleSelectChange}
                     fullWidth

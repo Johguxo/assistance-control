@@ -141,12 +141,12 @@ export const ContAsistLeaders: React.FC = () => {
     };
 
     const findSimilarity = (first_name: string, last_name: string, dni: number, key: string) => {
-        let query_validation = first_name.toLowerCase().includes(key)
+        let query_validation = first_name.toLowerCase().includes(key.toLowerCase())
         if (dni) {
-            query_validation = query_validation || (dni).toString().toLowerCase().includes(key)
+            query_validation = query_validation || (dni).toString().toLowerCase().includes(key.toLowerCase())
             
         }
-        if (last_name) query_validation = query_validation || last_name.toLowerCase().includes(key)
+        if (last_name) query_validation = query_validation || last_name.toLowerCase().includes(key.toLowerCase())
         return query_validation
     }
 
@@ -197,7 +197,7 @@ export const ContAsistLeaders: React.FC = () => {
             <div className="flex flex-col justify-center h-full ">
                 <div className=" h-auto flex w-full gap-4 justify-between font-bold text-sm">
                     <button
-                        className={`w-1/6 px-2  ${selectedOption === 0
+                        className={`w-1/6 px-2 text-xs md:text-base  ${selectedOption === 0
                             ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                             : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
@@ -206,7 +206,7 @@ export const ContAsistLeaders: React.FC = () => {
                         GENERAL
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2  ${selectedOption === 1
+                        className={`w-1/6 py-2 px-2 text-xs md:text-base  ${selectedOption === 1
                             ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                             : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
@@ -216,7 +216,7 @@ export const ContAsistLeaders: React.FC = () => {
                     </button>
 
                     <button
-                        className={`w-1/6 px-2 ${selectedOption === 2
+                        className={`w-1/6 px-2 text-xs md:text-base ${selectedOption === 2
                             ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                             : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
@@ -226,7 +226,7 @@ export const ContAsistLeaders: React.FC = () => {
                     </button>
 
                     <button
-                        className={`w-1/6 py-2 px-2 ${selectedOption === 3
+                        className={`w-1/6 py-2 px-2 text-xs md:text-base ${selectedOption === 3
                             ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                             : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
@@ -235,7 +235,7 @@ export const ContAsistLeaders: React.FC = () => {
                         REGISTRO
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2 text-xs break-words ${selectedOption === 4
+                        className={`w-1/6 py-2 px-2 text-xs md:text-base break-words ${selectedOption === 4
                             ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                             : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
@@ -244,7 +244,7 @@ export const ContAsistLeaders: React.FC = () => {
                         COMUNICACIONES
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2 break-words text-xs  ${selectedOption === 5
+                        className={`w-1/6 py-2 px-2 break-words text-xs md:text-base ${selectedOption === 5
                             ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                             : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
@@ -253,7 +253,7 @@ export const ContAsistLeaders: React.FC = () => {
                         ANIMACION Y ADORACION
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2 break-words text-xs  ${selectedOption === 6
+                        className={`w-1/6 py-2 px-2 break-words text-xs md:text-base  ${selectedOption === 6
                             ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                             : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
@@ -268,7 +268,7 @@ export const ContAsistLeaders: React.FC = () => {
                     <div className="flex items-center mt-2 justify-center h-1/5 w-full">
                         <div className="bg-white flex w-1/2 h-8 border-gray-400 rounded-xl">
                             <input
-                                className="font-normal text-lg bg-white text-gray-500 block w-full px-2 border-gray-400 rounded-xl focus:outline-none"
+                                className="font-normal text-xs md:text-base bg-white text-gray-500 block w-full px-2 border-gray-400 rounded-xl focus:outline-none"
                                 type="text"
                                 placeholder={"Ingrese nombre o dni"}
                                 onChange={handleSearch}
@@ -293,7 +293,7 @@ export const ContAsistLeaders: React.FC = () => {
                             </div>
                         </div>
                         <div className="w-20 text-gray-600 flex gap-4 ml-8">
-                            <label className="flex gap-2 text-md  items-center">
+                            <label className="flex gap-2 text-xs md:text-base items-center">
                                 <input
                                     type="checkbox"
                                     checked={showParroquia}
@@ -302,7 +302,7 @@ export const ContAsistLeaders: React.FC = () => {
                                 />
                                 Parroquia
                             </label>
-                            <label className="flex  text-md items-center">
+                            <label className="flex text-xs md:text-base items-center">
                                 <input
                                     type="checkbox"
                                     checked={showDni}
@@ -320,7 +320,7 @@ export const ContAsistLeaders: React.FC = () => {
                     {/* Select */}
                     <div className="flex flex-row sm:flex-row h-1/6 justify-center items-center gap-8 w-full text-gray-500">
                         <select
-                            className="block w-1/5 py-2 border text-center border-gray-300 rounded-md shadow-sm"
+                            className="text-xs md:text-base py-1.5 block w-1/5 border text-center border-gray-300 rounded-md shadow-sm"
                             onChange={handleVicariaChange}
                             value={selectedVicaria || "option-default"}
                         >
