@@ -4,7 +4,7 @@ import { ButtonLink } from "./ButtonLink"
 
 export const Header = () => {
   return (
-    <header className="bg-black text-white flex justify-between h-1/9 py-5 w-screen">
+    <header className="bg-black text-white flex justify-between h-1/9 py-3 w-screen">
       <nav className="flex  justify-between w-screen h-full items-center flex-col sm:flex-row">
         <div className="text-center h-full w-full sm:w-2/4">
           <h1 >Sistema de asistencia para JAJ 2024</h1>

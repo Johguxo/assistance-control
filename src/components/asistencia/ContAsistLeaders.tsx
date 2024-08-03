@@ -193,22 +193,22 @@ export const ContAsistLeaders: React.FC = () => {
         })?.deaneries || deaneries
         : deaneries;
     return (
-        <div className=" w-screen h-screen flex flex-col justify-center px-12">
+        <div className=" w-screen h-screen flex flex-col justify-center px-12  mt-10 sm:mt-2">
             <div className="flex flex-col justify-center h-full ">
-                <div className=" h-auto flex w-full gap-4 justify-between font-bold text-sm">
+                <div className=" h-auto flex flex-wrap w-full md:gap-4 justify-between font-bold">
                     <button
-                        className={`w-1/6 px-2 text-xs md:text-base  ${selectedOption === 0
-                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 0
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
                         onClick={() => handleOptionChange('ALL', 0)}
                     >
                         GENERAL
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2 text-xs md:text-base  ${selectedOption === 1
-                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 1
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
                         onClick={() => handleOptionChange('Coro Juvenil Arquidiocesano', 1)}
                     >
@@ -216,9 +216,9 @@ export const ContAsistLeaders: React.FC = () => {
                     </button>
 
                     <button
-                        className={`w-1/6 px-2 text-xs md:text-base ${selectedOption === 2
-                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 2
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
                         onClick={() => handleOptionChange('DANZA', 2)}
                     >
@@ -226,47 +226,65 @@ export const ContAsistLeaders: React.FC = () => {
                     </button>
 
                     <button
-                        className={`w-1/6 py-2 px-2 text-xs md:text-base ${selectedOption === 3
-                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 3
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
                         onClick={() => handleOptionChange('REGISTRO Y ESTADÍSTICA', 3)}
                     >
                         REGISTRO
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2 text-xs md:text-base break-words ${selectedOption === 4
-                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 4
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
                         onClick={() => handleOptionChange('COMUNICACIONES', 4)}
                     >
                         COMUNICACIONES
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2 break-words text-xs md:text-base ${selectedOption === 5
-                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 5
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
                         onClick={() => handleOptionChange('Animación y adoración ', 5)}
                     >
                         ANIMACION Y ADORACION
                     </button>
                     <button
-                        className={`w-1/6 py-2 px-2 break-words text-xs md:text-base  ${selectedOption === 6
-                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 6
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                             }`}
                         onClick={() => handleOptionChange('FACILITADORES ', 6)}
                     >
                         FACILITADORES
                     </button>
+                    <button
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 7
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('Producción (Logística)', 7)}
+                    >
+                        PRODUCCION (LOGISTICA)
+                    </button>
+                    <button
+                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 8
+                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('SEGURIDAD', 8)}
+                    >
+                        SEGURIDAD
+                    </button>
                 </div>
                 <div className=" gap-2 flex flex-col  h-4/5 justify-baseline bg-amber-200/90  w-full rounded-b-3xl shadow-2xl">
                     {/* SEARCH-BAR */}
 
-                    <div className="flex items-center mt-2 justify-center h-1/5 w-full">
-                        <div className="bg-white flex w-1/2 h-8 border-gray-400 rounded-xl">
+                    <div className="mx-4 flex items-center flex-col gap-2 sm:flex-row mt-2 justify-center h-1/5">
+                        <div className="bg-white flex h-8 border-gray-400 rounded-xl w-full">
                             <input
                                 className="font-normal text-xs md:text-base bg-white text-gray-500 block w-full px-2 border-gray-400 rounded-xl focus:outline-none"
                                 type="text"
@@ -292,7 +310,7 @@ export const ContAsistLeaders: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-20 text-gray-600 flex gap-4 ml-8">
+                        <div className="text-gray-600 flex gap-4 ml-8 mt-2 md:mt-0">
                             <label className="flex gap-2 text-xs md:text-base items-center">
                                 <input
                                     type="checkbox"
@@ -334,7 +352,7 @@ export const ContAsistLeaders: React.FC = () => {
                             })}
                         </select>
                         <select
-                            className="text-center block w-1/5 py-2 border border-gray-300 rounded-md shadow-sm"
+                            className="text-center block w-1/5 text-xs md:text-base py-1.5 border border-gray-300 rounded-md shadow-sm"
                             onChange={handleDeaneryChange}
                             value={selectedDeanery || "option-default"}
                         >
@@ -348,7 +366,7 @@ export const ContAsistLeaders: React.FC = () => {
                             })}
                         </select>
                         <select
-                            className="text-center block w-1/5 py-2 border border-gray-300 rounded-md shadow-sm"
+                            className="text-center block w-1/5 text-xs md:text-base py-1.5 border border-gray-300 rounded-md shadow-sm"
                             onChange={handleInstitutionChange}
                             value={selectedInstitution || "option-default"}
                         >
@@ -389,12 +407,12 @@ export const ContAsistLeaders: React.FC = () => {
                             <div className="overflow-x-auto h-full">
                                 <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300">
                                     {/* Cabecera */}
-                                    <thead className="bg-gray-300 sticky top-0 z-10">
+                                    <thead className="text-xs md:text-base bg-gray-300 sticky top-0 z-10">
                                         <tr>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="text-xs md:text-base sticky top-0 z-10 px-6 py-2 text-center font-medium text-gray-500 uppercase tracking-wider">
                                                 Nombre
                                             </th>
-                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center font-medium text-gray-500 uppercase tracking-wider">
                                                 Apellido
                                             </th>
                                             {showDni && (
@@ -403,52 +421,52 @@ export const ContAsistLeaders: React.FC = () => {
                                                 </th>
                                             )}
 
-                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center font-medium text-gray-500 uppercase tracking-wider">
                                                 Edad
                                             </th>
-                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
                                                 Comision
                                             </th>
                                             {showParroquia && (
-                                                <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
                                                     Parroquia
                                                 </th>
                                             )}
-                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
                                                 Equipo
                                             </th>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
                                                 Sábado
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="bg-white divide-y divide-gray-300">
+                                    <tbody className="bg-white divide-y divide-gray-300 text-xs md:text-base">
                                         {/* Cuerpo de Tabla */}
                                         {currentData.map((row) => (
                                             <tr key={row._id} className="hover:bg-gray-200">
-                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm font-medium text-gray-500">
+                                                <td className="px-6 py-2 text-center whitespace-nowrap  font-medium text-gray-500">
                                                     {row.first_name}
                                                 </td>
-                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                     {row.last_name}
                                                 </td>
                                                 {showDni && (
-                                                    <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                         {row.DNI}
                                                     </td>
                                                 )}
 
-                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                     {edad(row)}
                                                 </td>
-                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                     {row.area}
                                                 </td>
                                                 {showParroquia && (
-                                                    <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                         {row.institution?.name}
                                                     </td>)}
-                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                     {row.key === "ALEGRÍA" ? (
                                                         <div className="flex justify-between items-center">
                                                             <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
@@ -472,7 +490,7 @@ export const ContAsistLeaders: React.FC = () => {
                                                     )}
                                                 </td>
 
-                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                     <input
                                                         type="checkbox"
                                                         defaultChecked={row.saturday}

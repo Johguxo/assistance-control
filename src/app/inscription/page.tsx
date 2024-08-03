@@ -120,7 +120,7 @@ export default function Inscription() {
       >
         <Grid item>
           <Paper sx={{ padding: "1.2em", borderRadius: "0.5em" }}>
-            <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mb: 1 }} variant="h4">Registro del Participante</Typography>
+            <Typography className="text-center font-bold !text-base md:!text-lg xl:!text-2xl" sx={{ mb: 1 }} variant="h4">Registro del Participante</Typography>
 
             <Box component="form" onSubmit={handleSubmit}>
               <FormControlLabel
@@ -206,7 +206,7 @@ export default function Inscription() {
               />
               {!formData.isLeader && (
                 <>
-                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">¿Perteneces a alguna institución?</Typography>
+                  <Typography className="text-center font-bold !text-base md:!text-lg xl:!text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">¿Perteneces a alguna institución?</Typography>
                   <Select
                     size='small'
                     name="belongsToInstitution"
@@ -222,7 +222,7 @@ export default function Inscription() {
               )}
               {(!formData.isLeader && formData.belongsToInstitution === "Yes") && (
                 <>
-                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">A qué tipo de institución perteneces:</Typography>
+                  <Typography className="text-center font-bold !text-base md:!text-lg xl:!text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">A qué tipo de institución perteneces:</Typography>
                   <Select
                     size='small'
                     name="typeInstitution"
@@ -240,7 +240,7 @@ export default function Inscription() {
               )}
               {(formData.isLeader || (!formData.isLeader && formData.belongsToInstitution === "Yes")) && (
                 <>
-                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">
+                  <Typography className="text-center font-bold !text-base md:!text-lg xl:!text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">
                     {formData.isLeader ? "Indica la parroquia a la que perteneces:" : "Indica la institución a la que perteneces:"}
                   </Typography>
                   <Autocomplete
@@ -255,7 +255,7 @@ export default function Inscription() {
               )}
               {formData.typeInstitution === "2" && (
               <>
-                <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">¿Tienes autorización?</Typography>
+                <Typography className="text-center font-bold !text-base md:!text-lg xl:!text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">¿Tienes autorización?</Typography>
                 <FormControlLabel
                   control={
                     <Switch
@@ -275,7 +275,7 @@ export default function Inscription() {
             )}
               {formData.isLeader && (
                 <>
-                  <Typography className="text-center font-bold text-base md:text-lg xl:text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">Área que perteneces:</Typography>
+                  <Typography className="text-center font-bold !text-base md:!text-lg xl:!text-2xl" sx={{ mt: 1, mb: 1 }} variant="h5">Área que perteneces:</Typography>
                   <Select
                     name="area"
                     size='small'
@@ -294,6 +294,8 @@ export default function Inscription() {
                     <MenuItem value="Danza">Danza</MenuItem>
                     <MenuItem value="Registro y Estadística">Registro y Estadística</MenuItem>
                     <MenuItem value="Facilitadores">Facilitadores</MenuItem>
+                    <MenuItem value="Producción (Logística)">Producción (Logística)</MenuItem>
+                    <MenuItem value="Seguridad">Seguridad</MenuItem>
                   </Select>
                 </>
               )}
