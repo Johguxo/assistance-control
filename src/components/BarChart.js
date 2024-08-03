@@ -1,15 +1,14 @@
-"use client"
-
-import { useRef, useEffect } from "react"
-import { Chart } from "chart.js/auto"
+"use client";
+import { useRef, useEffect } from "react";
+import { Chart } from "chart.js/auto";
 
 export default function BarChart({ labels, data }) {
-    const chartRef = useRef(null)
+    const chartRef = useRef(null);
 
     useEffect(() => {
         if (chartRef.current) {
             if (chartRef.current.Chart) {
-                chartRef.current.Chart.destroy()
+                chartRef.current.Chart.destroy();
             }
 
             const context = chartRef.current.getContext("2d");
@@ -20,47 +19,45 @@ export default function BarChart({ labels, data }) {
                     labels,
                     datasets: [
                         {
-                            label: "Info",
+                            label: "Data",
                             data,
-                            /*backgroundColor: [
-                                "rgb(255,99,132,0.6)",
-                                "rgb(255,159,64,0.6)",
-                                "rgb(255,205,86,0.6)",
-                                "rgb(75,192,192,0.6)",
-                                "rgb(54,162,235,0.6)",
-                                "rgb(153,162,235,0.6)",
-                                "rgb(201,203,207,0.6)",
+                            backgroundColor: [
+                                "rgba(255, 99, 132, 0.6)",
+                                "rgba(54, 162, 235, 0.6)",
+                                "rgba(255, 206, 86, 0.6)",
+                                "rgba(75, 192, 192, 0.6)",
+                                "rgba(153, 102, 255, 0.6)",
                             ],
                             borderColor: [
-                                "rgb(255,99,132)",
-                                "rgb(255,159,64)",
-                                "rgb(255,205,86)",
-                                "rgb(75,192,192)",
-                                "rgb(54,162,235)",
-                                "rgb(153,162,235)",
-                                "rgb(201,203,207)",
-                            ],*/
+                                "rgba(255, 99, 132, 1)",
+                                "rgba(54, 162, 235, 1)",
+                                "rgba(255, 206, 86, 1)",
+                                "rgba(75, 192, 192, 1)",
+                                "rgba(153, 102, 255, 1)",
+                            ],
                             borderWidth: 1,
                         },
                     ],
                 },
                 options: {
-                    // responsive:true
                     scales: {
                         x: {
-                            type: "category"
+                            type: "category",
                         },
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
                         },
                     },
                 },
             });
 
-            chartRef.current.Chart = newChart
+            chartRef.current.Chart = newChart;
         }
-    }, []);
-    return <div className='flex items-center justify-center' style={{ width: "100%" } }>
-        <canvas ref={chartRef} />
-    </div>
+    }, [labels, data]);
+
+    return (
+        <div className='flex items-center justify-center' style={{ width: "100%" }}>
+            <canvas ref={chartRef} />
+        </div>
+    );
 }

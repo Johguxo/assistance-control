@@ -3,13 +3,13 @@ import axios from "axios";
 
 export const fetchDataGraphs = async () => {
     try {
-        const response = await axios.get(`${urlBase}/data`);
-        if (!response.status) {
+        const response = await axios.get("http://localhost:5000/data");
+        if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
-        return await response.data;
+        return response.data;
     } catch (error) {
-        console.error('Error fetching dataaaa:', error);
+        console.error('Error fetching data:', error);
         throw error;
     }
 };
