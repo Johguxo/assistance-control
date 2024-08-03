@@ -1,0 +1,33 @@
+.td_style {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #585e69;
+}
+
+
+.th_style {
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #687081;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: #b1b1b1;
+    /* position: sticky; */
+    /* z-index: 2; */
+  }
+  
+  .icon_equipo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  
