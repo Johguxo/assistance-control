@@ -494,64 +494,64 @@ export const ContAsist: React.FC = () => {
                                         {/* Cabecera */}
                                         <thead className="bg-gray-300 sticky top-0 z-10">
                                             <tr>
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Nombre
                                                 </th>
-                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Apellido
                                                 </th>
                                                 {showDni && (
-                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         DNI
                                                     </th>
                                                 )}
-                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Equipo
                                                 </th>
-                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Edad
                                                 </th>
 
                                                 {selectedOption === 0 && (
-                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Institucion
                                                     </th>
                                                 )}
                                                 {selectedOption === 1 && showParroquia && (
                                                     <>
-                                                        <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                        <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                             Decanato
                                                         </th>
-                                                        <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                        <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                             Vicaria
                                                         </th>
-                                                        <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                        <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                             Parroquia
                                                         </th>
                                                     </>
                                                 )}
                                                 {selectedOption === 2 && (
-                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Colegio
                                                     </th>
                                                 )}
                                                 {selectedOption === 3 && (
-                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Universidad
                                                     </th>
                                                 )}
                                                 {selectedOption === 4 && (
-                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Congregacion/Movimiento
                                                     </th>
                                                 )}
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Autorizacion
                                                 </th>
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Sábado
                                                 </th>
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
+                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Domingo
                                                 </th>
                                             </tr>
@@ -560,31 +560,31 @@ export const ContAsist: React.FC = () => {
                                             {/* Cuerpo de Tabla */}
                                             {currentData.map((row) => (
                                                 <tr key={row._id}>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base font-medium text-gray-500">
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap text-xs font-medium text-gray-500">
                                                         {row.first_name}
                                                     </td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap text-xs text-gray-500">
                                                         {row.last_name}
                                                     </td>
                                                     {showDni && (
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                        <td className="px-6 py-2 text-center whitespace-nowrap text-xs text-gray-500">
                                                             {row.DNI}
                                                         </td>
                                                     )}
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap text-xs text-gray-500">
                                                         {row.key === "Alegría" ? (
                                                             <div className="flex justify-between items-center">
-                                                                <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
+                                                                <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>
                                                                 &nbsp;Alegría&nbsp;
                                                             </div>
                                                         ) : row.key === "misión" ? (
                                                             <div className="flex justify-between items-center">
-                                                                <div className="w-6 h-6 bg-lime-500 rounded-full"></div>
+                                                                <div className="w-4 h-4 bg-lime-500 rounded-full"></div>
                                                                 &nbsp;Mision&nbsp;
                                                             </div>
                                                         ) : row.key === "esperanza" ? (
                                                             <div className="flex justify-between items-center">
-                                                                <div className="w-6 h-6 bg-lime-200 rounded-full"></div>
+                                                                <div className="w-4 h-4 bg-lime-200 rounded-full"></div>
                                                                 &nbsp;&nbsp;&nbsp;Esperanza&nbsp;
                                                             </div>
                                                         ) : (
@@ -594,36 +594,36 @@ export const ContAsist: React.FC = () => {
                                                             </div>
                                                         )}
                                                     </td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-xs text-gray-500">
                                                         {edad(row.date_birth)}
                                                     </td>
 
                                                     {selectedOption !== 1 && selectedOption !== 5 && (
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-xs text-gray-500">
                                                             {row.institution?.name}
                                                         </td>
                                                     )}
 
                                                     {selectedOption === 1 && showParroquia && (
                                                         <>
-                                                            <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                            <td className="px-6 py-4 text-center whitespace-nowrap text-xs text-gray-500">
                                                                 {
                                                                   deaneries.find((deanery) => deanery._id == row.institution?.deanery_id)?.name
                                                                 }
                                                             </td>
-                                                            <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                            <td className="px-6 py-4 text-center whitespace-nowrap text-xs text-gray-500">
                                                               { vicars.find((vicar) => {
                                                                     const deaneries = vicar.deaneries
                                                                     return deaneries?.findIndex((deanery) => deanery._id == row.institution?.deanery_id) !== -1
                                                                   })?.name
                                                                 }
                                                             </td>
-                                                            <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                            <td className="px-6 py-4 text-center whitespace-nowrap text-xs text-gray-500">
                                                                 { row.institution?.name }
                                                             </td>
                                                         </>
                                                     )}
-                                                    <td className="px-6 py-4 text-center flex justify-center whitespace-nowrap text-base text-gray-500">
+                                                    <td className="px-6 py-4 text-center flex justify-center whitespace-nowrap text-xs text-gray-500">
 
 
                                                         {Number(edad(row.date_birth)) < 18 && (
@@ -705,7 +705,7 @@ export const ContAsist: React.FC = () => {
                                                             } */}
                                                     </td>
 
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
                                                         <input
                                                             type="checkbox"
                                                             defaultChecked={row.saturday}
@@ -721,7 +721,7 @@ export const ContAsist: React.FC = () => {
                                                             className="ml-2 cursor-pointer"
                                                         />
                                                     </td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
                                                         <input
                                                             type="checkbox"
                                                             defaultChecked={row.sunday}

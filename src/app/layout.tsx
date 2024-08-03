@@ -17,9 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body>
+      <body className="h-full w-screen">
         <Header/>
+        <main>
         {children}
+        </main>
       </body>
     </html>
   );

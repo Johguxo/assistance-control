@@ -61,16 +61,16 @@ export const ContAsistLeaders: React.FC = () => {
     }, []);
 
     const handleOptionChange = (option: string, optionHeader: number) => {
-      setSearchTerm('')
-      setSelectedOption(optionHeader)
-      setSelectedOptionString(option)
-      if (option == 'ALL') setCurrentData(users);
-      else {
-          const filterUsers = users.filter(
-              (user) => user.area?.trim().toLowerCase() == option.trim().toLowerCase()
-          );
-          setCurrentData(filterUsers);
-      }
+        setSearchTerm('')
+        setSelectedOption(optionHeader)
+        setSelectedOptionString(option)
+        if (option == 'ALL') setCurrentData(users);
+        else {
+            const filterUsers = users.filter(
+                (user) => user.area?.trim().toLowerCase() == option.trim().toLowerCase()
+            );
+            setCurrentData(filterUsers);
+        }
     };
 
     const handleCheckboxChange = async (
@@ -79,7 +79,7 @@ export const ContAsistLeaders: React.FC = () => {
         checked: boolean | null,
         firstName: string
     ) => {
-        let  title = `<p>Desea actualizar la asistencia de ${firstName}</p>`
+        let title = `<p>Desea actualizar la asistencia de ${firstName}</p>`
         MySwal.fire({
             title,
             showConfirmButton: true,
@@ -93,7 +93,7 @@ export const ContAsistLeaders: React.FC = () => {
                         )
                     );
                     return true
-                } catch(error) {
+                } catch (error) {
                     MySwal.showValidationMessage(`
                         Request failed: ${error}
                     `);
@@ -109,7 +109,7 @@ export const ContAsistLeaders: React.FC = () => {
                 return MySwal.fire(<p>Dato actualizado</p>)
             }
         })
-        
+
     };
 
 
@@ -130,19 +130,19 @@ export const ContAsistLeaders: React.FC = () => {
         const institutionIdSelected = event.target.value;
         setSelectedInstitution(institutionIdSelected);
         setCurrentData(
-          users.filter((user) => {
-            if (institutionIdSelected && institutionIdSelected !== 'option-default') {
-              return user.institution?._id == institutionIdSelected
-            } else {
-              return user.institution?.type == 1
-            }
-          })
+            users.filter((user) => {
+                if (institutionIdSelected && institutionIdSelected !== 'option-default') {
+                    return user.institution?._id == institutionIdSelected
+                } else {
+                    return user.institution?.type == 1
+                }
+            })
         );
     };
 
     const findSimilarity = (first_name: string, last_name: string, dni: number, key: string) => {
-      if (dni) return first_name.toLowerCase().includes(key) || last_name.toLowerCase().includes(key) || (dni).toString().toLowerCase().includes(key)
-      else return first_name.toLowerCase().includes(key) || last_name.toLowerCase().includes(key)
+        if (dni) return first_name.toLowerCase().includes(key) || last_name.toLowerCase().includes(key) || (dni).toString().toLowerCase().includes(key)
+        else return first_name.toLowerCase().includes(key) || last_name.toLowerCase().includes(key)
     }
 
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -152,7 +152,7 @@ export const ContAsistLeaders: React.FC = () => {
         if (selectedOption == 0) filterUsers = users;
         else {
             filterUsers = filterUsers.filter(
-              (user) => user.area?.trim().toLowerCase() == selectedOptionString.trim().toLowerCase()
+                (user) => user.area?.trim().toLowerCase() == selectedOptionString.trim().toLowerCase()
             );
         }
 
@@ -164,16 +164,20 @@ export const ContAsistLeaders: React.FC = () => {
         setCurrentData(filterUsers)
     };
 
-    const edad = (birthdateString: string): number => {
-        const birthdate = new Date(birthdateString);
-        const today = new Date();
-        let age = today.getFullYear() - birthdate.getFullYear();
-        const m = today.getMonth() - birthdate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
-            age--;
+    const edad = (birthdateString: string): number | string => {
+        if (birthdateString) {
+            const birthdate = new Date(birthdateString);
+            const today = new Date();
+            let age = today.getFullYear() - birthdate.getFullYear();
+            const m = today.getMonth() - birthdate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+                age--;
+            }
+            return age;
         }
-        return age;
+        return "none";
     };
+
 
     const filteredDeaneries: Deanery[] = selectedVicaria
         ? vicars.find((vicar) => {
@@ -181,181 +185,177 @@ export const ContAsistLeaders: React.FC = () => {
         })?.deaneries || deaneries
         : deaneries;
     return (
-        <div className=" w-11/12 h-full flex flex-col items-center mt-2">
-            <div className="flex w-full gap-4 felx justify-between font-bold text-sm">
-                <button
-                    className={`w-1/3 py-2 px-4  ${selectedOption === 0
-                        ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                        : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                        }`}
-                    onClick={() => handleOptionChange('ALL',0)}
-                >
-                    GENERAL
-                </button>
-                <button
-                    className={`w-1/3 py-2 px-4  ${selectedOption === 1
-                        ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                        : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                        }`}
-                    onClick={() => handleOptionChange('Coro Juvenil Arquidiocesano',1)}
-                >
-                    CORO
-                </button>
+        <div className=" w-screen h-screen flex flex-col justify-center px-12">
+            <div className="flex flex-col justify-center h-full ">
+                <div className=" h-auto flex w-full gap-4 justify-between font-bold text-sm">
+                    <button
+                        className={`w-1/6 px-2  ${selectedOption === 0
+                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
+                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('ALL', 0)}
+                    >
+                        GENERAL
+                    </button>
+                    <button
+                        className={`w-1/6 py-2 px-2  ${selectedOption === 1
+                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
+                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('Coro Juvenil Arquidiocesano', 1)}
+                    >
+                        CORO
+                    </button>
 
-                <button
-                    className={`w-1/3 px-4 ${selectedOption === 2
-                        ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                        : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                        }`}
-                    onClick={() => handleOptionChange('DANZA',2)}
-                >
-                    DANZA
-                </button>
+                    <button
+                        className={`w-1/6 px-2 ${selectedOption === 2
+                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
+                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('DANZA', 2)}
+                    >
+                        DANZA
+                    </button>
 
-                <button
-                    className={`w-1/3 py-2 px-4 ${selectedOption === 3
-                        ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                        : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                        }`}
-                    onClick={() => handleOptionChange('REGISTRO Y ESTADÍSTICA',3)}
-                >
-                    REGISTRO
-                </button>
-                <button
-                    className={`w-1/3 py-2 px-4 ${selectedOption === 4
-                        ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                        : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                        }`}
-                    onClick={() => handleOptionChange('COMUNICACIONES',4)}
-                >
-                    COMUNICACIONES
-                </button>
-                <button
-                    className={`w-1/3 py-2 px-4 ${selectedOption === 5
-                        ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                        : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                        }`}
-                    onClick={() => handleOptionChange('Animación y adoración ',5)}
-                >
-                    ANIMACION Y ADORACION
-                </button>
-            </div>
-            <div className="flex flex-col items-center h-full justify-baseline bg-amber-200/90  w-full mb-20 rounded-b-3xl shadow-2xl">
-                {/* SEARCH-BAR */}
+                    <button
+                        className={`w-1/6 py-2 px-2 ${selectedOption === 3
+                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
+                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('REGISTRO Y ESTADÍSTICA', 3)}
+                    >
+                        REGISTRO
+                    </button>
+                    <button
+                        className={`w-1/6 py-2 px-2 text-xs break-words ${selectedOption === 4
+                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
+                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('COMUNICACIONES', 4)}
+                    >
+                        COMUNICACIONES
+                    </button>
+                    <button
+                        className={`w-1/6 py-2 px-2 break-words text-xs  ${selectedOption === 5
+                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
+                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('Animación y adoración ', 5)}
+                    >
+                        ANIMACION Y ADORACION
+                    </button>
+                </div>
+                <div className=" gap-2 flex flex-col  h-4/5 justify-baseline bg-amber-200/90  w-full rounded-b-3xl shadow-2xl">
+                    {/* SEARCH-BAR */}
 
-                <div className="flex items-center justify-center w-full">
-                    <div className="bg-white flex w-1/2 border-gray-400 rounded-xl my-8">
-                        <input
-                            className="font-normal text-lg bg-white text-gray-500 block w-full py-2 px-2 border-gray-400 rounded-xl focus:outline-none"
-                            type="text"
-                            placeholder={"Ingrese nombre o dni"}
-                            onChange={handleSearch}
-                            value={searchTerm}
-                        />
-                        <div className="flex items-center mx-4">
-                            {/* Icono */}
-                            <div>
-                                <svg
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M13.2099 11.6369C14.0995 10.4257 14.625 8.93047 14.625 7.3125C14.625 3.27392 11.3511 0 7.3125 0C3.27392 0 0 3.27392 0 7.3125C0 11.3511 3.27392 14.625 7.3125 14.625C8.93091 14.625 10.4265 14.0992 11.6378 13.2092L11.6369 13.2099C11.6701 13.2549 11.707 13.298 11.7477 13.3387L16.0795 17.6705C16.5188 18.1098 17.2312 18.1098 17.6705 17.6705C18.1098 17.2312 18.1098 16.5188 17.6705 16.0795L13.3387 11.7477C13.298 11.707 13.2549 11.6701 13.2099 11.6369ZM13.5 7.3125C13.5 10.7298 10.7298 13.5 7.3125 13.5C3.89524 13.5 1.125 10.7298 1.125 7.3125C1.125 3.89524 3.89524 1.125 7.3125 1.125C10.7298 1.125 13.5 3.89524 13.5 7.3125Z"
-                                        fill="#A1A5A7"
-                                    />
-                                </svg>
+                    <div className="flex items-center mt-2 justify-center h-1/5 w-full">
+                        <div className="bg-white flex w-1/2 h-8 border-gray-400 rounded-xl">
+                            <input
+                                className="font-normal text-lg bg-white text-gray-500 block w-full px-2 border-gray-400 rounded-xl focus:outline-none"
+                                type="text"
+                                placeholder={"Ingrese nombre o dni"}
+                                onChange={handleSearch}
+                                value={searchTerm}
+                            />
+                            <div className="flex items-center mx-4">
+                                {/* Icono */}
+                                <div>
+                                    <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M13.2099 11.6369C14.0995 10.4257 14.625 8.93047 14.625 7.3125C14.625 3.27392 11.3511 0 7.3125 0C3.27392 0 0 3.27392 0 7.3125C0 11.3511 3.27392 14.625 7.3125 14.625C8.93091 14.625 10.4265 14.0992 11.6378 13.2092L11.6369 13.2099C11.6701 13.2549 11.707 13.298 11.7477 13.3387L16.0795 17.6705C16.5188 18.1098 17.2312 18.1098 17.6705 17.6705C18.1098 17.2312 18.1098 16.5188 17.6705 16.0795L13.3387 11.7477C13.298 11.707 13.2549 11.6701 13.2099 11.6369ZM13.5 7.3125C13.5 10.7298 10.7298 13.5 7.3125 13.5C3.89524 13.5 1.125 10.7298 1.125 7.3125C1.125 3.89524 3.89524 1.125 7.3125 1.125C10.7298 1.125 13.5 3.89524 13.5 7.3125Z"
+                                            fill="#A1A5A7"
+                                        />
+                                    </svg>
+                                </div>
                             </div>
                         </div>
+                        <div className="w-20 text-gray-600 flex flex gap-4 ml-8">
+                            <label className="flex gap-2 text-md  items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={showParroquia}
+                                    onChange={() => setShowParroquia(!showParroquia)}
+                                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out items-center"
+                                />
+                                Parroquia
+                            </label>
+                            <label className="flex  text-md items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={showDni}
+                                    onChange={() => setShowDni(!showDni)}
+                                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out items-center"
+                                />
+                                DNI
+                            </label>
+                        </div>
                     </div>
-                    <div className=" w-20 text-gray-600 flex flex-col gap-2 ml-8">
-                        <label className="flex gap-2 text-md  items-center">
-                            <input
-                                type="checkbox"
-                                checked={showParroquia}
-                                onChange={() => setShowParroquia(!showParroquia)}
-                                className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out items-center"
-                            />
-                            Parroquia
-                        </label>
-                        <label className="flex  text-md items-center">
-                            <input
-                                type="checkbox"
-                                checked={showDni}
-                                onChange={() => setShowDni(!showDni)}
-                                className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out items-center"
-                            />
-                            DNI
-                        </label>
-                    </div>
-                </div>
 
-                <div
-                    className={`flex  w-full h-11/12 ${selectedOption === 0 || selectedOption === 5
-                        ? `justify-center`
-                        : `justify-between`
-                        } `}
-                >
-                    <div className="flex w-1/5 h-1/2">
-                        {/* Select */}
-                            <div className="flex flex-col items-center py-20 gap-8 w-96 text-gray-500">
-                                <select
-                                    className="block w-64 py-2 border text-center border-gray-300 rounded-md shadow-sm"
-                                    onChange={handleVicariaChange}
-                                    value={selectedVicaria || "option-default"}
-                                >
-                                    <option value="option-default">SELECCIONE VICARIA</option>
-                                    {vicars.map((vicars, i) => {
+                    {/* <div
+                        className={`flex flex-col items-center overflow-y-auto  w-full h-4/5 items-center`}
+                    > */}
+                    {/* Select */}
+                    <div className="flex flex-row sm:flex-row h-1/6 justify-center items-center gap-8 w-full text-gray-500">
+                        <select
+                            className="block w-1/5 py-2 border text-center border-gray-300 rounded-md shadow-sm"
+                            onChange={handleVicariaChange}
+                            value={selectedVicaria || "option-default"}
+                        >
+                            <option value="option-default">VICARIA</option>
+                            {vicars.map((vicars, i) => {
+                                return (
+                                    <option key={i} value={vicars._id}>
+                                        {vicars.name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        <select
+                            className="text-center block w-1/5 py-2 border border-gray-300 rounded-md shadow-sm"
+                            onChange={handleDeaneryChange}
+                            value={selectedDeanery || "option-default"}
+                        >
+                            <option value="option-default">DECANATO</option>
+                            {filteredDeaneries.map((deanery, i) => {
+                                return (
+                                    <option key={i} value={deanery._id}>
+                                        {deanery.name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        <select
+                            className="text-center block w-1/5 py-2 border border-gray-300 rounded-md shadow-sm"
+                            onChange={handleInstitutionChange}
+                            value={selectedInstitution || "option-default"}
+                        >
+                            <option value="option-default">PARROQUIA</option>
+                            {institutions
+                                .filter((institution) => {
+                                    if (selectedDeanery && selectedDeanery != "option-default") {
                                         return (
-                                            <option key={i} value={vicars._id}>
-                                                {vicars.name}
-                                            </option>
+                                            institution.type === 1 &&
+                                            institution.deanery?._id == selectedDeanery
                                         );
-                                    })}
-                                </select>
-                                <select
-                                    className="text-center block w-64 py-2 border border-gray-300 rounded-md shadow-sm"
-                                    onChange={handleDeaneryChange}
-                                    value={selectedDeanery || "option-default"}
-                                >
-                                    <option value="option-default">SELECCIONE DECANATO</option>
-                                    {filteredDeaneries.map((deanery, i) => {
-                                      return (
-                                        <option key={i} value={deanery._id}>
-                                            {deanery.name}
+                                    } else return institution.type === 1;
+                                })
+                                .map((institution) => {
+                                    return (
+                                        <option key={institution._id} value={institution._id}>
+                                            {institution.name} - {institution.address}
                                         </option>
-                                      );
-                                    })}
-                                </select>
-                                <select
-                                    className="text-center block w-64 py-2 border border-gray-300 rounded-md shadow-sm"
-                                    onChange={handleInstitutionChange}
-                                    value={selectedInstitution || "option-default"}
-                                >
-                                    <option value="option-default">SELECCIONE PARROQUIA</option>
-                                    {institutions
-                                        .filter((institution) => {
-                                            if (selectedDeanery && selectedDeanery != "option-default") {
-                                                return (
-                                                    institution.type === 1 &&
-                                                    institution.deanery?._id == selectedDeanery
-                                                );
-                                            } else return institution.type === 1;
-                                        })
-                                        .map((institution) => {
-                                            return (
-                                                <option key={institution._id} value={institution._id}>
-                                                    {institution.name} - {institution.address}
-                                                </option>
-                                            );
-                                        })}
-                                </select>
-                            </div>
-                        {/* Tabla */}
+                                    );
+                                })}
+                        </select>
                     </div>
-                    <div className="flex flex-col w-4/5 h-4/6 items-center justify-center">
+                    {/* Tabla */}
+                    <div className="flex w-full h-screen  overflow-x-auto items-center justify-center m-1">
                         {/* Tabla de asistencia */}
                         {loading ? (
                             // false
@@ -363,141 +363,141 @@ export const ContAsistLeaders: React.FC = () => {
                                 <Loader />
                             </div>
                         ) : (
-                            <>
-                                <div
-                                    className={`h-screen overflow-x-auto shadow-md shadow-slate-600/50 bg-white ${selectedOption === 0 || selectedOption === 5
-                                        ? `w-full`
-                                        : `w-11/12`
-                                        }`}
-                                >
-                                    <table className=" h-11/12 w-full  overflow-x-auto divide-gray-200">
-                                        {/* Cabecera */}
-                                        <thead className="bg-gray-300 sticky top-0 z-10">
-                                            <tr>
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                    Nombre
+                            // <div
+                            //     className={`h-full overflow-x-auto  shadow-md shadow-slate-600/50 bg-white ${selectedOption === 0 || selectedOption === 5
+                            //         ? `w-full`
+                            //         : `w-full`
+                            //         }`}
+                            // >
+                            <div className="overflow-x-auto h-full">
+                                <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300">
+                                    {/* Cabecera */}
+                                    <thead className="bg-gray-300 sticky top-0 z-10">
+                                        <tr>
+                                            <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                Nombre
+                                            </th>
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                Apellido
+                                            </th>
+                                            {showDni && (
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                    DNI
                                                 </th>
-                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                    Apellido
+                                            )}
+
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                Edad
+                                            </th>
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                Comision
+                                            </th>
+                                            {showParroquia && (
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                    Parroquia
                                                 </th>
+                                            )}
+                                            <th className=" sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                Equipo
+                                            </th>
+                                            <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                Sábado
+                                            </th>
+                                            <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
+                                                Domingo
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-300">
+                                        {/* Cuerpo de Tabla */}
+                                        {currentData.map((row) => (
+                                            <tr key={row._id} className="hover:bg-gray-200">
+                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm font-medium text-gray-500">
+                                                    {row.first_name}
+                                                </td>
+                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    {row.last_name}
+                                                </td>
                                                 {showDni && (
-                                                    <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                        DNI
-                                                    </th>
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                        {row.DNI}
+                                                    </td>
                                                 )}
 
-                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                    Edad
-                                                </th>
-                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                    Comision
-                                                </th>
+                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    {edad(row.date_birth) !== "none" ? edad(row.date_birth) : "-"}
+                                                </td>
+                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    {row.area}
+                                                </td>
                                                 {showParroquia && (
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                  Parroquia
-                                                  </th>
-                                                )}
-                                                <th className=" sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                    Equipo
-                                                </th>
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                    Sábado
-                                                </th>
-                                                <th className="sticky top-0 z-10 px-6 py-3 text-center text-base font-medium text-gray-500 uppercase tracking-wider">
-                                                    Domingo
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="bg-white divide-y divide-gray-200">
-                                            {/* Cuerpo de Tabla */}
-                                            {currentData.map((row) => (
-                                                <tr key={row._id}>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base font-medium text-gray-500">
-                                                        {row.first_name}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                        {row.last_name}
-                                                    </td>
-                                                    {showDni && (
-                                                        <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                            {row.DNI}
-                                                        </td>
-                                                    )}
-                                                    
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                        {edad(row.date_birth)}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                      {row.area}
-                                                    </td>
-                                                    {showParroquia && (
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                      {row.institution?.name}
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                        {row.institution?.name}
                                                     </td>)}
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                        {row.key === "Alegría" ? (
-                                                            <div className="flex justify-between items-center">
-                                                                <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
-                                                                &nbsp;Alegría&nbsp;
-                                                            </div>
-                                                        ) : row.key === "misión" ? (
-                                                            <div className="flex justify-between items-center">
-                                                                <div className="w-6 h-6 bg-lime-500 rounded-full"></div>
-                                                                &nbsp;Mision&nbsp;
-                                                            </div>
-                                                        ) : row.key === "esperanza" ? (
-                                                            <div className="flex justify-between items-center">
-                                                                <div className="w-6 h-6 bg-lime-200 rounded-full"></div>
-                                                                &nbsp;&nbsp;&nbsp;Esperanza&nbsp;
-                                                            </div>
-                                                        ) : (
-                                                            <div className="flex justify-between items-center">
-                                                                <div className="w-6 h-6 bg-green-900 rounded-full"></div>
-                                                                &nbsp;Unidad&nbsp;
-                                                            </div>
-                                                        )}
-                                                    </td>
+                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    {row.key === "ALEGRÍA" ? (
+                                                        <div className="flex justify-between items-center">
+                                                            <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
+                                                            &nbsp;Alegría&nbsp;
+                                                        </div>
+                                                    ) : row.key === "MISIÓN" ? (
+                                                        <div className="flex justify-between items-center">
+                                                            <div className="w-6 h-6 bg-lime-800 rounded-full"></div>
+                                                            &nbsp;Mision&nbsp;
+                                                        </div>
+                                                    ) : row.key === "ESPERANZA" ? (
+                                                        <div className="flex justify-between items-center">
+                                                            <div className="w-6 h-6 bg-lime-200 rounded-full"></div>
+                                                            &nbsp;&nbsp;&nbsp;Esperanza&nbsp;
+                                                        </div>
+                                                    ) : (
+                                                        <div className="flex justify-between items-center">
+                                                            <div className="w-6 h-6 bg-amber-600 rounded-full"></div>
+                                                            &nbsp;Unidad&nbsp;
+                                                        </div>
+                                                    )}
+                                                </td>
 
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                        <input
-                                                            type="checkbox"
-                                                            defaultChecked={row.saturday}
-                                                            onChange={() =>
-                                                                handleCheckboxChange(
-                                                                    row._id,
-                                                                    "saturday",
-                                                                    row.saturday,
-                                                                    row.first_name
+                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    <input
+                                                        type="checkbox"
+                                                        defaultChecked={row.saturday}
+                                                        onChange={() =>
+                                                            handleCheckboxChange(
+                                                                row._id,
+                                                                "saturday",
+                                                                row.saturday,
+                                                                row.first_name
 
-                                                                )
-                                                            }
-                                                            className="ml-2 cursor-pointer"
-                                                        />
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center whitespace-nowrap text-base text-gray-500">
-                                                        <input
-                                                            type="checkbox"
-                                                            defaultChecked={row.sunday}
-                                                            onChange={() =>
-                                                                handleCheckboxChange(
-                                                                    row._id,
-                                                                    "sunday",
-                                                                    row.sunday,
-                                                                    row.first_name
+                                                            )
+                                                        }
+                                                        className="ml-2 cursor-pointer"
+                                                    />
+                                                </td>
+                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
+                                                    <input
+                                                        type="checkbox"
+                                                        defaultChecked={row.sunday}
+                                                        onChange={() =>
+                                                            handleCheckboxChange(
+                                                                row._id,
+                                                                "sunday",
+                                                                row.sunday,
+                                                                row.first_name
 
-                                                                )
-                                                            }
-                                                            className="ml-2 cursor-pointer"
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </>
+                                                            )
+                                                        }
+                                                        className="ml-2 cursor-pointer"
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         )}
                     </div>
+                    {/* </div> */}
                 </div>
             </div>
         </div>

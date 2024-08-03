@@ -1,23 +1,25 @@
 import Link from "next/link"
 import { ButtonLink } from "./ButtonLink"
- 
+
 
 export const Header = () => {
   return (
-    <header className="bg-black text-white flex flex-row justify-around py-6 fixed w-full">
-      <h1>Sistema de asistencia para JAJ 2024</h1>
-      <nav >
-        <ul className="flex flex-row gap-2">
-          <li>
+    <header className="bg-black text-white flex justify-between h-1/9 py-5 w-screen">
+      <nav className="flex  justify-between w-screen h-full ">
+        <div className="flex h-full justify-center w-1/4">
+          <h1 >Sistema de asistencia para JAJ 2024</h1>
+        </div>
+        <div className="flex gap-5 h-full w-2/3 sm:w-1/3">
+          <div className="flex w-1/4">
             <ButtonLink href="/" title="Asistencia" />
-          </li>
-          <li>
+          </div>
+          <div className="flex w-1/4 ">
             <ButtonLink href="/report" title="Reportes" />
-          </li>
-          <li>
+          </div>
+          <div className="flex w-1/4">
             <ButtonLink href="/inscription" title="Inscripciones" />
-          </li>
-        </ul>
+          </div>
+        </div>
       </nav>
     </header>
   )

@@ -4,14 +4,16 @@ import { ContAsistLeaders } from "@/components/asistencia/ContAsistLeaders";
 
 export default function InitialPage() {
   return (
-    <main className="flex h-screen flex-col items-center justify-center pt-28">
-      <div className="w-full h-full flex flex-col justify-center items-center">
-        <h1 className="text-2xl text-gray-800">
-          Marcado de asistencia JAJ 2024
-        </h1>
-        {/*<ContAsist />*/}
-        <ContAsistLeaders/>
-      </div>
-    </main>
-  );
+    // <main className="flex bg-red-200 w-full h-screen mt-2 flex-col items-center ">
+      // <div className="w-full h-screen flex flex-col items-center justify-center"> 
+
+        <div className="flex  items-center h-full w-full">
+          <ContAsistLeaders />
+
+        </div>
+
+// </div>
+// </main>
+);
 }
+{/*<ContAsist />*/}
