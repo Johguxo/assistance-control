@@ -2,7 +2,7 @@
 import { useRef, useEffect } from "react";
 import { Chart } from "chart.js/auto";
 
-export default function BarChart({ labels, data }) {
+export default function BarChart({ title, labels, data }) {
     const chartRef = useRef(null);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function BarChart({ labels, data }) {
                     labels,
                     datasets: [
                         {
-                            label: "Data",
+                            label: title,
                             data,
                             backgroundColor: [
                                 "rgba(255, 99, 132, 0.6)",
@@ -27,6 +27,9 @@ export default function BarChart({ labels, data }) {
                                 "rgba(255, 206, 86, 0.6)",
                                 "rgba(75, 192, 192, 0.6)",
                                 "rgba(153, 102, 255, 0.6)",
+                                "rgb(194, 199, 243, 0.6)",
+                                "rgba(223, 224, 226, 0.6)",
+                                "rgba(47, 177, 64, 0.6)"
                             ],
                             borderColor: [
                                 "rgba(255, 99, 132, 1)",
@@ -34,6 +37,9 @@ export default function BarChart({ labels, data }) {
                                 "rgba(255, 206, 86, 1)",
                                 "rgba(75, 192, 192, 1)",
                                 "rgba(153, 102, 255, 1)",
+                                "rgba(194, 199, 243, 1)",
+                                "rgba(223, 224, 226, 1)",
+                                "rgba(47, 177, 64, 1)"
                             ],
                             borderWidth: 1,
                         },
@@ -53,7 +59,7 @@ export default function BarChart({ labels, data }) {
 
             chartRef.current.Chart = newChart;
         }
-    }, [labels, data]);
+    }, [labels, data, title]);
 
     return (
         <div className='flex items-center justify-center' style={{ width: "100%" }}>

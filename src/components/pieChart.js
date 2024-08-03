@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react"
 import { Chart } from "chart.js/auto"
 
-export default function PieChart() {
+export default function PieChart({ title, labels, data }) {
     const chartRef = useRef(null)
 
     useEffect(() => {
@@ -17,11 +17,11 @@ export default function PieChart() {
             const newChart = new Chart(context, {
                 type: "pie",
                 data: {
-                    labels: ["John", "Jane", "Doe", "Emily", "Jack", "David", "Julio"],
+                    labels,
                     datasets: [
                         {
-                            label: "Info",
-                            data: [34, 64, 23, 45, 67, 24, 64],
+                            label: "Total",
+                            data,
                             backgroundColor: [
                                 "rgb(255,99,132,0.6)",
                                 "rgb(255,159,64,0.6)",
@@ -30,6 +30,7 @@ export default function PieChart() {
                                 "rgb(54,162,235,0.6)",
                                 "rgb(153,162,235,0.6)",
                                 "rgb(201,203,207,0.6)",
+                                "rgb(47, 177, 64, 0.6)"
                             ],
                             borderColor:[
                                  "rgb(255,99,132)",
@@ -39,6 +40,7 @@ export default function PieChart() {
                                  "rgb(54,162,235)",
                                  "rgb(153,162,235)",
                                  "rgb(201,203,207)",
+                                 "rgb(47, 177, 64)"
                             ],
                             borderWidth:1,
                         },
@@ -51,7 +53,7 @@ export default function PieChart() {
 
             chartRef.current.Chart=newChart
         }
-    }, []);
+    }, [labels,data,title]);
     return <div className='flex items-center justify-center' style={{ height: "100%" } }>
         <canvas ref={chartRef}/>
     </div>
