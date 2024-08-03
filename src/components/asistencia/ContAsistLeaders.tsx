@@ -141,8 +141,13 @@ export const ContAsistLeaders: React.FC = () => {
     };
 
     const findSimilarity = (first_name: string, last_name: string, dni: number, key: string) => {
-        if (dni) return first_name.toLowerCase().includes(key) || last_name.toLowerCase().includes(key) || (dni).toString().toLowerCase().includes(key)
-        else return first_name.toLowerCase().includes(key) || last_name.toLowerCase().includes(key)
+        let query_validation = first_name.toLowerCase().includes(key)
+        if (dni) {
+            query_validation = query_validation || (dni).toString().toLowerCase().includes(key)
+            
+        }
+        if (last_name) query_validation = query_validation || last_name.toLowerCase().includes(key)
+        return query_validation
     }
 
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -164,8 +169,9 @@ export const ContAsistLeaders: React.FC = () => {
         setCurrentData(filterUsers)
     };
 
-    const edad = (birthdateString: string): number | string => {
-        if (birthdateString) {
+    const edad = (user: User): number | string => {
+        if (user.date_birth) {
+            const birthdateString = user.date_birth;
             const birthdate = new Date(birthdateString);
             const today = new Date();
             let age = today.getFullYear() - birthdate.getFullYear();
@@ -174,8 +180,10 @@ export const ContAsistLeaders: React.FC = () => {
                 age--;
             }
             return age;
+        } else if (user.age) {
+            return user.age
         }
-        return "none";
+        return "-";
     };
 
 
@@ -244,6 +252,15 @@ export const ContAsistLeaders: React.FC = () => {
                     >
                         ANIMACION Y ADORACION
                     </button>
+                    <button
+                        className={`w-1/6 py-2 px-2 break-words text-xs  ${selectedOption === 6
+                            ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
+                            : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+                            }`}
+                        onClick={() => handleOptionChange('FACILITADORES ', 6)}
+                    >
+                        FACILITADORES
+                    </button>
                 </div>
                 <div className=" gap-2 flex flex-col  h-4/5 justify-baseline bg-amber-200/90  w-full rounded-b-3xl shadow-2xl">
                     {/* SEARCH-BAR */}
@@ -275,7 +292,7 @@ export const ContAsistLeaders: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-20 text-gray-600 flex flex gap-4 ml-8">
+                        <div className="w-20 text-gray-600 flex gap-4 ml-8">
                             <label className="flex gap-2 text-md  items-center">
                                 <input
                                     type="checkbox"
@@ -403,9 +420,6 @@ export const ContAsistLeaders: React.FC = () => {
                                             <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
                                                 Sábado
                                             </th>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center text-sm font-medium text-gray-500 uppercase tracking-wider">
-                                                Domingo
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-300">
@@ -425,7 +439,7 @@ export const ContAsistLeaders: React.FC = () => {
                                                 )}
 
                                                 <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
-                                                    {edad(row.date_birth) !== "none" ? edad(row.date_birth) : "-"}
+                                                    {edad(row)}
                                                 </td>
                                                 <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
                                                     {row.area}
@@ -467,22 +481,6 @@ export const ContAsistLeaders: React.FC = () => {
                                                                 row._id,
                                                                 "saturday",
                                                                 row.saturday,
-                                                                row.first_name
-
-                                                            )
-                                                        }
-                                                        className="ml-2 cursor-pointer"
-                                                    />
-                                                </td>
-                                                <td className="px-6 py-2 text-center whitespace-nowrap text-sm text-gray-500">
-                                                    <input
-                                                        type="checkbox"
-                                                        defaultChecked={row.sunday}
-                                                        onChange={() =>
-                                                            handleCheckboxChange(
-                                                                row._id,
-                                                                "sunday",
-                                                                row.sunday,
                                                                 row.first_name
 
                                                             )
