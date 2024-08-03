@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const fetchDataGraphs = async () => {
     try {
-        const response = await axios.get("http://localhost:5000/data");
+        const response = await axios.get(`${urlBase}/data`);
         if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
