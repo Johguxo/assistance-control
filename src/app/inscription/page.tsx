@@ -283,6 +283,7 @@ export default function Inscription() {
                     <MenuItem value="Animación y adoración">Animación y adoración</MenuItem>
                     <MenuItem value="Danza">Danza</MenuItem>
                     <MenuItem value="Registro y Estadística">Registro y Estadística</MenuItem>
+                    <MenuItem value="Facilitadores">Facilitadores</MenuItem>
                   </Select>
                 </>
               )}
