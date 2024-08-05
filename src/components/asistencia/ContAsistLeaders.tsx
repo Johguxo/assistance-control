@@ -12,6 +12,7 @@ import Loader from "./Loader";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { fetchUsersLeaders } from "@/controller/fetchUsersLeaders";
+import { CategorySelector } from "../categorySelector/CategorySelector";
 
 const MySwal = withReactContent(Swal)
 
@@ -139,7 +140,7 @@ export const ContAsistLeaders: React.FC = () => {
             })
         );
     };
-
+    console.log(searchTerm)
     const findSimilarity = (first_name: string, last_name: string, dni: number, key: string) => {
         let query_validation = first_name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(key.toLowerCase())
         if (dni) query_validation = query_validation || (dni).toString().toLowerCase().includes(key.toLowerCase())
@@ -183,7 +184,6 @@ export const ContAsistLeaders: React.FC = () => {
         return "-";
     };
 
-
     const filteredDeaneries: Deanery[] = selectedVicaria
         ? vicars.find((vicar) => {
             return vicar._id === selectedVicaria;
@@ -191,97 +191,78 @@ export const ContAsistLeaders: React.FC = () => {
         : deaneries;
     return (
         <div className=" w-screen h-screen flex flex-col justify-center px-12  mt-10 sm:mt-2">
-            <div className="flex flex-col justify-center h-full ">
-                <div className=" h-auto flex flex-wrap w-full md:gap-4 justify-between font-bold">
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 0
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('ALL', 0)}
-                    >
-                        GENERAL
-                    </button>
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 1
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('Coro Juvenil Arquidiocesano', 1)}
-                    >
-                        CORO
-                    </button>
+            <div className="flex flex-col justify-center h-full w-full">
+                <div className=" h-auto flex flex-wrap w-full md:gap-2 justify-between font-bold">
 
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 2
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('DANZA', 2)}
-                    >
-                        DANZA
-                    </button>
-
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 3
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('REGISTRO Y ESTADÍSTICA', 3)}
-                    >
-                        REGISTRO
-                    </button>
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 4
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('COMUNICACIONES', 4)}
-                    >
-                        COMUNICACIONES
-                    </button>
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 5
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('Animación y adoración ', 5)}
-                    >
-                        ANIMACION Y ADORACION
-                    </button>
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 6
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('FACILITADORES ', 6)}
-                    >
-                        FACILITADORES
-                    </button>
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 7
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('Producción (Logística)', 7)}
-                    >
-                        PRODUCCION (LOGISTICA)
-                    </button>
-                    <button
-                        className={`py-2 px-2 text-xs md:text-base  ${selectedOption === 8
-                            ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
-                            : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                            }`}
-                        onClick={() => handleOptionChange('SEGURIDAD', 8)}
-                    >
-                        SEGURIDAD
-                    </button>
+                    <CategorySelector
+                        option="ALL"
+                        optionHeader={0}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="GENERAL"
+                    />
+                    <CategorySelector
+                        option="Coro Juvenil Arquidiocesano"
+                        optionHeader={1}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="CORO"
+                    />
+                    <CategorySelector
+                        option="DANZA"
+                        optionHeader={2}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="DANZA"
+                    />
+                    <CategorySelector
+                        option="REGISTRO Y ESTADÍSTICA"
+                        optionHeader={3}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="REGISTRO"
+                    />
+                    <CategorySelector
+                        option="COMUNICACIONES"
+                        optionHeader={4}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="COMUNICACIONES"
+                    />
+                    <CategorySelector
+                        option="Animación y adoración"
+                        optionHeader={5}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="ANIMACION Y ADORACION"
+                    />
+                    <CategorySelector
+                        option="FACILITADORES"
+                        optionHeader={6}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="FACILITADORES"
+                    />
+                    <CategorySelector
+                        option="Producción (Logística)"
+                        optionHeader={7}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="PRODUCCION (LOGISTICA)"
+                    />
+                    <CategorySelector
+                        option="SEGURIDAD"
+                        optionHeader={8}
+                        selectedOption={selectedOption}
+                        onClick={handleOptionChange}
+                        buttonText="SEGURIDAD"
+                    />
                 </div>
                 <div className=" gap-2 flex flex-col  h-4/5 justify-baseline bg-amber-200/90  w-full rounded-b-3xl shadow-2xl">
                     {/* SEARCH-BAR */}
 
                     <div className="mx-4 flex items-center flex-col gap-2 sm:flex-row mt-2 justify-center h-1/5">
-                        <div className="bg-white flex h-8 border-gray-400 rounded-xl w-full">
+                        <div className="bg-white flex h-8 border-gray-400 rounded-xl w-4/5">
                             <input
                                 className="font-normal text-xs md:text-base bg-white text-gray-500 block w-full px-2 border-gray-400 rounded-xl focus:outline-none"
                                 type="text"

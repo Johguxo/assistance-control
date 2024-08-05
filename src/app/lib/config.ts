@@ -1,2 +1,3 @@
 //export const urlBase = 'http://localhost:5000'
-export const urlBase = 'https://assistance-backend.vercel.app'
+
+export const urlBase = process.env.NEXT_PUBLIC_URL_DB
