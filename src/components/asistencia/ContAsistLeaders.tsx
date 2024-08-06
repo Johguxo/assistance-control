@@ -12,7 +12,7 @@ import Loader from "./Loader";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { fetchUsersLeaders } from "@/controller/fetchUsersLeaders";
-import { CategorySelector } from "../categorySelector/CategorySelector";
+import { CategoryLead } from "../categorySelector/CategorySelector";
 
 const MySwal = withReactContent(Swal)
 
@@ -192,65 +192,65 @@ export const ContAsistLeaders: React.FC = () => {
     return (
         <div className=" w-screen h-screen flex flex-col justify-center px-12  mt-10 sm:mt-2">
             <div className="flex flex-col justify-center h-full w-full">
+                {/* categoy */}
                 <div className=" h-auto flex flex-wrap w-full md:gap-2 justify-between font-bold">
-
-                    <CategorySelector
+                    <CategoryLead
                         option="ALL"
                         optionHeader={0}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="GENERAL"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="Coro Juvenil Arquidiocesano"
                         optionHeader={1}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="CORO"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="DANZA"
                         optionHeader={2}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="DANZA"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="REGISTRO Y ESTADÍSTICA"
                         optionHeader={3}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="REGISTRO"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="COMUNICACIONES"
                         optionHeader={4}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="COMUNICACIONES"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="Animación y adoración"
                         optionHeader={5}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="ANIMACION Y ADORACION"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="FACILITADORES"
                         optionHeader={6}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="FACILITADORES"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="Producción (Logística)"
                         optionHeader={7}
                         selectedOption={selectedOption}
                         onClick={handleOptionChange}
                         buttonText="PRODUCCION (LOGISTICA)"
                     />
-                    <CategorySelector
+                    <CategoryLead
                         option="SEGURIDAD"
                         optionHeader={8}
                         selectedOption={selectedOption}

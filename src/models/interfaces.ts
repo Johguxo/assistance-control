@@ -9,7 +9,7 @@ export interface User {
     institution?: Institution | null;
     key: string;
     age: string;
-    have_auth: boolean | null;
+    have_auth?: boolean | undefined;
     area?: string,
     isLeader: string,
     saturday: boolean;

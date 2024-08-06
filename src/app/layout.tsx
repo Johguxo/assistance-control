@@ -16,11 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" className={inter.className}>
       <body className="h-full w-screen">
-        <Header/>
-        <main>
-        {children}
+        <Header />
+        <main className="h-full w-full">
+          {children}
         </main>
       </body>
     </html>

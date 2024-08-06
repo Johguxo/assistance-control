@@ -8,7 +8,8 @@ export default function InitialPage() {
       // <div className="w-full h-screen flex flex-col items-center justify-center"> 
 
         <div className="flex  items-center h-full w-full">
-          <ContAsistLeaders />
+          {/* <ContAsistLeaders /> */}
+          <ContAsist />
 
         </div>
 
@@ -16,4 +17,3 @@ export default function InitialPage() {
 // </main>
 );
 }
-{/*<ContAsist />*/}
