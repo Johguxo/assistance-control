@@ -106,7 +106,7 @@ export const ContAsist: React.FC = () => {
     };
 
 
-    // console.log(users)
+    console.log(users)
 
     const handleCheckboxChange = async (
         userId: string,
@@ -251,10 +251,10 @@ export const ContAsist: React.FC = () => {
         })?.deaneries || deaneries
         : deaneries;
     return (
-        <div className="w-full h-full flex flex-col justify-center px-12 mt-10 sm:mt-2">
+        <div className="w-full h-screen flex flex-col justify-center px-12 mt-10 sm:mt-2">
             <div className="flex flex-col justify-center h-full w-full">
                 {/* category */}
-                <div className="flex-col text-white flex justify-between h-1/9 py-3 w-full">
+                <div className="flex-col text-white flex justify-between h-1/9 p3-3 w-full">
                     <div className="flex gap-5 h-full w-full justify-center">
                             <CategoryAll
                                 option={0}

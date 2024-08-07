@@ -62,7 +62,7 @@ export default function BarChart({ title, labels, data }) {
     }, [labels, data, title]);
 
     return (
-        <div className='flex items-center justify-center' style={{ width: "100%" }}>
+        <div className='flex items-center justify-center' style={{ width: "70%" }}>
             <canvas ref={chartRef} />
         </div>
     );

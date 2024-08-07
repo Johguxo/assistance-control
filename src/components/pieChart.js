@@ -42,7 +42,7 @@ export default function PieChart({ title, labels, data }) {
                                  "rgb(201,203,207)",
                                  "rgb(47, 177, 64)"
                             ],
-                            borderWidth:1,
+                            borderWidth:2,
                         },
                     ],
                 },
@@ -54,7 +54,7 @@ export default function PieChart({ title, labels, data }) {
             chartRef.current.Chart=newChart
         }
     }, [labels,data,title]);
-    return <div className='flex items-center justify-center' style={{ height: "100%" } }>
+    return <div style={{ height: "100%" } }>
         <canvas ref={chartRef}/>
     </div>
 }
