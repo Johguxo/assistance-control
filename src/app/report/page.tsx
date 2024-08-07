@@ -17,7 +17,6 @@ export default function Report() {
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
-                console.log("here")
                 setLoading(false);
             }
         };

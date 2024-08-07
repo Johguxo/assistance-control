@@ -88,6 +88,7 @@ export const ContAsist: React.FC = () => {
     // 5 sin institucion
 
     const handleOptionChange = (option: number) => {
+        setSearchTerm('')
         setSelectedOption(option);
         if (option == 0) setCurrentData(users);
         else {
@@ -104,9 +105,6 @@ export const ContAsist: React.FC = () => {
             }
         }
     };
-
-
-    console.log(users)
 
     const handleCheckboxChange = async (
         userId: string,
@@ -193,12 +191,16 @@ export const ContAsist: React.FC = () => {
         );
     };
 
-    const findSimilarity = (first_name: string, last_name: string, key: string) => {
-        return first_name.toLowerCase().includes(key) || last_name.toLowerCase().includes(key)
+    const findSimilarity = (first_name: string, last_name: string, dni: number, key: string) => {
+        let query_validation = first_name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(key.toLowerCase())
+        if (dni) query_validation = query_validation || (dni).toString().toLowerCase().includes(key.toLowerCase())
+        if (last_name) query_validation = query_validation || last_name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(key.toLowerCase())
+        return query_validation
     }
 
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
+        setSearchTerm(value)
         let filterUsers = users;
         if (selectedOption == 0) filterUsers = users;
         else {
@@ -215,29 +217,27 @@ export const ContAsist: React.FC = () => {
 
         if (value) {
             filterUsers = filterUsers.filter((user) => {
-                return findSimilarity(user.first_name, user.last_name, value)
+                return findSimilarity(user.first_name, user.last_name, user.DNI, value)
             })
         }
         setCurrentData(filterUsers)
     };
 
-    const edad = (birthdateString: string | null): number | string => {
-        if (!birthdateString) {
-            return "-";
+    const edad = (user: User): string => {
+        if (user.date_birth) {
+            const birthdateString = user.date_birth;
+            const birthdate = new Date(birthdateString);
+            const today = new Date();
+            let age = today.getFullYear() - birthdate.getFullYear();
+            const m = today.getMonth() - birthdate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+                age--;
+            }
+            return age.toString();
+        } else if (user.age) {
+            return user.age.toString()
         }
-
-        const birthdate = new Date(birthdateString);
-        if (isNaN(birthdate.getTime())) {
-            return "-";
-        }
-
-        const today = new Date();
-        let age = today.getFullYear() - birthdate.getFullYear();
-        const m = today.getMonth() - birthdate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
-            age--;
-        }
-        return age;
+        return "-";
     };
 
     // const handleToggle = (checked: boolean) => {
@@ -313,6 +313,7 @@ export const ContAsist: React.FC = () => {
                                 type="text"
                                 placeholder={"Ingrese nombre o dni"}
                                 onChange={handleSearch}
+                                value={searchTerm}
                             />
                             <div className="flex items-center mx-4">
                                 {/* Icono */}
@@ -494,209 +495,220 @@ export const ContAsist: React.FC = () => {
                             <div className="flex h-11/12 p-28">
                                 <Loader />
                             </div>
-                        ) : (
-                            <div className="overflow-x-auto h-full">
-                                <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300">
-                                    {/* Cabecera */}
-                                    <thead className="text-xs md:text-base bg-gray-300 sticky top-0 z-10">
-                                        <tr>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                Nombre
-                                            </th>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                Apellido
-                                            </th>
-                                            {showDni && (
+                        ) : currentData.length > 0 ? (
+                                <div className="overflow-x-auto h-full">
+                                    <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300">
+                                        {/* Cabecera */}
+                                        <thead className="text-xs md:text-base bg-gray-300 sticky top-0 z-10">
+                                            <tr>
                                                 <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                    DNI
+                                                    Nombre
                                                 </th>
-                                            )}
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                Equipo
-                                            </th>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                Edad
-                                            </th>
-
-                                            {selectedOption === 0 && (
                                                 <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                    Institucion
+                                                    Apellido
                                                 </th>
-                                            )}
-                                            {selectedOption === 1 && showParroquia && (
-                                                <>
-                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                        Decanato
-                                                    </th>
-                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                        Vicaria
-                                                    </th>
-                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                        Parroquia
-                                                    </th>
-                                                </>
-                                            )}
-                                            {selectedOption === 2 && (
-                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                    Colegio
-                                                </th>
-                                            )}
-                                            {selectedOption === 3 && (
-                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                    Universidad
-                                                </th>
-                                            )}
-                                            {selectedOption === 4 && (
-                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                    Congregacion/Movimiento
-                                                </th>
-                                            )}
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                Autorizacion
-                                            </th>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                Sábado
-                                            </th>
-                                            <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
-                                                Domingo
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-300 text-xs md:text-base">
-                                        {/* Cuerpo de Tabla */}
-                                        {currentData.map((row, i) => (
-                                            <tr key={row._id} className="hover:bg-gray-200">
-                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                    {row.first_name}
-                                                </td>
-                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                    {row.last_name}
-                                                </td>
                                                 {showDni && (
-                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                        {row.DNI}
-                                                    </td>
+                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                        DNI
+                                                    </th>
                                                 )}
-                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                    {row.key === "Alegría" ? (
-                                                        <div className="flex justify-between items-center">
-                                                            <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
-                                                            &nbsp;Alegría&nbsp;
-                                                        </div>
-                                                    ) : row.key === "misión" ? (
-                                                        <div className="flex justify-between items-center">
-                                                            <div className="w-6 h-6 bg-lime-800 rounded-full"></div>
-                                                            &nbsp;Mision&nbsp;
-                                                        </div>
-                                                    ) : row.key === "esperanza" ? (
-                                                        <div className="flex justify-between items-center">
-                                                            <div className="w-6 h-6 bg-lime-200 rounded-full"></div>
-                                                            &nbsp;&nbsp;&nbsp;Esperanza&nbsp;
-                                                        </div>
-                                                    ) : (
-                                                        <div className="flex justify-between items-center">
-                                                            <div className="w-6 h-6 bg-amber-600 rounded-full"></div>
-                                                            &nbsp;Unidad&nbsp;
-                                                        </div>
-                                                    )}
-                                                </td>
-                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                    {edad(row.date_birth)}
-                                                </td>
-
-                                                {selectedOption !== 1 && selectedOption !== 5 && (
-                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                        {row.institution?.name}
-                                                    </td>
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                    Equipo
+                                                </th>
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                    Edad
+                                                </th>
+    
+                                                {selectedOption === 0 && (
+                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                        Institucion
+                                                    </th>
                                                 )}
-
                                                 {selectedOption === 1 && showParroquia && (
                                                     <>
+                                                        <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                            Decanato
+                                                        </th>
+                                                        <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                            Vicaria
+                                                        </th>
+                                                        <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                            Parroquia
+                                                        </th>
+                                                    </>
+                                                )}
+                                                {selectedOption === 2 && (
+                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                        Colegio
+                                                    </th>
+                                                )}
+                                                {selectedOption === 3 && (
+                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                        Universidad
+                                                    </th>
+                                                )}
+                                                {selectedOption === 4 && (
+                                                    <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                        Congregacion/Movimiento
+                                                    </th>
+                                                )}
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                    Autorizacion
+                                                </th>
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                    Sábado
+                                                </th>
+                                                <th className="sticky top-0 z-10 px-6 py-2 text-center  font-medium text-gray-500 uppercase tracking-wider">
+                                                    Domingo
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-300 text-xs md:text-base">
+                                            {/* Cuerpo de Tabla */}
+                                            {currentData.map((row, i) => (
+                                                <tr key={row._id} className="hover:bg-gray-200">
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                        {row.first_name}
+                                                    </td>
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                        {row.last_name}
+                                                    </td>
+                                                    {showDni && (
                                                         <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                            {
-                                                                deaneries.find((deanery) => deanery._id == row.institution?.deanery_id)?.name
-                                                            }
+                                                            {row.DNI}
                                                         </td>
-                                                        <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                            {vicars.find((vicar) => {
-                                                                const deaneries = vicar.deaneries
-                                                                return deaneries?.findIndex((deanery) => deanery._id == row.institution?.deanery_id) !== -1
-                                                            })?.name
-                                                            }
-                                                        </td>
+                                                    )}
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                        {
+                                                            row.key ? (
+                                                                row.key.toLowerCase() === "alegría" ? (
+                                                                    <div className="flex justify-between items-center">
+                                                                        <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
+                                                                        &nbsp;Alegría&nbsp;
+                                                                    </div>
+                                                                ) : row.key.toLowerCase() === "misión" ? (
+                                                                    <div className="flex justify-between items-center">
+                                                                        <div className="w-6 h-6 bg-lime-800 rounded-full"></div>
+                                                                        &nbsp;Mision&nbsp;
+                                                                    </div>
+                                                                ) : row.key.toLowerCase() === "esperanza" ? (
+                                                                    <div className="flex justify-between items-center">
+                                                                        <div className="w-6 h-6 bg-lime-200 rounded-full"></div>
+                                                                        &nbsp;&nbsp;&nbsp;Esperanza&nbsp;
+                                                                    </div>
+                                                                ): (
+                                                                    <div className="flex justify-between items-center">
+                                                                        <div className="w-6 h-6 bg-amber-600 rounded-full"></div>
+                                                                        &nbsp;Unidad&nbsp;
+                                                                    </div>
+                                                                )
+                                                            ):  (
+                                                                <div className="flex justify-between items-center">
+                                                                    Sin equipo
+                                                                </div>
+                                                            ) 
+                                                        }
+                                                    </td>
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                        {edad(row)}
+                                                    </td>
+    
+                                                    {selectedOption !== 1 && selectedOption !== 5 && (
                                                         <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
                                                             {row.institution?.name}
                                                         </td>
-                                                    </>
-                                                )}
-                                                <td className='px-6 py-2 text-center flex justify-center itmes-center text-gray-500'>
-                                                    {Number(edad(row.date_birth)) < 18 ?
-                                                        <div className='w-4 h-4 flex items-center justify-center border-[2px] border-red-500 shadow-xl'>
-
-                                                            <Checkbox
-                                                                sx={{
-                                                                    color: red[500],
-                                                                    "&.Mui-checked": {
-                                                                        color: green[700],
-                                                                    }
-                                                                }}
-                                                                defaultChecked={row.have_auth}
-                                                                onChange={() =>
-                                                                    handleCheckboxChange(
-                                                                        row._id,
-                                                                        "have_auth",
-                                                                        row.have_auth ?? false,
-                                                                        row.first_name,
-
-                                                                    )
+                                                    )}
+    
+                                                    {selectedOption === 1 && showParroquia && (
+                                                        <>
+                                                            <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                                {
+                                                                    deaneries.find((deanery) => deanery._id == row.institution?.deanery_id)?.name
                                                                 }
-                                                            />
-                                                        </div>
-                                                        // <span>hola</span>
-                                                        :
-                                                        <span>-</span>
-                                                    }
-                                                </td>
-
-
-                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                    <input
-                                                        type="checkbox"
-                                                        defaultChecked={row.saturday}
-                                                        onChange={() =>
-                                                            handleCheckboxChange(
-                                                                row._id,
-                                                                "saturday",
-                                                                row.saturday,
-                                                                row.first_name
-
-                                                            )
+                                                            </td>
+                                                            <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                                {vicars.find((vicar) => {
+                                                                    const deaneries = vicar.deaneries
+                                                                    return deaneries?.findIndex((deanery) => deanery._id == row.institution?.deanery_id) !== -1
+                                                                })?.name
+                                                                }
+                                                            </td>
+                                                            <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                                {row.institution?.name}
+                                                            </td>
+                                                        </>
+                                                    )}
+                                                    <td className='px-6 py-2 text-center flex justify-center itmes-center text-gray-500'>
+                                                        {parseInt(edad(row)) < 18 ?
+                                                            <div className='w-4 h-4 flex items-center justify-center border-[2px] border-red-500 shadow-xl'>
+    
+                                                                <Checkbox
+                                                                    sx={{
+                                                                        color: red[500],
+                                                                        "&.Mui-checked": {
+                                                                            color: green[700],
+                                                                        }
+                                                                    }}
+                                                                    defaultChecked={row.have_auth}
+                                                                    onChange={() =>
+                                                                        handleCheckboxChange(
+                                                                            row._id,
+                                                                            "have_auth",
+                                                                            row.have_auth ?? false,
+                                                                            row.first_name,
+    
+                                                                        )
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            // <span>hola</span>
+                                                            :
+                                                            <span>-</span>
                                                         }
-                                                        className="ml-2 cursor-pointer"
-                                                    />
-                                                </td>
-                                                <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
-                                                    <input
-                                                        type="checkbox"
-                                                        defaultChecked={row.sunday}
-                                                        onChange={() =>
-                                                            handleCheckboxChange(
-                                                                row._id,
-                                                                "sunday",
-                                                                row.sunday,
-                                                                row.first_name
-
-                                                            )
-                                                        }
-                                                        className="ml-2 cursor-pointer"
-                                                    />
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                                    </td>
+    
+    
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                        <input
+                                                            type="checkbox"
+                                                            defaultChecked={row.saturday}
+                                                            onChange={() =>
+                                                                handleCheckboxChange(
+                                                                    row._id,
+                                                                    "saturday",
+                                                                    row.saturday,
+                                                                    row.first_name
+    
+                                                                )
+                                                            }
+                                                            className="ml-2 cursor-pointer"
+                                                        />
+                                                    </td>
+                                                    <td className="px-6 py-2 text-center whitespace-nowrap  text-gray-500">
+                                                        <input
+                                                            type="checkbox"
+                                                            defaultChecked={row.sunday}
+                                                            onChange={() =>
+                                                                handleCheckboxChange(
+                                                                    row._id,
+                                                                    "sunday",
+                                                                    row.sunday,
+                                                                    row.first_name
+    
+                                                                )
+                                                            }
+                                                            className="ml-2 cursor-pointer"
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                        ): <div>
+                                <h3>No se encontraron datos para <span className="font-bold">{searchTerm}</span> 😢</h3>
                             </div>
-                        )}
+                        }
                     </div>
                     {/* </div> */}
                 </div>

@@ -140,7 +140,6 @@ export const ContAsistLeaders: React.FC = () => {
             })
         );
     };
-    console.log(searchTerm)
     const findSimilarity = (first_name: string, last_name: string, dni: number, key: string) => {
         let query_validation = first_name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(key.toLowerCase())
         if (dni) query_validation = query_validation || (dni).toString().toLowerCase().includes(key.toLowerCase())

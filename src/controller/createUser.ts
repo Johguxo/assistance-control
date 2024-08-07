@@ -5,7 +5,7 @@ export const createUser = async (
     body: any
 ) => {
     try {
-        const response = await axios.post(`${urlBase}/users`, 
+        const response = await axios.post(`${urlBase}/users/by-admin`, 
           body
         , {
             headers: {
