@@ -43,7 +43,7 @@ export const CategoryAll: React.FC<ButtonProps> = ({
 
     return (
         <button
-            className={`w-1/3 py-2 px-4 ${isSelected
+            className={`break-all py-1 px-1 w-full  text-xs sm:text-sm ${isSelected
                 ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
                 : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
                 }`}

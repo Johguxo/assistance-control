@@ -251,56 +251,57 @@ export const ContAsist: React.FC = () => {
         })?.deaneries || deaneries
         : deaneries;
     return (
-        <div className=" w-screen h-screen flex flex-col justify-center px-12  mt-10 sm:mt-2">
+        <div className="w-full h-full flex flex-col justify-center px-12 mt-10 sm:mt-2">
             <div className="flex flex-col justify-center h-full w-full">
                 {/* category */}
-                <div className=" h-auto flex flex-col w-full  md:gap-2 justify-center font-bold">
-                    <div className=" h-auto flex w-full  md:gap-2 justify-center font-bold">
-
-                        <CategoryAll
-                            option={0}
-                            optionHeader={0}
-                            selectedOption={selectedOption}
-                            buttonText="GENERAL"
-                            onClick={handleOptionChange}
-                        />
-                        <CategoryAll
-                            option={1}
-                            optionHeader={1}
-                            selectedOption={selectedOption}
-                            buttonText="PARROQUIAS"
-                            onClick={handleOptionChange}
-                        />
-                        <CategoryAll
-                            option={2}
-                            optionHeader={2}
-                            selectedOption={selectedOption}
-                            buttonText="COLEGIOS"
-                            onClick={handleOptionChange}
-                        />
+                <div className="flex-col text-white flex justify-between h-1/9 py-3 w-full">
+                    <div className="flex gap-5 h-full w-full justify-center">
+                            <CategoryAll
+                                option={0}
+                                optionHeader={0}
+                                selectedOption={selectedOption}
+                                buttonText="GENERAL"
+                                onClick={handleOptionChange}
+                            />
+                        {/* <div className="w-1/4 bg-blue-400"> */}
+                            <CategoryAll
+                                option={1}
+                                optionHeader={1}
+                                selectedOption={selectedOption}
+                                buttonText="PARROQUIAS"
+                                onClick={handleOptionChange}
+                            />
+                        {/* </div> */}
+                            <CategoryAll
+                                option={2}
+                                optionHeader={2}
+                                selectedOption={selectedOption}
+                                buttonText="COLEGIOS"
+                                onClick={handleOptionChange}
+                            />
                     </div>
-                    <div className=" h-auto flex w-full  md:gap-2 justify-center font-bold">
-                        <CategoryAll
-                            option={3}
-                            optionHeader={3}
-                            selectedOption={selectedOption}
-                            buttonText="UNIVERSIDADES"
-                            onClick={handleOptionChange}
-                        />
-                        <CategoryAll
-                            option={4}
-                            optionHeader={4}
-                            selectedOption={selectedOption}
-                            buttonText="CONGREGACIONES"
-                            onClick={handleOptionChange}
-                        />
-                        <CategoryAll
-                            option={5}
-                            optionHeader={5}
-                            selectedOption={selectedOption}
-                            buttonText="LIBRES"
-                            onClick={handleOptionChange}
-                        />
+                    <div className="flex gap-2 h-15 w-full justify-between">
+                            <CategoryAll
+                                option={3}
+                                optionHeader={3}
+                                selectedOption={selectedOption}
+                                buttonText="UNIVERSIDADES"
+                                onClick={handleOptionChange}
+                            />
+                            <CategoryAll
+                                option={4}
+                                optionHeader={4}
+                                selectedOption={selectedOption}
+                                buttonText="CONGREGACIONES"
+                                onClick={handleOptionChange}
+                            />
+                            <CategoryAll
+                                option={5}
+                                optionHeader={5}
+                                selectedOption={selectedOption}
+                                buttonText="LIBRES"
+                                onClick={handleOptionChange}
+                            />
                     </div>
                 </div>
                 <div className=" gap-2 flex flex-col  h-4/5 justify-baseline bg-amber-200/90  w-full rounded-b-3xl shadow-2xl">
@@ -362,7 +363,7 @@ export const ContAsist: React.FC = () => {
                             } `}
                     > */}
                     {/* Select */}
-                    {selectedOption === 0 || selectedOption === 5 ? null : (
+                    {/* {selectedOption === 0 || selectedOption === 5 ? null : (
                         <div className="flex sm:flex-row h-1/6 justify-center items-center gap-8 w-full text-gray-500">
                             {selectedOption === 4 && (
                                 <div className="flex flex-col items-center py-20 gap-8 w-96 text-gray-500">
@@ -484,9 +485,9 @@ export const ContAsist: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                    )}
+                    )} */}
                     {/* Tabla */}
-                    <div className="flex w-full h-screen  overflow-x-auto items-center justify-center m-1">
+                    <div className="flex w-full h-full  overflow-x-auto  justify-center m-1">
                         {/* Tabla de asistencia */}
                         {loading ? (
                             // false
@@ -630,27 +631,27 @@ export const ContAsist: React.FC = () => {
                                                 )}
                                                 <td className='px-6 py-2 text-center flex justify-center itmes-center text-gray-500'>
                                                     {Number(edad(row.date_birth)) < 18 ?
-                                                    <div className='w-4 h-4 flex items-center justify-center border-[2px] border-red-500 shadow-xl'>
+                                                        <div className='w-4 h-4 flex items-center justify-center border-[2px] border-red-500 shadow-xl'>
 
-                                                        <Checkbox 
-                                                            sx={{
-                                                                color: red[500],
-                                                                "&.Mui-checked": {
-                                                                    color: green[700],                                                                    
+                                                            <Checkbox
+                                                                sx={{
+                                                                    color: red[500],
+                                                                    "&.Mui-checked": {
+                                                                        color: green[700],
+                                                                    }
+                                                                }}
+                                                                defaultChecked={row.have_auth}
+                                                                onChange={() =>
+                                                                    handleCheckboxChange(
+                                                                        row._id,
+                                                                        "have_auth",
+                                                                        row.have_auth ?? false,
+                                                                        row.first_name,
+
+                                                                    )
                                                                 }
-                                                            }}
-                                                            defaultChecked={row.have_auth}
-                                                            onChange={() =>
-                                                                handleCheckboxChange(
-                                                                    row._id,
-                                                                    "have_auth",
-                                                                    row.have_auth ?? false,
-                                                                    row.first_name,
-    
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
+                                                            />
+                                                        </div>
                                                         // <span>hola</span>
                                                         :
                                                         <span>-</span>
