@@ -43,10 +43,10 @@ export const CategoryAll: React.FC<ButtonProps> = ({
 
     return (
         <button
-            className={`break-all py-1 px-1 w-full  text-xs sm:text-sm ${isSelected
-                ? "bg-amber-200/90 text-green-700 rounded-t-md py-2"
-                : "shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
-                }`}
+            className={`py-2 px-2 text-xs md:text-base ${isSelected
+              ? "bg-amber-200/90 text-green-700 rounded-md shadow-3xl mb-2 md:!rounded-t-md md:!rounded-b-none md:m-0"
+              : "md:shadow-3xl mb-2 rounded-md bg-green-700/90 text-amber-200"
+              }`}
             onClick={() => onClick(option)}
         >
             {buttonText}

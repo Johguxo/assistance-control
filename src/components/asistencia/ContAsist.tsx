@@ -30,6 +30,7 @@ export const ContAsist: React.FC = () => {
     const [currentData, setCurrentData] = useState<User[]>(users); // Estado para cambiar data // dato fake
     const [selectedOption, setSelectedOption] = useState<number>(0); // Estado para elegir pestaña
     const [loading, setLoading] = useState<boolean>(true); // estado del loader
+    const [showFilterInstitution, setShowFilterInstitution] = useState<boolean>(false);
     // conexion de data-back
     const [institutions, setInstitutions] = useState<Institution[]>([]);
     const [deaneries, setDeaneries] = useState<Deanery[]>([]); // datos de la db
@@ -251,11 +252,10 @@ export const ContAsist: React.FC = () => {
         })?.deaneries || deaneries
         : deaneries;
     return (
-        <div className="w-full h-screen flex flex-col justify-center px-12 mt-10 sm:mt-2">
-            <div className="flex flex-col justify-center h-full w-full">
+        <div className="w-full h-screen flex flex-col justify-center sm:p-12 p-2">
+            <div className="flex flex-col h-full">
                 {/* category */}
-                <div className="flex-col text-white flex justify-between h-1/9 p3-3 w-full">
-                    <div className="flex gap-5 h-full w-full justify-center">
+                    <div className="h-auto flex flex-wrap w-full md:gap-4 justify-between font-bold">
                             <CategoryAll
                                 option={0}
                                 optionHeader={0}
@@ -279,8 +279,6 @@ export const ContAsist: React.FC = () => {
                                 buttonText="COLEGIOS"
                                 onClick={handleOptionChange}
                             />
-                    </div>
-                    <div className="flex gap-2 h-15 w-full justify-between">
                             <CategoryAll
                                 option={3}
                                 optionHeader={3}
@@ -303,10 +301,9 @@ export const ContAsist: React.FC = () => {
                                 onClick={handleOptionChange}
                             />
                     </div>
-                </div>
                 <div className=" gap-2 flex flex-col  h-4/5 justify-baseline bg-amber-200/90  w-full rounded-b-3xl shadow-2xl">
                     {/* SEARCH-BAR */}
-                    <div className="mx-4 flex items-center flex-col gap-2 sm:flex-row mt-2 justify-center h-1/5">
+                    <div className="mx-4 flex items-center gap-2 flex-row mt-2 justify-center">
                         <div className="bg-white flex h-8 border-gray-400 rounded-xl w-4/5">
                             <input
                                 className="font-normal text-xs md:text-base bg-white text-gray-500 block w-full px-2 border-gray-400 rounded-xl focus:outline-none"
@@ -333,7 +330,7 @@ export const ContAsist: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-gray-600 flex gap-4 ml-8 mt-2 md:mt-0">
+                        <div className="text-gray-600 flex gap-4 ml-8 mt-2 md:mt-0 flex-col">
                             {selectedOption === 1 && (
                                 <label className="flex gap-2 text-xs md:text-base items-center">
                                     <input
@@ -364,7 +361,7 @@ export const ContAsist: React.FC = () => {
                             } `}
                     > */}
                     {/* Select */}
-                    {/* {selectedOption === 0 || selectedOption === 5 ? null : (
+                     {showFilterInstitution && selectedOption !== 0 && selectedOption !== 5 && (
                         <div className="flex sm:flex-row h-1/6 justify-center items-center gap-8 w-full text-gray-500">
                             {selectedOption === 4 && (
                                 <div className="flex flex-col items-center py-20 gap-8 w-96 text-gray-500">
@@ -486,7 +483,7 @@ export const ContAsist: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                    )} */}
+                    )}
                     {/* Tabla */}
                     <div className="flex w-full h-full  overflow-x-auto  justify-center m-1">
                         {/* Tabla de asistencia */}

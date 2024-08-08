@@ -7,7 +7,8 @@ interface Props {
 
 export const ButtonLink = ({title, href}: Props) => {
   return (
-      <Link href={href} className="w-full h-full p-2 flex items-center justify-center text-white text-xs sm:text-sm">
+      <Link href={href} 
+      className="bg-slate-300 w-full h-full p-2 flex items-center justify-center rounded-2xl text-slate-600 text-xs sm:text-sm">
         {title}
       </Link>
 
