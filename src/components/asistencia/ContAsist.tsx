@@ -30,7 +30,7 @@ export const ContAsist: React.FC = () => {
     const [currentData, setCurrentData] = useState<User[]>(users); // Estado para cambiar data // dato fake
     const [selectedOption, setSelectedOption] = useState<number>(0); // Estado para elegir pestaña
     const [loading, setLoading] = useState<boolean>(true); // estado del loader
-    const [showFilterInstitution, setShowFilterInstitution] = useState<boolean>(false);
+    const [showFilterInstitution, setShowFilterInstitution] = useState<boolean>(true);
     // conexion de data-back
     const [institutions, setInstitutions] = useState<Institution[]>([]);
     const [deaneries, setDeaneries] = useState<Deanery[]>([]); // datos de la db
