@@ -43,8 +43,10 @@ export default function Report() {
         return <div>No data available</div>;
     }
 
-    const { data: dataTotalInscriptions, labels: labelsTotalInscriptions } = dataGraphs[0];
-    const { data: dataAssistances, labels: labelsAssistances } = dataGraphs[1];
+    
+    const { data: dataAssistances, labels: labelsAssistances } = dataGraphs[0];
+    const { data: dataAssistancesSunday, labels: labelsAssistancesSunday } = dataGraphs[1];
+    const { data: dataTotalInscriptions, labels: labelsTotalInscriptions } = dataGraphs[2];
 
     return (
         <div className="h-full w-full flex justify-center items-center">
@@ -52,37 +54,29 @@ export default function Report() {
                 <div className="flex flex-col w-full h-full justify-center gap-12 p-10">
                     <div className="flex flex-col md:flex-row justify-center  items center gap-12 h-full w-full">
                         <div className="flex flex-col bg-white w-auto md:w-1/2 justify-center items-center p-4 shadow-2xl rounded-3xl text-md">
-                            <h3>Total de asistentes al evento: {sumArray(dataTotalInscriptions)}</h3>
+                            <h3>Total de asistentes al evento: {sumArray(dataAssistances)}</h3>
                             <BarChart
-                                title="Total de asistentes al evento según el area"
+                                title="Total de asistentes SABADO al evento según el area"
                                 labels={labelsTotalInscriptions}
-                                data={dataTotalInscriptions}
+                                data={dataAssistances}
                             />
                         </div>
                         <div className="flex flex-col bg-white w-full md:w-1/2 justify-center items-center p-4 shadow-2xl rounded-3xl">
-                            <h3>Total de inscritos al evento: {sumArray(dataAssistances)}</h3>
+                            <h3>Total de inscritos al evento: {sumArray(dataAssistancesSunday)}</h3>
                             <BarChart
-                                title="Total de inscritos al evento"
+                                title="Total de asistentes DOMINGO al evento según el area"
                                 labels={labelsAssistances}
-                                data={dataAssistances}
+                                data={dataAssistancesSunday}
                             />
                         </div>
                     </div>
                     <div className="flex flex-col md:flex-row justify-center gap-12 w-full">
                         <div className="flex flex-col bg-white justify-center items-center p-4 shadow-2xl rounded-3xl h-fullw-full md:w-1/2">
                             <h3>Total de asistentes al evento: {sumArray(dataTotalInscriptions)}</h3>
-                            <PieChart
-                                title="Total de asistentes al evento según el area"
-                                labels={labelsTotalInscriptions}
-                                data={dataTotalInscriptions}
-                            />
-                        </div>
-                        <div className="flex flex-col bg-white justify-center items-center p-4 shadow-2xl rounded-3xl w-full md:w-1/2">
-                            <h3>Total de inscritos al evento: {sumArray(dataAssistances)}</h3>
-                            <PieChart
+                            <BarChart
                                 title="Total de inscritos al evento"
                                 labels={labelsAssistances}
-                                data={dataAssistances}
+                                data={dataTotalInscriptions}
                             />
                         </div>
                     </div>
